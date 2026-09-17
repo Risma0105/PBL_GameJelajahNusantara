@@ -5,49 +5,45 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuManager : MonoBehaviour
 {
-    [Header("Referensi Panel UI")]
+    [Header("Panels")]
     public GameObject panelMainMenu;
     public GameObject panelLoading;
-    public Slider loadingSlider; // Slot untuk slider loading
 
-    [Header("Pengaturan Loading")]
-    public float loadingDuration = 2.0f;
-    public string targetSceneName = "SampleScene";
+    [Header("Loading Component")]
+    public Slider sliderLoading;
+    public float durasiLoading = 2.5f; // Berapa detik pura-pura loading
 
     void Start()
     {
-        if (panelMainMenu != null) panelMainMenu.SetActive(true);
-        if (panelLoading != null) panelLoading.SetActive(false);
-    }
-
-    public void StartGame()
-    {
-        StartCoroutine(LoadingRoutine());
-    }
-
-    IEnumerator LoadingRoutine()
-    {
-        if (panelMainMenu != null) panelMainMenu.SetActive(false);
+        // Pastikan loading aktif duluan saat game nyala
         if (panelLoading != null) panelLoading.SetActive(true);
+        if (panelMainMenu != null) panelMainMenu.SetActive(false);
 
+        StartCoroutine(JalankanLoadingAwal());
+    }
+
+    IEnumerator JalankanLoadingAwal()
+    {
         float timer = 0f;
 
-        // Mengisi progress bar secara bertahap
-        while (timer < loadingDuration)
+        while (timer < durasiLoading)
         {
             timer += Time.deltaTime;
-            if (loadingSlider != null)
+            if (sliderLoading != null)
             {
-                loadingSlider.value = timer / loadingDuration;
+                sliderLoading.value = timer / durasiLoading; // Mengisi slider 0 sampai 1
             }
             yield return null;
         }
 
-        SceneManager.LoadScene(targetSceneName);
+        // Setelah selesai loading, buka menu utama
+        if (panelLoading != null) panelLoading.SetActive(false);
+        if (panelMainMenu != null) panelMainMenu.SetActive(true);
     }
 
-    public void QuitGame()
+    // Fungsi untuk tombol Play
+    public void TombolPlay()
     {
-        Application.Quit();
+        SceneManager.LoadScene("SampleScene"); // Pindah ke scene gameplay
     }
 }
