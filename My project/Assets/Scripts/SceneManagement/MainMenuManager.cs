@@ -44,6 +44,6 @@ public class MainMenuManager : MonoBehaviour
     // Fungsi untuk tombol Play
     public void TombolPlay()
     {
-        SceneManager.LoadScene("SampleScene"); // Pindah ke scene gameplay
+        SceneManager.LoadScene("Scene_Museum"); // Pindah ke scene gameplay
     }
 }
