@@ -15,10 +15,13 @@ public class NPCCrafting : MonoBehaviour
     public GameObject prefabAlatMusikJadi; 
     public Transform spawnPoint;           
 
+    [Header("Pengaturan Ruangan & Progress")]
+    public GameObject kumpulanBahan; // Drag objek parent pembungkus semua bahan di scene
+
     [Header("UI Feedback")]
-    public GameObject teksPetunjuk;       // Objek pembungkus teks (muncul saat player dekat)
-    public TMP_Text komponenTeksTMP;      // Komponen TextMeshPro (jika pakai TMP)
-    public UnityEngine.UI.Text komponenTeksBiasa; // Komponen UI Text biasa (jika pakai Legacy Text)
+    public GameObject teksPetunjuk;              // Objek pembungkus teks (muncul saat player dekat)
+    public TMP_Text komponenTeksTMP;             // Komponen TextMeshPro
+    public UnityEngine.UI.Text komponenTeksBiasa; // Komponen UI Text biasa (Legacy)
 
     private bool playerDekat = false;
     private bool sudahDirakit = false;
@@ -26,7 +29,16 @@ public class NPCCrafting : MonoBehaviour
 
     void Start()
     {
-        // Set pesan awal interaksi saat game mulai
+        // Cek apakah ruangan/alat musik ini sudah pernah diselesaikan sebelumnya
+        if (GameManager.Instance != null && GameManager.Instance.CekSudahSelesai(namaAlatMusik))
+        {
+            sudahDirakit = true;
+            if (kumpulanBahan != null) kumpulanBahan.SetActive(false); // Hilangkan bahan
+            TampilkanPesan($"{namaAlatMusik} sudah selesai dibuat!");
+            return;
+        }
+
+        // Pesan awal
         TampilkanPesan($"Klik Kiri untuk membuat {namaAlatMusik}");
     }
 
@@ -56,6 +68,20 @@ public class NPCCrafting : MonoBehaviour
         if (semuaLengkap)
         {
             sudahDirakit = true;
+
+            // 1. Simpan status selesai ke GameManager
+            if (GameManager.Instance != null)
+            {
+                GameManager.Instance.TandaiSelesai(namaAlatMusik);
+            }
+
+            // 2. Hentikan timer ruangan jika ada
+            RoomTimer timer = Object.FindFirstObjectByType<RoomTimer>();
+            if (timer != null)
+            {
+                timer.BerhentiTimer();
+            }
+
             Debug.Log($"🎉 Selamat! {namaAlatMusik} berhasil dirakit!");
             TampilkanPesan($"🎉 {namaAlatMusik} berhasil dirakit!");
 
@@ -101,7 +127,6 @@ public class NPCCrafting : MonoBehaviour
             playerDekat = true;
             inventoryPlayer = other.GetComponent<PlayerInventory>();
 
-            // Tampilkan kembali pesan siap berinteraksi
             TampilkanPesan($"Klik Kiri untuk membuat {namaAlatMusik}");
             if (teksPetunjuk != null) teksPetunjuk.SetActive(true);
         }
