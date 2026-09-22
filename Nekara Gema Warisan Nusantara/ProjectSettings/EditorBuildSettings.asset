@@ -4,22 +4,6 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes:
-  - enabled: 1
-    path: Assets/Scenes/Scene_MainMenu.unity
-    guid: 0fb99c155dab70a449e6cb70ca7b2de4
-  - enabled: 1
-    path: Assets/Scenes/Scene_Museum.unity
-    guid: ddd43775a8c621e4ebce92e0fcd33497
-  - enabled: 1
-    path: Assets/Scenes/Scene_Angklung.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 1
-    path: Assets/Scenes/Scene_GesoGeso.unity
-    guid: e8a0b955cc5d5b346ae4f2b5feace6b8
-  - enabled: 1
-    path: Assets/Scenes/Scene_Sarone.unity
-    guid: b26c586e8da63e44fb06d8fd7e69da5f
-  m_configObjects:
-    com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
+  m_Scenes: []
+  m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
