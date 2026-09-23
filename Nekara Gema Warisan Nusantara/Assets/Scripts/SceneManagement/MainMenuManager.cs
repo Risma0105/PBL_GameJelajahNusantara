@@ -11,15 +11,31 @@ public class MainMenuManager : MonoBehaviour
 
     [Header("Loading Component")]
     public Slider sliderLoading;
-    public float durasiLoading = 2.5f; // Berapa detik pura-pura loading
+    public float durasiLoading = 2.5f; // ローディングの表示時間（秒）
+
+    // ゲーム起動中、シーン遷移をまたいで記憶される静的フラグ
+    private static bool sudahPernahLoadingAwal = false;
 
     void Start()
     {
-        // Pastikan loading aktif duluan saat game nyala
-        if (panelLoading != null) panelLoading.SetActive(true);
-        if (panelMainMenu != null) panelMainMenu.SetActive(false);
+        // 初回起動時かどうかのチェック
+        if (!sudahPernahLoadingAwal)
+        {
+            // --- ゲームを初めて起動した時 ---
+            sudahPernahLoadingAwal = true; // 初回ローディング完了フラグを立てる
 
-        StartCoroutine(JalankanLoadingAwal());
+            if (panelLoading != null) panelLoading.SetActive(true);
+            if (panelMainMenu != null) panelMainMenu.SetActive(false);
+
+            StartCoroutine(JalankanLoadingAwal());
+        }
+        else
+        {
+            // --- 博物館などの他シーンから戻ってきた時 ---
+            // ローディングをスキップして直接メインメニューを開く
+            if (panelLoading != null) panelLoading.SetActive(false);
+            if (panelMainMenu != null) panelMainMenu.SetActive(true);
+        }
     }
 
     IEnumerator JalankanLoadingAwal()
@@ -31,19 +47,19 @@ public class MainMenuManager : MonoBehaviour
             timer += Time.deltaTime;
             if (sliderLoading != null)
             {
-                sliderLoading.value = timer / durasiLoading; // Mengisi slider 0 sampai 1
+                sliderLoading.value = timer / durasiLoading; // 0から1へ進行
             }
             yield return null;
         }
 
-        // Setelah selesai loading, buka menu utama
+        // ローディング完了後、メインメニューを表示
         if (panelLoading != null) panelLoading.SetActive(false);
         if (panelMainMenu != null) panelMainMenu.SetActive(true);
     }
 
-    // Fungsi untuk tombol Play
+    // Playボタン用
     public void TombolPlay()
     {
-        SceneManager.LoadScene("Scene_Museum"); // Pindah ke scene gameplay
+        SceneManager.LoadScene("Scene_Museum");
     }
 }

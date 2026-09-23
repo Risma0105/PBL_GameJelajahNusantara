@@ -6,7 +6,7 @@ using TMPro; // Wajib jika memakai TextMeshPro untuk UI teks
 public class NPCCrafting : MonoBehaviour
 {
     [Header("Nama Alat Musik")]
-    public string namaAlatMusik = "Sarone"; // Sesuaikan nama alat musiknya
+    public string namaAlatMusik = "Sarone"; // Sesuaikan nama alat musiknya (contoh: Angklung, Sarone, GesoGeso)
 
     [Header("Daftar Bahan yang Dibutuhkan")]
     public List<string> bahanDibutuhkan = new List<string>();
@@ -19,7 +19,7 @@ public class NPCCrafting : MonoBehaviour
     public GameObject kumpulanBahan; // Drag objek parent pembungkus semua bahan di scene
 
     [Header("UI Feedback")]
-    public GameObject teksPetunjuk;              // Objek pembungkus teks (muncul saat player dekat)
+    public GameObject teksPetunjuk;               // Objek pembungkus teks (muncul saat player dekat)
     public TMP_Text komponenTeksTMP;             // Komponen TextMeshPro
     public UnityEngine.UI.Text komponenTeksBiasa; // Komponen UI Text biasa (Legacy)
 
@@ -68,6 +68,10 @@ public class NPCCrafting : MonoBehaviour
         if (semuaLengkap)
         {
             sudahDirakit = true;
+
+            // Buka badge otomatis ke memori game
+            PlayerPrefs.SetInt("Badge_" + namaAlatMusik, 1);
+            PlayerPrefs.Save();
 
             // 1. Simpan status selesai ke GameManager
             if (GameManager.Instance != null)
