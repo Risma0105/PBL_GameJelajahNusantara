@@ -7,8 +7,9 @@ public class CameraFollow : MonoBehaviour
     public Vector3 offset = new Vector3(0, 0, -10f);
 
     [Header("Kehalusan Gerak")]
-    [Range(0.01f, 1f)]
-    public float smoothSpeed = 0.125f;
+    [Tooltip("Waktu redam kamera (makin kecil makin menempel rapat, 0.15f - 0.2f sangat ideal)")]
+    public float smoothTime = 0.15f;
+    private Vector3 currentVelocity = Vector3.zero;
 
     [Header("Batas Pergerakan Kamera (Bounds)")]
     public bool gunakanBatas = true;
@@ -21,18 +22,20 @@ public class CameraFollow : MonoBehaviour
     {
         if (target == null) return;
 
-        // Posisi ideal mengikuti pemain
+        // Hitung posisi ideal
         Vector3 targetPosisi = target.position + offset;
 
-        // Jika fitur batas aktif, kunci koordinatnya agar tidak tembus map
+        // Kunci batas map jika aktif
         if (gunakanBatas)
         {
             targetPosisi.x = Mathf.Clamp(targetPosisi.x, minX, maxX);
             targetPosisi.y = Mathf.Clamp(targetPosisi.y, minY, maxY);
         }
 
-        // Gerakan kamera halus (lerp)
-        Vector3 posisiHalus = Vector3.Lerp(transform.position, targetPosisi, smoothSpeed);
-        transform.position = posisiHalus;
+        // Pastikan Z selalu tepat terkunci di kedalaman kamera (-10f)
+        targetPosisi.z = offset.z;
+
+        // SmoothDamp menghasilkan luncuran kamera yang konsisten tanpa getaran frame
+        transform.position = Vector3.SmoothDamp(transform.position, targetPosisi, ref currentVelocity, smoothTime);
     }
 }
