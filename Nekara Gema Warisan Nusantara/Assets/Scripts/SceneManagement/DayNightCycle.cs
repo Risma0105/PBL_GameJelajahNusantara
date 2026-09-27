@@ -1,47 +1,137 @@
 using UnityEngine;
-using UnityEngine.Rendering.Universal; // Wajib untuk Light2D
+using UnityEngine.UI;
+using TMPro;
 
 public class DayNightCycle : MonoBehaviour
 {
-    [Header("Komponen Cahaya")]
-    public Light2D globalLight;
+    public static DayNightCycle Instance;
 
-    [Header("Durasi Siklus")]
-    [Tooltip("Total waktu satu siklus penuh (siang ke malam lalu siang lagi)")]
-    public float durasiSatuHari = 80f; // 1,33 menit = 80 detik
+    [Header("Referensi Layar Gelap")]
+    public Image nightOverlay; // Masukkan objek NightOverlay ke sini
 
-    [Header("Warna Cahaya")]
-    public Color warnaSiang = Color.white;
-    public Color warnaMalam = new Color(0.12f, 0.15f, 0.3f, 1f); // Biru gelap pekat
+    [Header("Kepekatan Gelap Malam")]
+    [Range(0f, 1f)] public float kegelapanMaksimal = 0.5f; // 0.6 = biru malam pas, tidak terlalu gelap pekat
 
-    [Header("Intensitas Cahaya")]
-    public float intensitasSiang = 1.0f;
-    public float intensitasMalam = 0.2f;
+    [Header("Pengaturan Waktu")]
+    public float durasiSiang = 80f; // 1.33 menit
+    public float durasiMalam = 80f; // 1.33 menit
+    public int maxHari = 10;
 
-    private float timer = 0f;
+    [Header("Status")]
+    public static int hariSekarang = 1;
+    private float timerDetik = 0f;
+    private bool isSiang = true;
+
+    [Header("UI Hari (Opsional)")]
+    public TextMeshProUGUI teksHari;
+    
+    [Header("Daftar Lampu di Map")]
+    public GameObject[] daftarLampu; // Masukkan semua objek pendaran lampu ke sini
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     void Start()
     {
-        // Otomatis mencari Global Light 2D jika slot di Inspector lupa diisi
-        if (globalLight == null)
-        {
-            globalLight = GetComponent<Light2D>();
-        }
+        UpdateTampilanUI();
+
+        // Kondisi awal (karena mulai di siang hari, lampu dimatikan dulu)
+        SetSemuaLampu(!isSiang);
     }
 
     void Update()
     {
-        if (globalLight == null) return;
+        // Cari NightOverlay otomatis jika scene baru belum terhubung
+        if (nightOverlay == null)
+        {
+            GameObject overlayObj = GameObject.Find("NightOverlay");
+            if (overlayObj != null) nightOverlay = overlayObj.GetComponent<Image>();
+        }
 
-        // Tambahkan waktu setiap frame
-        timer += Time.deltaTime;
+        timerDetik += Time.deltaTime;
 
-        // Hitung gelombang siklus (0 = malam pekat, 1 = siang penuh)
-        // Dimulai dari siang saat game baru jalan
-        float progress = (Mathf.Sin((timer / durasiSatuHari) * Mathf.PI * 2 + (Mathf.PI / 2)) + 1f) / 2f;
+        if (isSiang)
+        {
+            // Dari Siang (Terang/Alpha 0) menuju Malam (Gelap)
+            float t = timerDetik / durasiSiang;
+            SetAlpha(Mathf.Lerp(0f, kegelapanMaksimal, t));
 
-        // Transisi warna dan intensitas secara perlahan
-        globalLight.color = Color.Lerp(warnaMalam, warnaSiang, progress);
-        globalLight.intensity = Mathf.Lerp(intensitasMalam, intensitasSiang, progress);
+            if (timerDetik >= durasiSiang)
+            {
+                isSiang = false;
+                timerDetik = 0f;
+                Debug.Log("🌙 Malam telah tiba!");
+                
+                // NYALAKAN LAMPU
+                SetSemuaLampu(true);
+            }
+        }
+        else
+        {
+            // Dari Malam (Gelap) kembali ke Siang (Terang/Alpha 0)
+            float t = timerDetik / durasiMalam;
+            SetAlpha(Mathf.Lerp(kegelapanMaksimal, 0f, t));
+
+            if (timerDetik >= durasiMalam)
+            {
+                isSiang = true;
+                timerDetik = 0f;
+                hariSekarang++;
+                Debug.Log("☀️ Hari baru: Hari ke-" + hariSekarang);
+                UpdateTampilanUI();
+
+                // MATIKAN LAMPU
+                SetSemuaLampu(false);
+            }
+        }
+    }
+
+    void SetAlpha(float alphaValue)
+    {
+        if (nightOverlay != null)
+        {
+            Color c = nightOverlay.color;
+            c.a = alphaValue;
+            nightOverlay.color = c;
+        }
+    }
+
+    // Fungsi untuk menyalakan/mematikan semua lampu di daftar
+    void SetSemuaLampu(bool status)
+    {
+        if (daftarLampu != null)
+        {
+            foreach (GameObject lampu in daftarLampu)
+            {
+                if (lampu != null)
+                {
+                    lampu.SetActive(status);
+                }
+            }
+        }
+    }
+
+    void UpdateTampilanUI()
+    {
+        if (teksHari != null)
+        {
+            teksHari.text = "Hari: " + hariSekarang + " / " + maxHari;
+        }
+    }
+
+    // Fungsi pembantu jika ada script lain butuh tahu status siang/malam
+    public bool IsSiangHari()
+    {
+        return isSiang;
     }
 }
