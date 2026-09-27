@@ -69,6 +69,12 @@ public class NPCCrafting : MonoBehaviour
         {
             sudahDirakit = true;
 
+            // Tambahkan progress bar alat musik
+            if (GameProgress.Instance != null)
+            {
+                GameProgress.Instance.CollectInstrument(namaAlatMusik);
+            }
+
             // Buka badge otomatis ke memori game
             PlayerPrefs.SetInt("Badge_" + namaAlatMusik, 1);
             PlayerPrefs.Save();

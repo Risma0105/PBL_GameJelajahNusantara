@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7221303894658564077}
   - component: {fileID: 4151093340709238948}
   - component: {fileID: 4598596859884147898}
-  - component: {fileID: 2581101111895771145}
+  - component: {fileID: 8743743027274082519}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -314,7 +314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
   daftarItem: []
---- !u!95 &2581101111895771145
+--- !u!95 &8743743027274082519
 Animator:
   serializedVersion: 7
   m_ObjectHideFlags: 0
