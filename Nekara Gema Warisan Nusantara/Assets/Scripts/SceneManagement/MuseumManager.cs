@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MuseumManager : MonoBehaviour
 {
@@ -6,71 +7,109 @@ public class MuseumManager : MonoBehaviour
 
     public enum FaseMuseum
     {
-        AwalKosong,         // Fase 1: Masuk museum pertama kali (masih sepi)
-        CraftingAlatMusik,  // Fase 2: Pemain membuat/merakit alat musik
-        PertempuranKabut,   // Fase 3: Adu pertanyaan pakai alat musik lawan kabut
-        KarnavalRamai       // Fase 4: Menang, museum jadi ramai
+        AwalKosong,         
+        CraftingAlatMusik,  
+        PertempuranKabut,   
+        KarnavalRamai       
     }
-
-    [Header("Status Museum Saat Ini")]
     public FaseMuseum faseAktif = FaseMuseum.AwalKosong;
 
-    [Header("Referensi Objek di Scene")]
-    public GameObject objekAreaCrafting;   // Meja/alat untuk merakit
-    public GameObject objekKabutDanMusuh;  // Efek kabut memori
-    public GameObject objekNPCKarnavalRamai; // Kerumunan NPC karnaval
-    public GameObject panelQuizUI;         // Panel UI kuis tanya-jawab
+    [Header("Status Crafting 3 Alat Musik")]
+    public bool sudahCraftingAngklung = false;
+    public bool sudahCraftingGesoGeso = false;
+    public bool sudahCraftingSarone = false;
+
+    [Header("Referensi Objek di Scene Museum Awal")]
+    public GameObject objekKabutDanMusuh;    // Objek musuh & quest di Scene Museum
+    public GameObject panelQuizUI;           // Panel UI kuis
+    public GameObject objekNPCKarnavalRamai; // Kerumunan karnaval
 
     void Awake()
     {
-        if (Instance == null) Instance = this;
-        else Destroy(gameObject);
+        if (Instance == null) 
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject); 
+        }
+        else 
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     void Start()
     {
-        TerapkanFaseMuseum();
+        CekKondisiMuseum();
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Scene_Museum")
+        {
+            CekKondisiMuseum();
+        }
     }
 
     public void UbahFase(FaseMuseum faseBaru)
     {
         faseAktif = faseBaru;
-        TerapkanFaseMuseum();
+        if (faseBaru == FaseMuseum.KarnavalRamai)
+        {
+            MenangKarnaval();
+        }
     }
 
-    void TerapkanFaseMuseum()
+    public void SelesaiCrafting(string namaAlatMusik)
     {
-        // Atur objek apa saja yang aktif/mati berdasarkan fase cerita
-        switch (faseAktif)
+        if (namaAlatMusik == "Angklung") sudahCraftingAngklung = true;
+        if (namaAlatMusik == "GesoGeso") sudahCraftingGesoGeso = true;
+        if (namaAlatMusik == "Sarone") sudahCraftingSarone = true;
+
+        SceneManager.LoadScene("Scene_Museum");
+    }
+
+    void CekKondisiMuseum()
+    {
+        // Jaga-jaga jika slot Inspector kosong, cari otomatis objek bernama "Quest" di Scene
+        if (objekKabutDanMusuh == null)
         {
-            case FaseMuseum.AwalKosong:
-                if (objekAreaCrafting) objekAreaCrafting.SetActive(true);
-                if (objekKabutDanMusuh) objekKabutDanMusuh.SetActive(false);
-                if (objekNPCKarnavalRamai) objekNPCKarnavalRamai.SetActive(false);
-                if (panelQuizUI) panelQuizUI.SetActive(false);
-                break;
-
-            case FaseMuseum.CraftingAlatMusik:
-                // Pemain fokus merakit alat musik di sini
-                if (objekAreaCrafting) objekAreaCrafting.SetActive(true);
-                if (objekKabutDanMusuh) objekKabutDanMusuh.SetActive(false);
-                if (objekNPCKarnavalRamai) objekNPCKarnavalRamai.SetActive(false);
-                if (panelQuizUI) panelQuizUI.SetActive(false);
-                break;
-
-            case FaseMuseum.PertempuranKabut:
-                if (objekAreaCrafting) objekAreaCrafting.SetActive(false);
-                if (objekKabutDanMusuh) objekKabutDanMusuh.SetActive(true);
-                if (objekNPCKarnavalRamai) objekNPCKarnavalRamai.SetActive(false);
-                if (panelQuizUI) panelQuizUI.SetActive(true);
-                break;
-
-            case FaseMuseum.KarnavalRamai:
-                if (objekAreaCrafting) objekAreaCrafting.SetActive(false);
-                if (objekKabutDanMusuh) objekKabutDanMusuh.SetActive(false);
-                if (objekNPCKarnavalRamai) objekNPCKarnavalRamai.SetActive(true);
-                if (panelQuizUI) panelQuizUI.SetActive(false);
-                break;
+            GameObject foundQuest = GameObject.Find("Quest");
+            if (foundQuest != null) objekKabutDanMusuh = foundQuest;
         }
+
+        bool semuaCraftingSelesai = sudahCraftingAngklung && sudahCraftingGesoGeso && sudahCraftingSarone;
+
+        if (semuaCraftingSelesai)
+        {
+            // Jika 3 alat musik sudah selesai, nyalakan musuh dan kuis
+            if (objekKabutDanMusuh) objekKabutDanMusuh.SetActive(true);
+            if (panelQuizUI) panelQuizUI.SetActive(true);
+            if (objekNPCKarnavalRamai) objekNPCKarnavalRamai.SetActive(false);
+        }
+        else
+        {
+            // Jika belum lengkap, PAKSA MATIKAN objek Quest di awal!
+            if (objekKabutDanMusuh) objekKabutDanMusuh.SetActive(false);
+            if (panelQuizUI) panelQuizUI.SetActive(false);
+            if (objekNPCKarnavalRamai) objekNPCKarnavalRamai.SetActive(false);
+        }
+    }
+
+    public void MenangKarnaval()
+    {
+        faseAktif = FaseMuseum.KarnavalRamai;
+        if (objekKabutDanMusuh) objekKabutDanMusuh.SetActive(false);
+        if (panelQuizUI) panelQuizUI.SetActive(false);
+        if (objekNPCKarnavalRamai) objekNPCKarnavalRamai.SetActive(true);
     }
 }

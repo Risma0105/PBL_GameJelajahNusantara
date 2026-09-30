@@ -42,6 +42,22 @@ public class MemoryFogQuiz : MonoBehaviour
 
     void Start()
     {
+        // PENGAMAN: Cek apakah ketiga alat musik sudah selesai dirakit atau belum
+        if (MuseumManager.Instance != null)
+        {
+            bool semuaSelesai = MuseumManager.Instance.sudahCraftingAngklung && 
+                                MuseumManager.Instance.sudahCraftingGesoGeso && 
+                                MuseumManager.Instance.sudahCraftingSarone;
+
+            // Jika belum lengkap, matikan langsung objek Quest ini di awal game!
+            if (!semuaSelesai)
+            {
+                gameObject.SetActive(false);
+                return; 
+            }
+        }
+
+        // Kalau sudah lengkap, jalankan kuis seperti biasa
         sisaKabutHP = totalKabutHP;
         UpdateUIStatus();
         TampilkanSoal();
@@ -168,12 +184,14 @@ public class MemoryFogQuiz : MonoBehaviour
         yield return new WaitForSeconds(durasiFeedback);
         Debug.Log("🎉 Kabut Memori Musnah! Museum Menjadi Ramai.");
         
+        // Matikan objek kabut musuh
         if (objekKabut != null) objekKabut.SetActive(false);
         gameObject.SetActive(false);
 
-        if (MuseumQuestManager.Instance != null)
+        // Panggil MuseumManager untuk mengubah fase ke Karnaval Ramai
+        if (MuseumManager.Instance != null)
         {
-            MuseumQuestManager.Instance.LanjutKeTahap(MuseumQuestManager.StatusQuestMuseum.Selesai_KarnavalRamai);
+            MuseumManager.Instance.MenangKarnaval();
         }
     }
 
