@@ -1,16 +1,17 @@
 using UnityEngine;
-using UnityEngine.UI;
+using UnityEngine.Rendering.Universal; // Wajib untuk Light2D
 using TMPro;
 
 public class DayNightCycle : MonoBehaviour
 {
     public static DayNightCycle Instance;
 
-    [Header("Referensi Layar Gelap")]
-    public Image nightOverlay; // Masukkan objek NightOverlay ke sini
+    [Header("Referensi Cahaya Global")]
+    public Light2D globalLight; // Slot Global Light 2D (otomatis dicari jika kosong)
 
-    [Header("Kepekatan Gelap Malam")]
-    [Range(0f, 1f)] public float kegelapanMaksimal = 0.5f; // 0.6 = biru malam pas, tidak terlalu gelap pekat
+    [Header("Warna Cahaya")]
+    public Color warnaSiang = Color.white;
+    public Color warnaMalam = new Color(0.12f, 0.15f, 0.35f, 1f); 
 
     [Header("Pengaturan Waktu")]
     public float durasiSiang = 80f; // 1.33 menit
@@ -24,9 +25,9 @@ public class DayNightCycle : MonoBehaviour
 
     [Header("UI Hari (Opsional)")]
     public TextMeshProUGUI teksHari;
-    
+
     [Header("Daftar Lampu di Map")]
-    public GameObject[] daftarLampu; // Masukkan semua objek pendaran lampu ke sini
+    public GameObject[] daftarLampu; // Masukkan Point Light 2D / lentera di sini
 
     void Awake()
     {
@@ -43,44 +44,40 @@ public class DayNightCycle : MonoBehaviour
 
     void Start()
     {
+        CariGlobalLight();
         UpdateTampilanUI();
 
-        // Kondisi awal (karena mulai di siang hari, lampu dimatikan dulu)
+        // Mulai di kondisi siang: lampu dimatikan
         SetSemuaLampu(!isSiang);
     }
 
     void Update()
     {
-        // Cari NightOverlay otomatis jika scene baru belum terhubung
-        if (nightOverlay == null)
+        if (globalLight == null)
         {
-            GameObject overlayObj = GameObject.Find("NightOverlay");
-            if (overlayObj != null) nightOverlay = overlayObj.GetComponent<Image>();
+            CariGlobalLight();
+            if (globalLight == null) return;
         }
 
         timerDetik += Time.deltaTime;
 
         if (isSiang)
         {
-            // Dari Siang (Terang/Alpha 0) menuju Malam (Gelap)
             float t = timerDetik / durasiSiang;
-            SetAlpha(Mathf.Lerp(0f, kegelapanMaksimal, t));
+            globalLight.color = Color.Lerp(warnaSiang, warnaMalam, t);
 
             if (timerDetik >= durasiSiang)
             {
                 isSiang = false;
                 timerDetik = 0f;
                 Debug.Log("🌙 Malam telah tiba!");
-                
-                // NYALAKAN LAMPU
                 SetSemuaLampu(true);
             }
         }
         else
         {
-            // Dari Malam (Gelap) kembali ke Siang (Terang/Alpha 0)
             float t = timerDetik / durasiMalam;
-            SetAlpha(Mathf.Lerp(kegelapanMaksimal, 0f, t));
+            globalLight.color = Color.Lerp(warnaMalam, warnaSiang, t);
 
             if (timerDetik >= durasiMalam)
             {
@@ -89,24 +86,26 @@ public class DayNightCycle : MonoBehaviour
                 hariSekarang++;
                 Debug.Log("☀️ Hari baru: Hari ke-" + hariSekarang);
                 UpdateTampilanUI();
-
-                // MATIKAN LAMPU
                 SetSemuaLampu(false);
             }
         }
     }
 
-    void SetAlpha(float alphaValue)
+    void CariGlobalLight()
     {
-        if (nightOverlay != null)
+        if (globalLight != null) return;
+
+        Light2D[] allLights = Object.FindObjectsByType<Light2D>(FindObjectsSortMode.None);
+        foreach (Light2D l in allLights)
         {
-            Color c = nightOverlay.color;
-            c.a = alphaValue;
-            nightOverlay.color = c;
+            if (l.gameObject.name.ToLower().Contains("global"))
+            {
+                globalLight = l;
+                break;
+            }
         }
     }
 
-    // Fungsi untuk menyalakan/mematikan semua lampu di daftar
     void SetSemuaLampu(bool status)
     {
         if (daftarLampu != null)
@@ -129,7 +128,6 @@ public class DayNightCycle : MonoBehaviour
         }
     }
 
-    // Fungsi pembantu jika ada script lain butuh tahu status siang/malam
     public bool IsSiangHari()
     {
         return isSiang;
