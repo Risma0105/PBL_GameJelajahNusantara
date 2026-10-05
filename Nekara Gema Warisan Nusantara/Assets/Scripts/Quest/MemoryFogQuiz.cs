@@ -62,6 +62,9 @@ public class MemoryFogQuiz : MonoBehaviour
         UpdateUIStatus();
         TampilkanSoal();
 
+        // KUNCI GERAKAN DAN SEMBUNYIKAN KARAKTER SAAT KUIS MUNCUL
+        AturKarakterDanGerakan(false, false);
+
         // Set ekspresi awal musuh ke Happy
         if (imageMusuh != null && spriteMusuhHappy != null)
         {
@@ -72,6 +75,24 @@ public class MemoryFogQuiz : MonoBehaviour
         {
             int indexTombol = i;
             tombolPilihan[i].onClick.AddListener(() => CekJawaban(indexTombol));
+        }
+    }
+
+    // Fungsi bantu untuk mengatur gerakan dan visibilitas karakter pemain
+    void AturKarakterDanGerakan(bool statusJalan, bool statusTampil)
+    {
+        // Mengunci atau membuka gerakan
+        PlayerMovement playerMove = Object.FindFirstObjectByType<PlayerMovement>();
+        if (playerMove != null)
+        {
+            playerMove.enabled = statusJalan;
+        }
+
+        // Menyembunyikan atau memunculkan GameObject Player (pastikan objek Player ber-Tag "Player")
+        GameObject playerObj = GameObject.FindWithTag("Player");
+        if (playerObj != null)
+        {
+            playerObj.SetActive(statusTampil);
         }
     }
 
@@ -138,7 +159,7 @@ public class MemoryFogQuiz : MonoBehaviour
                 imageMusuh.sprite = spriteMusuhSakit;
             }
 
-            Debug.Log("✨ Benar! Kabut kesakitan (-100 HP)");
+            Debug.Log("✨ Benar! Kabut kesakitan");
         }
         else
         {
@@ -184,6 +205,9 @@ public class MemoryFogQuiz : MonoBehaviour
         yield return new WaitForSeconds(durasiFeedback);
         Debug.Log("🎉 Kabut Memori Musnah! Museum Menjadi Ramai.");
         
+        // MUNCULKAN KEMBALI KARAKTER DAN NYALAKAN GERAKAN SETELAH MENANG
+        AturKarakterDanGerakan(true, true);
+
         // Matikan objek kabut musuh
         if (objekKabut != null) objekKabut.SetActive(false);
         gameObject.SetActive(false);

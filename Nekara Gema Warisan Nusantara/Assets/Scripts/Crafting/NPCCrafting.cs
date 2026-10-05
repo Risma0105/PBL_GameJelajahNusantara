@@ -13,13 +13,13 @@ public class NPCCrafting : MonoBehaviour
 
     [Header("Hasil Crafting")]
     public GameObject prefabAlatMusikJadi; 
-    public Transform spawnPoint;           
+    public Transform spawnPoint;          
 
     [Header("Pengaturan Ruangan & Progress")]
     public GameObject kumpulanBahan; // Drag objek parent pembungkus semua bahan di scene
 
     [Header("UI Feedback")]
-    public GameObject teksPetunjuk;               // Objek pembungkus teks (muncul saat player dekat)
+    public GameObject teksPetunjuk;              // Objek pembungkus teks (muncul saat player dekat)
     public TMP_Text komponenTeksTMP;             // Komponen TextMeshPro
     public UnityEngine.UI.Text komponenTeksBiasa; // Komponen UI Text biasa (Legacy)
 
@@ -85,7 +85,15 @@ public class NPCCrafting : MonoBehaviour
                 GameManager.Instance.TandaiSelesai(namaAlatMusik);
             }
 
-            // 2. Hentikan timer ruangan jika ada
+            // ==========================================================
+            // 2. KABARI MUSEUM MANAGER AGAR KOTAK CENTANGNYA AKTIF DI INSPECTOR
+            // ==========================================================
+            if (MuseumManager.Instance != null)
+            {
+                MuseumManager.Instance.SelesaiCrafting(namaAlatMusik);
+            }
+
+            // 3. Hentikan timer ruangan jika ada
             RoomTimer timer = Object.FindFirstObjectByType<RoomTimer>();
             if (timer != null)
             {

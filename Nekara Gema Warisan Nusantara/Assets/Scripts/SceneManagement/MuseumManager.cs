@@ -52,6 +52,15 @@ public class MuseumManager : MonoBehaviour
         CekKondisiMuseum();
     }
 
+    void Update()
+    {
+        // Setiap frame dicek, khusus saat berada di Scene Museum
+        if (SceneManager.GetActiveScene().name == "Scene_Museum")
+        {
+            CekKondisiMuseum();
+        }
+    }
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (scene.name == "Scene_Museum")
@@ -69,39 +78,39 @@ public class MuseumManager : MonoBehaviour
         }
     }
 
+    // Dipanggil dari NPC Crafting saat alat musik selesai dirakit (TIDAK ADA SceneManager.LoadScene lagi!)
     public void SelesaiCrafting(string namaAlatMusik)
     {
         if (namaAlatMusik == "Angklung") sudahCraftingAngklung = true;
         if (namaAlatMusik == "GesoGeso") sudahCraftingGesoGeso = true;
         if (namaAlatMusik == "Sarone") sudahCraftingSarone = true;
-
-        SceneManager.LoadScene("Scene_Museum");
     }
 
     void CekKondisiMuseum()
     {
-        // Jaga-jaga jika slot Inspector kosong, cari otomatis objek bernama "Quest" di Scene
+        // Cari otomatis objek "Quest" jika slot Inspector kosong
         if (objekKabutDanMusuh == null)
         {
             GameObject foundQuest = GameObject.Find("Quest");
             if (foundQuest != null) objekKabutDanMusuh = foundQuest;
         }
 
+        // SYARAT MUTLAK: KETIGANYA HARUS TRUE (LENGKAP) BARU MUNCUL!
         bool semuaCraftingSelesai = sudahCraftingAngklung && sudahCraftingGesoGeso && sudahCraftingSarone;
 
         if (semuaCraftingSelesai)
         {
-            // Jika 3 alat musik sudah selesai, nyalakan musuh dan kuis
-            if (objekKabutDanMusuh) objekKabutDanMusuh.SetActive(true);
-            if (panelQuizUI) panelQuizUI.SetActive(true);
-            if (objekNPCKarnavalRamai) objekNPCKarnavalRamai.SetActive(false);
+            // Jika 3 alat musik sudah lengkap, nyalakan musuh dan kuis
+            if (objekKabutDanMusuh && !objekKabutDanMusuh.activeSelf) objekKabutDanMusuh.SetActive(true);
+            if (panelQuizUI && !panelQuizUI.activeSelf) panelQuizUI.SetActive(true);
+            if (objekNPCKarnavalRamai && objekNPCKarnavalRamai.activeSelf) objekNPCKarnavalRamai.SetActive(false);
         }
         else
         {
-            // Jika belum lengkap, PAKSA MATIKAN objek Quest di awal!
-            if (objekKabutDanMusuh) objekKabutDanMusuh.SetActive(false);
-            if (panelQuizUI) panelQuizUI.SetActive(false);
-            if (objekNPCKarnavalRamai) objekNPCKarnavalRamai.SetActive(false);
+            // Jika belum lengkap (baru 1 atau 2), PAKSA MATIKAN/SEMBUNYIKAN!
+            if (objekKabutDanMusuh && objekKabutDanMusuh.activeSelf) objekKabutDanMusuh.SetActive(false);
+            if (panelQuizUI && panelQuizUI.activeSelf) panelQuizUI.SetActive(false);
+            if (objekNPCKarnavalRamai && objekNPCKarnavalRamai.activeSelf) objekNPCKarnavalRamai.SetActive(false);
         }
     }
 
