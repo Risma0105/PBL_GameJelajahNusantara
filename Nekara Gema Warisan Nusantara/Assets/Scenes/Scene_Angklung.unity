@@ -1747,7 +1747,7 @@ PrefabInstance:
     - target: {fileID: 875299012725806303, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
       propertyPath: globalLight
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1876434921}
     - target: {fileID: 875299012725806303, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
       propertyPath: nightOverlay
       value: 
@@ -1766,16 +1766,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 875299012725806303, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
       propertyPath: daftarLampu.Array.size
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 875299012725806303, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
       propertyPath: 'daftarLampu.Array.data[0]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2134860758}
     - target: {fileID: 875299012725806303, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
       propertyPath: 'daftarLampu.Array.data[1]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 927348037}
     - target: {fileID: 1691274126551551671, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.2
@@ -1820,14 +1820,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DayNightManager
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 875299012725806303, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5892115333517640520, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2139179124}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
 --- !u!1 &1876434920
 GameObject:
@@ -2477,32 +2473,6 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
---- !u!1 &2139179121 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5892115333517640520, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
-  m_PrefabInstance: {fileID: 1809015462}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2139179124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2139179121}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b859bee53844c2e4f8a98504e525f4f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DayNightCycle
-  globalLight: {fileID: 1876434921}
-  warnaSiang: {r: 1, g: 1, b: 1, a: 1}
-  warnaMalam: {r: 0.3074048, g: 0.34180713, b: 0.5924529, a: 1}
-  durasiSiang: 80
-  durasiMalam: 80
-  maxHari: 10
-  teksHari: {fileID: 0}
-  daftarLampu:
-  - {fileID: 2134860758}
 --- !u!1001 &1971015833906636871
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1590,14 +1590,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.17735851, g: 0.17735851, b: 0.17735851, a: 1}
+  m_Color: {r: 0.25, g: 0.25, b: 0.25, a: 0.7}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 12ac2e16e8e859d45a9474184ad623c5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6db936f2343d32e418025455c8faa00b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2051,7 +2051,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.17735851, g: 0.17735851, b: 0.17735851, a: 1}
+  m_Color: {r: 0.25, g: 0.25, b: 0.25, a: 0.7}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2444,13 +2444,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BadgeManager
   listBadge:
-  - namaAlat: Anklung
+  - namaAlat: Angklung
     iconImage: {fileID: 941181989}
   - namaAlat: Sarone
     iconImage: {fileID: 631620693}
-  - namaAlat: Geso Geso
+  - namaAlat: GesoGeso
     iconImage: {fileID: 1557118050}
-  warnaTerkunci: {r: 0.17735851, g: 0.17735851, b: 0.17735851, a: 1}
+  warnaTerkunci: {r: 0.25, g: 0.25, b: 0.25, a: 0.7}
   warnaTerbuka: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &1172547838
 MonoBehaviour:
@@ -3003,14 +3003,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
   m_Material: {fileID: 0}
-  m_Color: {r: 0.17735851, g: 0.17735851, b: 0.17735851, a: 1}
+  m_Color: {r: 0.25, g: 0.25, b: 0.25, a: 0.7}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -126388371507984472, guid: bdad3cf3dd9714ade8c87ba5fe90551b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7607f5649de26ed4c8b3c65a1daec455, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

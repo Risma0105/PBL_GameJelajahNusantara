@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro; // Wajib jika memakai TextMeshPro untuk UI teks
+using System.Collections; // Wajib untuk Coroutine
+using TMPro;
 
 public class NPCCrafting : MonoBehaviour
 {
     [Header("Nama Alat Musik")]
-    public string namaAlatMusik = "Sarone"; // Sesuaikan nama alat musiknya (contoh: Angklung, Sarone, GesoGeso)
+    public string namaAlatMusik = "Sarone"; // Sesuaikan nama alat musiknya
 
     [Header("Daftar Bahan yang Dibutuhkan")]
     public List<string> bahanDibutuhkan = new List<string>();
@@ -18,39 +19,42 @@ public class NPCCrafting : MonoBehaviour
     [Header("Pengaturan Ruangan & Progress")]
     public GameObject kumpulanBahan; // Drag objek parent pembungkus semua bahan di scene
 
+    [Header("Efek Visual Crafting")]
+    public ParticleSystem efekAsap; // Tarik objek Particle System ke sini
+
     [Header("UI Feedback")]
-    public GameObject teksPetunjuk;              // Objek pembungkus teks (muncul saat player dekat)
-    public TMP_Text komponenTeksTMP;             // Komponen TextMeshPro
-    public UnityEngine.UI.Text komponenTeksBiasa; // Komponen UI Text biasa (Legacy)
+    public GameObject teksPetunjuk;              
+    public TMP_Text komponenTeksTMP;             
+    public UnityEngine.UI.Text komponenTeksBiasa; 
 
     private bool playerDekat = false;
     private bool sudahDirakit = false;
+    private bool sedangCrafting = false; // Status untuk mencegah klik berulang saat proses berjalan
     private PlayerInventory inventoryPlayer;
 
     void Start()
     {
-        // Cek apakah ruangan/alat musik ini sudah pernah diselesaikan sebelumnya
+        if (efekAsap != null) efekAsap.Stop();
+
         if (GameManager.Instance != null && GameManager.Instance.CekSudahSelesai(namaAlatMusik))
         {
             sudahDirakit = true;
-            if (kumpulanBahan != null) kumpulanBahan.SetActive(false); // Hilangkan bahan
+            if (kumpulanBahan != null) kumpulanBahan.SetActive(false);
             TampilkanPesan($"{namaAlatMusik} sudah selesai dibuat!");
             return;
         }
-
-        // Pesan awal
-        TampilkanPesan($"Klik Kiri untuk membuat {namaAlatMusik}");
     }
 
     void Update()
     {
-        if (playerDekat && !sudahDirakit && Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        // Klik kiri untuk mulai crafting jika player dekat, belum dirakit, dan tidak sedang dalam proses hitung mundur
+        if (playerDekat && !sudahDirakit && !sedangCrafting && Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
-            CobaCrafting();
+            CekDanMulaiCrafting();
         }
     }
 
-    void CobaCrafting()
+    void CekDanMulaiCrafting()
     {
         if (inventoryPlayer == null) return;
 
@@ -67,56 +71,8 @@ public class NPCCrafting : MonoBehaviour
 
         if (semuaLengkap)
         {
-            sudahDirakit = true;
-
-            // Tambahkan progress bar alat musik
-            if (GameProgress.Instance != null)
-            {
-                GameProgress.Instance.CollectInstrument(namaAlatMusik);
-            }
-
-            // Buka badge otomatis ke memori game
-            PlayerPrefs.SetInt("Badge_" + namaAlatMusik, 1);
-            PlayerPrefs.Save();
-
-            // 1. Simpan status selesai ke GameManager
-            if (GameManager.Instance != null)
-            {
-                GameManager.Instance.TandaiSelesai(namaAlatMusik);
-            }
-
-            // ==========================================================
-            // 2. KABARI MUSEUM MANAGER AGAR KOTAK CENTANGNYA AKTIF DI INSPECTOR
-            // ==========================================================
-            if (MuseumManager.Instance != null)
-            {
-                MuseumManager.Instance.SelesaiCrafting(namaAlatMusik);
-            }
-
-            // 3. Hentikan timer ruangan jika ada
-            RoomTimer timer = Object.FindFirstObjectByType<RoomTimer>();
-            if (timer != null)
-            {
-                timer.BerhentiTimer();
-            }
-
-            Debug.Log($"🎉 Selamat! {namaAlatMusik} berhasil dirakit!");
-            TampilkanPesan($"🎉 {namaAlatMusik} berhasil dirakit!");
-
-            // Hapus bahan dari inventory player
-            foreach (string bahan in bahanDibutuhkan)
-            {
-                inventoryPlayer.daftarItem.Remove(bahan);
-            }
-
-            // Munculkan alat musik di scene
-            Vector3 titikMuncul = spawnPoint != null ? spawnPoint.position : transform.position + new Vector3(0, 1.2f, 0);
-            if (prefabAlatMusikJadi != null)
-            {
-                Instantiate(prefabAlatMusikJadi, titikMuncul, Quaternion.identity);
-            }
-
-            if (teksPetunjuk != null) teksPetunjuk.SetActive(false);
+            // Mulai proses perakitan berdurasi 5 detik
+            StartCoroutine(ProsesCraftingCoroutine());
         }
         else
         {
@@ -125,7 +81,74 @@ public class NPCCrafting : MonoBehaviour
         }
     }
 
-    // Fungsi pembantu untuk mengubah isi teks secara dinamis
+    // Coroutine untuk mengatur jeda waktu 5 detik saat NPC merakit
+    IEnumerator ProsesCraftingCoroutine()
+    {
+        sedangCrafting = true;
+        sudahDirakit = true;
+
+        // 1. Nyalakan efek asap tanda mulai merakit
+        if (efekAsap != null)
+        {
+            efekAsap.Play();
+        }
+
+        TampilkanPesan($"⏳ Sedang merakit {namaAlatMusik}...");
+        if (teksPetunjuk != null) teksPetunjuk.SetActive(false);
+
+        // 2. Tunggu selama 5 detik
+        yield return new WaitForSeconds(5f);
+
+        // 3. Setelah 5 detik, matikan efek asap
+        if (efekAsap != null)
+        {
+            efekAsap.Stop();
+        }
+
+        // Simpan progres game, badge, dan status selesai
+        if (GameProgress.Instance != null)
+        {
+            GameProgress.Instance.CollectInstrument(namaAlatMusik);
+        }
+
+        PlayerPrefs.SetInt("Badge_" + namaAlatMusik, 1);
+        PlayerPrefs.Save();
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.TandaiSelesai(namaAlatMusik);
+        }
+
+        if (MuseumManager.Instance != null)
+        {
+            MuseumManager.Instance.SelesaiCrafting(namaAlatMusik);
+        }
+
+        RoomTimer timer = Object.FindFirstObjectByType<RoomTimer>();
+        if (timer != null)
+        {
+            timer.BerhentiTimer();
+        }
+
+        Debug.Log($"🎉 Selamat! {namaAlatMusik} berhasil dirakit!");
+        TampilkanPesan($"🎉 {namaAlatMusik} berhasil dirakit!");
+
+        // Hapus bahan dari inventori pemain
+        foreach (string bahan in bahanDibutuhkan)
+        {
+            inventoryPlayer.daftarItem.Remove(bahan);
+        }
+
+        // 4. Munculkan alat musik jadinya secara otomatis di scene
+        Vector3 titikMuncul = spawnPoint != null ? spawnPoint.position : transform.position + new Vector3(0, 1.2f, 0);
+        if (prefabAlatMusikJadi != null)
+        {
+            Instantiate(prefabAlatMusikJadi, titikMuncul, Quaternion.identity);
+        }
+
+        sedangCrafting = false;
+    }
+
     void TampilkanPesan(string pesan)
     {
         if (komponenTeksTMP != null)
@@ -156,7 +179,8 @@ public class NPCCrafting : MonoBehaviour
         {
             playerDekat = false;
             inventoryPlayer = null;
-            if (teksPetunjuk != null) teksPetunjuk.SetActive(false);
+
+            if (teksPetunjuk != null && !sudahDirakit) teksPetunjuk.SetActive(false);
         }
     }
 }
