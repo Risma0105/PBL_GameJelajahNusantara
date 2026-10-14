@@ -613,18 +613,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TabFolderController
   tabBadge:
-    button: {fileID: 1993685650}
-    contentPanel: {fileID: 1172547835}
-    buttonRect: {fileID: 1993685649}
+    button: {fileID: 0}
+    contentPanel: {fileID: 0}
+    buttonRect: {fileID: 0}
   tabProfile:
-    button: {fileID: 692289232}
-    contentPanel: {fileID: 432264645}
-    buttonRect: {fileID: 692289231}
+    button: {fileID: 0}
+    contentPanel: {fileID: 0}
+    buttonRect: {fileID: 0}
   scaleAktif: {x: 1.2, y: 1.2, z: 1}
   scaleNormal: {x: 1, y: 1, z: 1}
   offsetTinggiAktif: 12
-  warnaAktif: {r: 1, g: 0.0021113078, b: 0, a: 1}
-  warnaTidakAktif: {r: 0.09413266, g: 1, b: 0, a: 1}
+  warnaAktif: {r: 1, g: 1, b: 1, a: 1}
+  warnaTidakAktif: {r: 0.7, g: 0.7, b: 0.7, a: 1}
 --- !u!114 &311311319
 MonoBehaviour:
   m_ObjectHideFlags: 0

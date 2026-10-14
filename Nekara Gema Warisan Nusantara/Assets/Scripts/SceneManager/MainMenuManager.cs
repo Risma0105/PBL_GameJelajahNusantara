@@ -60,6 +60,6 @@ public class MainMenuManager : MonoBehaviour
     // Playボタン用
     public void TombolPlay()
     {
-        SceneManager.LoadScene("Scene_Museum");
+        SceneManager.LoadScene("Scene_Prolog");
     }
 }
