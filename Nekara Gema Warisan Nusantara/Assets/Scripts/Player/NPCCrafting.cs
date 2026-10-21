@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections; // Wajib untuk Coroutine
+using System.Collections;
 using TMPro;
 
 public class NPCCrafting : MonoBehaviour
@@ -13,7 +13,7 @@ public class NPCCrafting : MonoBehaviour
     public List<string> bahanDibutuhkan = new List<string>();
 
     [Header("Hasil Crafting")]
-    public GameObject prefabAlatMusikJadi; 
+    public GameObject prefabAlatMusikJadi; // Prefab fisik alat musik yang akan muncul di map
     public Transform spawnPoint;          
 
     [Header("Pengaturan Ruangan & Progress")]
@@ -29,7 +29,7 @@ public class NPCCrafting : MonoBehaviour
 
     private bool playerDekat = false;
     private bool sudahDirakit = false;
-    private bool sedangCrafting = false; // Status untuk mencegah klik berulang saat proses berjalan
+    private bool sedangCrafting = false; 
     private PlayerInventory inventoryPlayer;
 
     void Start()
@@ -47,7 +47,6 @@ public class NPCCrafting : MonoBehaviour
 
     void Update()
     {
-        // Klik kiri untuk mulai crafting jika player dekat, belum dirakit, dan tidak sedang dalam proses hitung mundur
         if (playerDekat && !sudahDirakit && !sedangCrafting && Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
         {
             CekDanMulaiCrafting();
@@ -58,7 +57,6 @@ public class NPCCrafting : MonoBehaviour
     {
         if (inventoryPlayer == null) return;
 
-        // Cek kelengkapan bahan
         bool semuaLengkap = true;
         foreach (string bahan in bahanDibutuhkan)
         {
@@ -71,7 +69,6 @@ public class NPCCrafting : MonoBehaviour
 
         if (semuaLengkap)
         {
-            // Mulai proses perakitan berdurasi 5 detik
             StartCoroutine(ProsesCraftingCoroutine());
         }
         else
@@ -81,13 +78,11 @@ public class NPCCrafting : MonoBehaviour
         }
     }
 
-    // Coroutine untuk mengatur jeda waktu 5 detik saat NPC merakit
     IEnumerator ProsesCraftingCoroutine()
     {
         sedangCrafting = true;
         sudahDirakit = true;
 
-        // 1. Nyalakan efek asap tanda mulai merakit
         if (efekAsap != null)
         {
             efekAsap.Play();
@@ -96,16 +91,13 @@ public class NPCCrafting : MonoBehaviour
         TampilkanPesan($"⏳ Sedang merakit {namaAlatMusik}...");
         if (teksPetunjuk != null) teksPetunjuk.SetActive(false);
 
-        // 2. Tunggu selama 5 detik
         yield return new WaitForSeconds(5f);
 
-        // 3. Setelah 5 detik, matikan efek asap
         if (efekAsap != null)
         {
             efekAsap.Stop();
         }
 
-        // Simpan progres game, badge, dan status selesai
         if (GameProgress.Instance != null)
         {
             GameProgress.Instance.CollectInstrument(namaAlatMusik);
@@ -133,13 +125,19 @@ public class NPCCrafting : MonoBehaviour
         Debug.Log($"🎉 Selamat! {namaAlatMusik} berhasil dirakit!");
         TampilkanPesan($"🎉 {namaAlatMusik} berhasil dirakit!");
 
-        // Hapus bahan dari inventori pemain
+        // 1. Hapus bahan dari inventori pemain
         foreach (string bahan in bahanDibutuhkan)
         {
             inventoryPlayer.daftarItem.Remove(bahan);
         }
 
-        // 4. Munculkan alat musik jadinya secara otomatis di scene
+        // 2. Segarkan tampilan UI inventory bahan agar kosong kembali
+        if (inventoryPlayer != null)
+        {
+            inventoryPlayer.RefreshInventoryUI();
+        }
+
+        // 3. Munculkan fisik alat musik jadi di map (pemain harus mendekat dan mengkliknya untuk mengambil)
         Vector3 titikMuncul = spawnPoint != null ? spawnPoint.position : transform.position + new Vector3(0, 1.2f, 0);
         if (prefabAlatMusikJadi != null)
         {

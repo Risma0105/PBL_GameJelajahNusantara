@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class ItemPickup : MonoBehaviour
 {
@@ -8,26 +7,19 @@ public class ItemPickup : MonoBehaviour
 
     [Header("Sistem Badge (Buka jika ini item alat musik)")]
     public bool bukaBadgeSaatDiambil = false;
-    public string namaAlatMusik = "Angklung"; // Samakan dengan namaAlat di BadgeManager
+    public string namaAlatMusik = "Angklung"; 
 
-    private bool isPlayerTouching = false;
+    private bool playerDiDekat = false;
     private PlayerInventory playerInventory;
 
-    void Update()
-    {
-        if (isPlayerTouching && Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            AmbilBarang();
-        }
-    }
-
+    // Deteksi jika pemain mendekati item menggunakan Trigger 2D
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            isPlayerTouching = true;
+            playerDiDekat = true;
             playerInventory = collision.GetComponent<PlayerInventory>();
-            Debug.Log("💡 Menempel dengan " + itemName + ". Klik kiri untuk mengambil!");
+            Debug.Log("💡 Berada dekat dengan " + itemName + ". Klik item untuk mengambil!");
         }
     }
 
@@ -35,27 +27,30 @@ public class ItemPickup : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            isPlayerTouching = false;
+            playerDiDekat = false;
             playerInventory = null;
         }
     }
 
-    void AmbilBarang()
+    // Fungsi bawaan Unity: Hanya aktif jika GameObject item ini DIKLIK langsung dengan mouse!
+    private void OnMouseDown()
     {
-        Debug.Log("✨ Berhasil mengambil: " + itemName);
-        if (playerInventory != null)
+        if (playerDiDekat && playerInventory != null)
         {
+            Debug.Log("✨ Berhasil mengambil via klik: " + itemName);
             playerInventory.AddItem(itemName);
-        }
 
-        // Buka badge alat musik jika item ini adalah alat musik jadi
-        if (bukaBadgeSaatDiambil)
+            if (bukaBadgeSaatDiambil)
+            {
+                PlayerPrefs.SetInt("Badge_" + namaAlatMusik, 1);
+                PlayerPrefs.Save();
+            }
+
+            Destroy(gameObject); // Hapus item dari map
+        }
+        else
         {
-            PlayerPrefs.SetInt("Badge_" + namaAlatMusik, 1);
-            PlayerPrefs.Save();
-            Debug.Log("🏅 Badge berhasil dibuka: Badge_" + namaAlatMusik);
+            Debug.Log("⚠️ Terlalu jauh atau player belum mendekat!");
         }
-
-        Destroy(gameObject);
     }
 }

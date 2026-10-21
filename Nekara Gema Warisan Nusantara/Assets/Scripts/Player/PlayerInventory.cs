@@ -9,18 +9,26 @@ public class PlayerInventory : MonoBehaviour
 
     [Header("Pengaturan UI Slot Inventory (4 Slot)")]
     public Image[] slotIcons;          // Tarik Slot_1 sampai Slot_4 dari Panel_Inventory
-    public GameObject[] itemPrefabs;   // 👈 Tarik prefab item dari Kumpulan Bahan ke sini!
+    public GameObject[] itemPrefabs;   // Tarik prefab item dari Kumpulan Bahan ke sini
 
     public void AddItem(string itemName)
     {
+        // Cek agar item yang sama tidak ditambahkan berkali-kali secara dobel
         if (!daftarItem.Contains(itemName))
         {
             daftarItem.Add(itemName);
             Debug.Log($"🎒 [INVENTORI]: {itemName} berhasil disimpan ke tas!");
-
-            // Perbarui tampilan UI Inventory
             UpdateInventoryUI();
         }
+        else
+        {
+            Debug.Log($"⚠️ [INVENTORI]: {itemName} sudah ada di dalam tas!");
+        }
+    }
+
+    public void RefreshInventoryUI()
+    {
+        UpdateInventoryUI();
     }
 
     void UpdateInventoryUI()
@@ -35,14 +43,22 @@ public class PlayerInventory : MonoBehaviour
                 if (itemSprite != null)
                 {
                     slotIcons[i].sprite = itemSprite;
-                    slotIcons[i].gameObject.SetActive(true); // Nyalakan gambar slot
+                    
+                    // Munculkan gambar item dengan warna penuh (Alpha = 1)
+                    Color warnaSlot = slotIcons[i].color;
+                    warnaSlot.a = 1f; 
+                    slotIcons[i].color = warnaSlot;
                 }
             }
             else
             {
                 // Kosongkan slot jika belum ada item
                 slotIcons[i].sprite = null;
-                slotIcons[i].gameObject.SetActive(false); // Sembunyikan jika kosong
+                
+                // Bikin transparan (Alpha = 0) supaya background/desain slot aslinya kelihatan!
+                Color warnaSlot = slotIcons[i].color;
+                warnaSlot.a = 0f; 
+                slotIcons[i].color = warnaSlot;
             }
         }
     }
