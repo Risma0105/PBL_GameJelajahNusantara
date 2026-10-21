@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering.Universal;
 
 public class BahanUtama : MonoBehaviour
 {
@@ -9,9 +8,8 @@ public class BahanUtama : MonoBehaviour
     private int tebasanSaatIni = 0;
     private bool sudahDitebang = false;
 
-    [Header("Prefab Hasil Panen (Item Bahan di Samping Pohon)")]
-    public GameObject prefabItemBahan; // Tarik prefab item bahan (misal: Item_TaliRotan) ke sini
-    public Vector3 offsetSpawn = new Vector3(1.0f, 0f, 0f); // Posisi munculnya item di samping pohon
+    [Header("Prefab Hasil Panen (Item Bahan Pengganti)")]
+    public GameObject prefabItemBahan; // Tarik prefab item bahan ke sini di Inspector
 
     void OnMouseDown()
     {
@@ -36,31 +34,19 @@ public class BahanUtama : MonoBehaviour
     void SelesaikanPenebangan()
     {
         sudahDitebang = true;
-        Debug.Log("✨ Pohon selesai ditebang! Memunculkan hasil bahan di sampingnya.");
+        Debug.Log("✨ Pohon ditebang habis dan berubah menjadi bahan!");
 
-        // 1. Munculkan Prefab Item Bahan di samping pohon
+        // 1. Munculkan prefab item bahan tepat di posisi pohon ini
         if (prefabItemBahan != null)
         {
-            Vector3 posisiMuncul = transform.position + offsetSpawn;
-            Instantiate(prefabItemBahan, posisiMuncul, Quaternion.identity);
+            Instantiate(prefabItemBahan, transform.position, Quaternion.identity);
         }
         else
         {
             Debug.LogError("⚠️ PERINGATAN: Prefab Item Bahan belum dimasukkan di Inspector pada objek " + gameObject.name);
         }
 
-        // 2. Nonaktifkan collider pohon supaya tidak bisa ditebang lagi
-        var collider = GetComponent<Collider2D>();
-        if (collider != null)
-        {
-            collider.enabled = false;
-        }
-
-        // 3. Opsional: Ubah warna pohon sedikit jadi agak gelap sebagai tanda sudah dipanen
-        var spriteRenderer = GetComponent<SpriteRenderer>();
-        if (spriteRenderer != null)
-        {
-            spriteRenderer.color = new Color(0.7f, 0.7f, 0.7f, 1f);
-        }
+        // 2. Hancurkan / hilangkan objek pohon asalnya dari map
+        Destroy(gameObject);
     }
 }
