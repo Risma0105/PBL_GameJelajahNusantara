@@ -22,10 +22,11 @@ public class NPCCrafting : MonoBehaviour
     [Header("Efek Visual Crafting")]
     public ParticleSystem efekAsap; // Tarik objek Particle System ke sini
 
-    [Header("UI Feedback")]
+    [Header("UI Feedback & Overlay")]
     public GameObject teksPetunjuk;              
     public TMP_Text komponenTeksTMP;             
     public UnityEngine.UI.Text komponenTeksBiasa; 
+    public GameObject panelBadgeUnlock; // TARIK Panel_BadgeUnlock full layar ke sini di Inspector!
 
     private bool playerDekat = false;
     private bool sudahDirakit = false;
@@ -35,6 +36,9 @@ public class NPCCrafting : MonoBehaviour
     void Start()
     {
         if (efekAsap != null) efekAsap.Stop();
+
+        // Pastikan panel badge mati di awal game
+        if (panelBadgeUnlock != null) panelBadgeUnlock.SetActive(false);
 
         if (GameManager.Instance != null && GameManager.Instance.CekSudahSelesai(namaAlatMusik))
         {
@@ -142,6 +146,12 @@ public class NPCCrafting : MonoBehaviour
         if (prefabAlatMusikJadi != null)
         {
             Instantiate(prefabAlatMusikJadi, titikMuncul, Quaternion.identity);
+        }
+
+        // 4. MUNCULKAN OVERLAY BADGE UNLOCK FULL LAYAR DI SINI!
+        if (panelBadgeUnlock != null)
+        {
+            panelBadgeUnlock.SetActive(true);
         }
 
         sedangCrafting = false;

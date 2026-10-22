@@ -34,10 +34,14 @@ public class RoomTimer : MonoBehaviour
 
     void UpdateTampilanWaktu(float waktu)
     {
-        int detik = Mathf.CeilToInt(waktu);
+        // Hitung menit dan detik dari total sisa waktu
+        int menit = Mathf.FloorToInt(waktu / 60f);
+        int detik = Mathf.FloorToInt(waktu % 60f);
+
         if (teksTimer != null)
         {
-            teksTimer.text = $"Sisa Waktu: {detik}s";
+            // Format jadi MM:SS (contoh: 03:05) dengan tambahan angka 0 di depannya
+            teksTimer.text = $"Sisa Waktu: {menit:00}:{detik:00}";
         }
     }
 
