@@ -9,14 +9,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Scene_MainMenu.unity
     guid: 0fb99c155dab70a449e6cb70ca7b2de4
   - enabled: 1
-    path: Assets/Scenes/Scene_Prolog.unity
-    guid: 760a2f0c42d58864c995391098bd2fde
+    path: Assets/Scenes/Scene_Museum.unity
+    guid: ddd43775a8c621e4ebce92e0fcd33497
   - enabled: 1
     path: Assets/Scenes/Scene_MuseumDalam.unity
     guid: 6f94b81cd59ae594db8536df07484934
-  - enabled: 1
-    path: Assets/Scenes/Scene_Museum.unity
-    guid: ddd43775a8c621e4ebce92e0fcd33497
   - enabled: 1
     path: Assets/Scenes/Scene_Sarone.unity
     guid: b26c586e8da63e44fb06d8fd7e69da5f
