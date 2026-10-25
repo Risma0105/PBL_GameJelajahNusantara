@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections;
 using TMPro;
+using UnityEngine.UI;
 
 public class NPCCrafting : MonoBehaviour
 {
@@ -23,10 +24,10 @@ public class NPCCrafting : MonoBehaviour
     public ParticleSystem efekAsap;
 
     [Header("Referensi Bubble Dialog Crafting")]
-    public GameObject bubblePlayer;     // Tarik TandaBicara Player
-    public GameObject bubbleNPC;        // Tarik TandaBicara NPC Crafting ini
-    public TMP_Text teksPlayer;         // Komponen Text TMP di bubble Player
-    public TMP_Text teksNPC;            // Komponen Text TMP di bubble NPC
+    public GameObject bubblePlayer;     
+    public GameObject bubbleNPC;        
+    public TMP_Text teksPlayer;         
+    public TMP_Text teksNPC;            
 
     [System.Serializable]
     public struct DialogData
@@ -70,7 +71,6 @@ public class NPCCrafting : MonoBehaviour
 
     void Update()
     {
-        // Tekan 'E' untuk memulai atau melanjutkan dialog
         if (playerDekat && !sudahDirakit && !sedangCrafting)
         {
             if (Input.GetKeyDown(KeyCode.E))
@@ -85,7 +85,6 @@ public class NPCCrafting : MonoBehaviour
                 }
             }
 
-            // Klik kiri untuk merakit setelah dialog selesai
             if (!sedangBerdialog && Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
             {
                 CekDanMulaiCrafting();
@@ -146,7 +145,6 @@ public class NPCCrafting : MonoBehaviour
         sedangBerdialog = false;
         TutupSemuaBubble();
 
-        // Setelah ngobrol beres, kasih tahu player buat klik kiri merakit
         TampilkanPesan($"Klik Kiri untuk merakit {namaAlatMusik}");
         if (teksPetunjuk != null) teksPetunjuk.SetActive(true);
     }
@@ -186,7 +184,14 @@ public class NPCCrafting : MonoBehaviour
         TampilkanPesan($"⏳ Sedang merakit {namaAlatMusik}...");
         if (teksPetunjuk != null) teksPetunjuk.SetActive(false);
 
-        yield return new WaitForSeconds(5f);
+        // Menjalankan Progress Bar secara otomatis selama 5 detik durasi perakitan
+        float durasiCrafting = 5f;
+        if (GameProgress.Instance != null)
+        {
+            GameProgress.Instance.MulaiProgressOtomatis(durasiCrafting);
+        }
+
+        yield return new WaitForSeconds(durasiCrafting);
 
         if (efekAsap != null) efekAsap.Stop();
 
