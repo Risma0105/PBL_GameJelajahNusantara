@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13b75c95f34a00d4e8c04f76b73312e6, type: 3}
-  m_Name: New Animated Tile
+  m_Name: Animasi-Laut
   m_EditorClassIdentifier: Unity.2D.Tilemap.Extras::UnityEngine.Tilemaps.AnimatedTile
   m_AnimatedSprites:
   - {fileID: 2404489260223470081, guid: 59fbb9720083f484fad8036bc7fc2cf1, type: 3}
@@ -21,8 +21,8 @@ MonoBehaviour:
   - {fileID: 176768541, guid: 59fbb9720083f484fad8036bc7fc2cf1, type: 3}
   - {fileID: -1264520965, guid: 59fbb9720083f484fad8036bc7fc2cf1, type: 3}
   - {fileID: 2130819575, guid: 59fbb9720083f484fad8036bc7fc2cf1, type: 3}
-  m_MinSpeed: 1
-  m_MaxSpeed: 1
+  m_MinSpeed: 4
+  m_MaxSpeed: 4
   m_AnimationStartTime: 0
   m_AnimationStartFrame: 0
   m_TileColliderType: 0
