@@ -10,6 +10,10 @@ public class GameManager : MonoBehaviour
 
     [Header("Data Progres Alat Musik")]
     public HashSet<string> alatMusikSelesai = new HashSet<string>();
+    
+    [Header("Debug Inspector (Jangan Diubah Manual)")]
+    [Tooltip("Daftar alat musik yang sudah selesai (hanya untuk dilihat di Inspector)")]
+    public List<string> daftarAlatMusikDebug = new List<string>();
 
     [Header("Pengaturan Siklus Waktu (Detik)")]
     // 1 hari game = 3,34 menit = 200,4 detik (1,67 menit siang, 1,67 menit malam)
@@ -104,6 +108,14 @@ public class GameManager : MonoBehaviour
         if (!alatMusikSelesai.Contains(namaAlat))
         {
             alatMusikSelesai.Add(namaAlat);
+            
+            // Masukkan juga ke list debug agar kelihatan di Inspector Unity
+            if (!daftarAlatMusikDebug.Contains(namaAlat))
+            {
+                daftarAlatMusikDebug.Add(namaAlat);
+            }
+            
+            Debug.Log($"✅ [GameManager] Alat musik '{namaAlat}' berhasil ditandai selesai!");
         }
     }
 }
