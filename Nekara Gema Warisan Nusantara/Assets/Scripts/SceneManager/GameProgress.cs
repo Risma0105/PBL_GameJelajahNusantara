@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using TMPro;
-using UnityEngine.SceneManagement; // Diperlukan untuk pindah scene
+using UnityEngine.SceneManagement;
 
 public class GameProgress : MonoBehaviour
 {
@@ -14,16 +14,24 @@ public class GameProgress : MonoBehaviour
     public Image fillBarImage;
 
     [Header("Pengaturan Waktu & Checkpoint")]
-    public float totalDurasiGame = 180f; // Total durasi 3 menit (180 detik)
-    private float waktuBerjalan = 0f;
+    public float durasiPerSekat = 180f; // Bisa diubah jadi 20 untuk tes cepat
+    private float waktuBerjalanDiSekatIni = 0f;
+    private int sekatAktif = 0; // 0: Angklung, 1: Alat 2, 2: Sarone, 3: Alat 4
     private bool timerAktif = false;
 
     [Header("Pengaturan Scene Gagal / Museum Awal")]
-    public string namaSceneMuseumAwal = "Scene_MuseumAwal"; // Sesuaikan dengan nama scene museum awal kamu di Unity
+    public string namaSceneMuseumAwal = "Scene_MuseumDalam";
 
     void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (Instance == null) 
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     void Start()
@@ -31,8 +39,8 @@ public class GameProgress : MonoBehaviour
         if (progressBar != null)
         {
             progressBar.minValue = 0f;
-            progressBar.maxValue = 4f; // 4 titik checkpoint
-            progressBar.value = 0f;
+            progressBar.maxValue = 4f; 
+            progressBar.value = (float)sekatAktif;
         }
         MulaiTimerBar();
     }
@@ -41,29 +49,48 @@ public class GameProgress : MonoBehaviour
     {
         if (timerAktif)
         {
-            if (waktuBerjalan < totalDurasiGame)
+            if (waktuBerjalanDiSekatIni < durasiPerSekat)
             {
-                waktuBerjalan += Time.deltaTime;
+                waktuBerjalanDiSekatIni += Time.deltaTime;
                 
-                // Bar bergerak otomatis dari nilai 0 sampai 4 secara proporsional dengan waktu
-                float nilaiSekarang = Mathf.Lerp(0f, 4f, waktuBerjalan / totalDurasiGame);
+                // BAR BERGERAK PENUH DI SETIAP SEKAT:
+                // Menghitung persentase kemajuan (0 sampai 1) di sekat yang sedang aktif saja
+                float progressDalamSekat = waktuBerjalanDiSekatIni / durasiPerSekat;
+                
+                // Posisi slider di Unity (dari sekatAktif sampai sekatAktif + 1)
+                float nilaiSliderTotal = (float)sekatAktif + progressDalamSekat;
                 
                 if (progressBar != null)
                 {
-                    progressBar.value = nilaiSekarang;
+                    progressBar.value = nilaiSliderTotal;
                 }
 
-                CekEfekKedipMerah(nilaiSekarang);
-                UpdateTeksWaktu();
+                // Cek efek kedip merah saat sisa 25% waktu di sekat ini
+                float sisaWaktuSekat = durasiPerSekat - waktuBerjalanDiSekatIni;
+                if (sisaWaktuSekat <= (durasiPerSekat * 0.25f))
+                {
+                    if (fillBarImage != null)
+                    {
+                        float kedip = Mathf.PingPong(Time.time * 6f, 1f);
+                        fillBarImage.color = Color.Lerp(Color.yellow, Color.red, kedip);
+                    }
+                }
+                else
+                {
+                    if (fillBarImage != null)
+                    {
+                        fillBarImage.color = Color.green;
+                    }
+                }
+
+                UpdateTeksSisaWaktu(sisaWaktuSekat);
             }
             else
             {
-                // Waktu Habis / Gagal Mencapai Checkpoint!
-                waktuBerjalan = totalDurasiGame;
+                // Waktu di sekat ini habis! Gagal dan reset sekat ini.
                 timerAktif = false;
-                
-                Debug.Log("⏰ Waktu habis! Gagal mengumpulkan alat musik. Kembali ke museum dan reset progress.");
-                PlayerGagalDanReset();
+                Debug.Log($"⏰ Waktu sekat ke-{sekatAktif + 1} habis! Kembali ke museum.");
+                PlayerGagalDanResetSekatIni();
             }
         }
     }
@@ -73,23 +100,35 @@ public class GameProgress : MonoBehaviour
         timerAktif = true;
     }
 
-    // Fungsi yang dipanggil saat waktu habis
-    void PlayerGagalDanReset()
+    void PlayerGagalDanResetSekatIni()
     {
-        // 1. Reset status progres alat musik kembali ke awal
-        hasAngklung = false;
-        hasGesoGeso = false;
-        hasSarone = false;
-        hasAlatKeempat = false;
+        waktuBerjalanDiSekatIni = 0f;
 
-        // 2. Reset nilai slider bar menjadi 0
         if (progressBar != null)
         {
-            progressBar.value = 0f;
+            progressBar.value = (float)sekatAktif;
         }
 
-        // 3. Pindahkan player kembali ke scene museum awal
         SceneManager.LoadScene(namaSceneMuseumAwal);
+    }
+
+    public void LanjutKeSekatBerikutnya()
+    {
+        sekatAktif++;
+        waktuBerjalanDiSekatIni = 0f; // Reset waktu untuk sekat baru
+
+        if (sekatAktif >= 4)
+        {
+            sekatAktif = 4;
+            timerAktif = false;
+            Debug.Log("🎉 Selamat! Semua alat musik berhasil diselesaikan!");
+        }
+    }
+
+    public void MulaiProgressOtomatis(float durasi)
+    {
+        durasiPerSekat = durasi;
+        MulaiTimerBar();
     }
 
     public static bool hasAngklung = false;
@@ -97,44 +136,21 @@ public class GameProgress : MonoBehaviour
     public static bool hasSarone = false;
     public static bool hasAlatKeempat = false;
 
-    public void MulaiProgressOtomatis(float durasi) { }
-
     public void CollectInstrument(string namaAlat)
     {
-        if (namaAlat == "Angklung") hasAngklung = true;
-        if (namaAlat == "GesoGeso") hasGesoGeso = true;
-        if (namaAlat == "Sarone") hasSarone = true;
-        if (namaAlat == "AlatKeempat" || namaAlat == "Suling") hasAlatKeempat = true;
+        if (namaAlat == "Angklung") { hasAngklung = true; }
+        if (namaAlat == "GesoGeso") { hasGesoGeso = true; }
+        if (namaAlat == "Sarone") { hasSarone = true; }
+        if (namaAlat == "AlatKeempat" || namaAlat == "Suling") { hasAlatKeempat = true; }
 
-        Debug.Log(namaAlat + " berhasil dikumpulkan!");
+        LanjutKeSekatBerikutnya();
+        Debug.Log(namaAlat + " berhasil dikumpulkan! Meluncur ke sekat berikutnya.");
     }
 
-    void CekEfekKedipMerah(float nilaiBar)
-    {
-        float sisaKeCheckpoint = 1f - (nilaiBar % 1f);
-        
-        if (sisaKeCheckpoint <= 0.25f && nilaiBar > 0.1f)
-        {
-            if (fillBarImage != null)
-            {
-                float kedip = Mathf.PingPong(Time.time * 6f, 1f);
-                fillBarImage.color = Color.Lerp(Color.yellow, Color.red, kedip);
-            }
-        }
-        else
-        {
-            if (fillBarImage != null)
-            {
-                fillBarImage.color = Color.green;
-            }
-        }
-    }
-
-    void UpdateTeksWaktu()
+    void UpdateTeksSisaWaktu(float sisaDetik)
     {
         if (progressText != null)
         {
-            float sisaDetik = totalDurasiGame - waktuBerjalan;
             int menit = Mathf.FloorToInt(sisaDetik / 60f);
             int detik = Mathf.FloorToInt(sisaDetik % 60f);
             progressText.text = $"Waktu: {menit:00}:{detik:00}";

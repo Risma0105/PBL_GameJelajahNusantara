@@ -33,7 +33,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -5, y: 0}
+  m_AnchoredPosition: {x: -5, y: -0.00000047683716}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1242475087327542969
@@ -66,8 +66,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5060408727377148805}
   - {fileID: 4969582099645615793}
+  - {fileID: 5060408727377148805}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -140,6 +140,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameProgress
   progressBar: {fileID: 7129761887496331704}
   progressText: {fileID: 0}
+  fillBarImage: {fileID: 0}
+  durasiPerSekat: 180
+  namaSceneMuseumAwal: Scene_MuseumAwal
 --- !u!1 &6749830649594103450
 GameObject:
   m_ObjectHideFlags: 0
