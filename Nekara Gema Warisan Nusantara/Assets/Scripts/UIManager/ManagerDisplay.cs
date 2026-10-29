@@ -18,18 +18,20 @@ public class MuseumDisplay : MonoBehaviour
     [Header("Pengaturan Interaksi")]
     public float jarakInteraksi = 2.0f;              
     private Transform playerTransform;
+    private PlayerInventory playerInventory; // Referensi ke inventaris pemain
     private bool sudahDipajang = false;
 
     void Start()
     {
-        // Cari posisi player secara otomatis di scene
+        // Cari posisi player dan komponen PlayerInventory secara otomatis di scene
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
         {
             playerTransform = playerObj.transform;
+            playerInventory = playerObj.GetComponent<PlayerInventory>();
         }
 
-        // Cek apakah alat musik ini sudah pernah diselesaikan dari GameManager
+        // Cek apakah alat musik ini sudah pernah dipajang sebelumnya (melalui GameManager)
         if (GameManager.Instance != null && GameManager.Instance.CekSudahSelesai(namaAlatMusik))
         {
             TampilkanAlatMusikDiMeja();
@@ -57,28 +59,36 @@ public class MuseumDisplay : MonoBehaviour
                 // Pemain mendekat dan menekan tombol interaksi (E atau F)
                 if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.F))
                 {
-                    CobaTaruhAlatMusik();
+                    CobaTaruhAlatMusikDariInventaris();
                 }
             }
         }
     }
 
-    void CobaTaruhAlatMusik()
+    void CobaTaruhAlatMusikDariInventaris()
     {
-        if (GameManager.Instance != null)
+        if (playerInventory != null && GameManager.Instance != null)
         {
-            bool sudahCrafting = GameManager.Instance.CekSudahSelesai(namaAlatMusik);
+            // Cek apakah alat musiknya ada di dalam tas inventaris pemain
+            bool adaDiTas = playerInventory.PunyaItem(namaAlatMusik);
 
-            if (sudahCrafting)
+            if (adaDiTas)
             {
+                // Tandai selesai di GameManager pusat agar tersimpan permanen
+                GameManager.Instance.TandaiSelesai(namaAlatMusik);
+
+                // Tampilkan visual alat musik di meja museum
                 TampilkanAlatMusikDiMeja();
-                TampilkanPesan($"✨ Berhasil! {namaAlatMusik} telah dipajang di museum.");
-                Debug.Log($"✨ {namaAlatMusik} berhasil dipajang di museum!");
+
+                // Opsional: Jika ingin itemnya hilang dari tas setelah dipajang, bisa tambahkan fungsi hapus item di sini jika ada.
+                
+                TampilkanPesan($"✨ Berhasil! {namaAlatMusik} dari tas telah dipajang di museum.");
+                Debug.Log($"✨ {namaAlatMusik} berhasil dipajang di museum dari inventaris!");
             }
             else
             {
-                TampilkanPesan($"❌ Kamu belum menyelesaikan crafting untuk {namaAlatMusik}!");
-                Debug.Log($"❌ Kamu belum memiliki hasil crafting {namaAlatMusik}.");
+                TampilkanPesan($"❌ Kamu belum memiliki {namaAlatMusik} di dalam tas inventaris!");
+                Debug.Log($"❌ {namaAlatMusik} tidak ditemukan di tas pemain.");
             }
         }
     }

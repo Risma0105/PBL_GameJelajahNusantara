@@ -24,7 +24,7 @@ public class NPCCrafting : MonoBehaviour
     public ParticleSystem efekAsap;
 
     [Header("Referensi Bubble Dialog Crafting")]
-    public GameObject bubblePlayer;     
+    public GameObject bubblePlayer;    
     public GameObject bubbleNPC;        
     public TMP_Text teksPlayer;         
     public TMP_Text teksNPC;            
@@ -43,7 +43,7 @@ public class NPCCrafting : MonoBehaviour
     private bool sedangBerdialog = false;
 
     [Header("UI Feedback & Overlay")]
-    public GameObject teksPetunjuk;              
+    public GameObject teksPetunjuk;               
     public TMP_Text komponenTeksTMP;             
     public UnityEngine.UI.Text komponenTeksBiasa; 
     public GameObject panelBadgeUnlock;
@@ -73,21 +73,24 @@ public class NPCCrafting : MonoBehaviour
     {
         if (playerDekat && !sudahDirakit && !sedangCrafting)
         {
+            // Jika pemain menekan tombol E
             if (Input.GetKeyDown(KeyCode.E))
             {
-                if (!sedangBerdialog)
+                if (!sedangBerdialog && indeksDialog == 0 && !teksPetunjuk.activeSelf)
                 {
+                    // Belum mulai dialog
                     MulaiDialog();
+                }
+                else if (sedangBerdialog)
+                {
+                    // Sedang dalam percakapan, lanjut ke dialog berikutnya
+                    LanjutDialog();
                 }
                 else
                 {
-                    LanjutDialog();
+                    // Dialog sudah selesai, tekan E lagi untuk mulai crafting!
+                    CekDanMulaiCrafting();
                 }
-            }
-
-            if (!sedangBerdialog && Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
-            {
-                CekDanMulaiCrafting();
             }
         }
     }
@@ -145,7 +148,8 @@ public class NPCCrafting : MonoBehaviour
         sedangBerdialog = false;
         TutupSemuaBubble();
 
-        TampilkanPesan($"Klik Kiri untuk merakit {namaAlatMusik}");
+        // Diubah menggunakan Tombol E sepenuhnya
+        TampilkanPesan($"Tekan 'E' untuk merakit {namaAlatMusik}");
         if (teksPetunjuk != null) teksPetunjuk.SetActive(true);
     }
 
@@ -184,7 +188,7 @@ public class NPCCrafting : MonoBehaviour
         TampilkanPesan($"⏳ Sedang merakit {namaAlatMusik}...");
         if (teksPetunjuk != null) teksPetunjuk.SetActive(false);
 
-        // Menjalankan Progress Bar secara otomatis selama 5 detik durasi perakitan
+        // Menjalankan Progress Bar secara otomatis selama durasi perakitan
         float durasiCrafting = 5f;
         if (GameProgress.Instance != null)
         {
@@ -206,8 +210,7 @@ public class NPCCrafting : MonoBehaviour
         if (GameManager.Instance != null) GameManager.Instance.TandaiSelesai(namaAlatMusik);
         if (MuseumManager.Instance != null) MuseumManager.Instance.SelesaiCrafting(namaAlatMusik);
 
-        RoomTimer timer = Object.FindFirstObjectByType<RoomTimer>();
-        if (timer != null) timer.BerhentiTimer();
+        // Pemanggilan RoomTimer yang tidak terpakai sudah dibersihkan dari sini
 
         Debug.Log($"🎉 Selamat! {namaAlatMusik} berhasil dirakit!");
         TampilkanPesan($"🎉 {namaAlatMusik} berhasil dirakit!");

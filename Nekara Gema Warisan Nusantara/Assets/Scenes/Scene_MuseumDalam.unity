@@ -179,7 +179,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4900820532107019835, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 137954616}
   m_SourcePrefab: {fileID: 100100000, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
 --- !u!4 &45253227 stripped
 Transform:
@@ -328,6 +331,29 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4113828640030883862, guid: cae70ae55f9a3d74d839c1eeb06a9f37, type: 3}
   m_PrefabInstance: {fileID: 131153524}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &137954614 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4900820532107019835, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
+  m_PrefabInstance: {fileID: 45253226}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &137954616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 137954614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57107f5b852d0224eb0b60c345f3f653, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MuseumDisplay
+  namaAlatMusik: Geso
+  objekVisualAlatMusikDiMuseum: {fileID: 0}
+  posisiTaruhDiMeja: {fileID: 632215920}
+  panelPesan: {fileID: 0}
+  teksPesan: {fileID: 0}
+  jarakInteraksi: 2
 --- !u!1001 &172199243
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2460,6 +2486,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1864409377064603923, guid: 3aa6a0cd87c54f444b0a3d31d82fd20c, type: 3}
   m_PrefabInstance: {fileID: 549741324}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &558433427
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 558433428}
+  m_Layer: 0
+  m_Name: Spot_Sarone
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &558433428
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 558433427}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.29, y: -0.73, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1882942889}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &565830182 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5772582283378836281, guid: 8d11afdaa2c14ca4eaeeef08700895f5, type: 3}
@@ -2733,6 +2790,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1393051813265058768, guid: 759203bdb9848f446b896d4d7d9f3361, type: 3}
   m_PrefabInstance: {fileID: 621392855}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &632215919
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 632215920}
+  m_Layer: 0
+  m_Name: Spot_Geso
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &632215920
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 632215919}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.18, y: 5.71, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1882942889}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &642314563
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3859,6 +3947,11 @@ Transform:
   - {fileID: 788770759}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1015795504 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4900820532107019835, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
+  m_PrefabInstance: {fileID: 2299183234134353468}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1022514716
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5272,6 +5365,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3543438798109847439, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
   m_PrefabInstance: {fileID: 2299183234134353468}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1774717419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1015795504}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57107f5b852d0224eb0b60c345f3f653, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MuseumDisplay
+  namaAlatMusik: Sarone
+  objekVisualAlatMusikDiMuseum: {fileID: 0}
+  posisiTaruhDiMeja: {fileID: 558433428}
+  panelPesan: {fileID: 0}
+  teksPesan: {fileID: 0}
+  jarakInteraksi: 2
 --- !u!4 &1779871298 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 538404036847519634, guid: 64d77699d51ea924d978629f2dde3232, type: 3}
@@ -5410,6 +5521,40 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4986929585811081095, guid: 967e896ada6ff7c4896597383981b3eb, type: 3}
   m_PrefabInstance: {fileID: 2571173842337134672}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1882942888
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1882942889}
+  m_Layer: 0
+  m_Name: TitikSpawn
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1882942889
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1882942888}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.99536, y: -4.16892, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2023719333}
+  - {fileID: 558433428}
+  - {fileID: 632215920}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1988053112
 GameObject:
   m_ObjectHideFlags: 0
@@ -7987,6 +8132,42 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1998130400 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4900820532107019835, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
+  m_PrefabInstance: {fileID: 2137049872}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2023719332
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2023719333}
+  m_Layer: 0
+  m_Name: Spot_Angklung
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2023719333
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023719332}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.73, y: -0.73, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1882942889}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2031285955
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8318,13 +8499,34 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4900820532107019835, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2137049875}
   m_SourcePrefab: {fileID: 100100000, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
 --- !u!4 &2137049873 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3543438798109847439, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
   m_PrefabInstance: {fileID: 2137049872}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2137049875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1998130400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57107f5b852d0224eb0b60c345f3f653, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MuseumDisplay
+  namaAlatMusik: Angklung
+  objekVisualAlatMusikDiMuseum: {fileID: 5562398673871662023, guid: c2c8b299b34d6a745b76e7808ce53567, type: 3}
+  posisiTaruhDiMeja: {fileID: 2023719333}
+  panelPesan: {fileID: 0}
+  teksPesan: {fileID: 0}
+  jarakInteraksi: 2
 --- !u!1001 &195892402272856314
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9050,7 +9252,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4900820532107019835, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1774717419}
   m_SourcePrefab: {fileID: 100100000, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
 --- !u!1001 &2434731865110179422
 PrefabInstance:
@@ -10467,3 +10672,4 @@ SceneRoots:
   - {fileID: 597944060}
   - {fileID: 1259609937}
   - {fileID: 452382066}
+  - {fileID: 1882942889}

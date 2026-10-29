@@ -5,8 +5,8 @@ using TMPro; // Pakai TMP untuk teks angka timer
 public class RoomTimer : MonoBehaviour
 {
     [Header("Pengaturan Waktu")]
-    public float sisaWaktu = 30f;
-    public string sceneLobby = "Scene_Museum";
+    public float sisaWaktu = 180f; // Disamakan jadi 180 detik (sesuai GameProgress)
+    public string sceneLobby = "Scene_MuseumDalam"; // Diperbarui ke scene museum yang benar
 
     [Header("UI")]
     public TMP_Text teksTimer;
@@ -24,10 +24,10 @@ public class RoomTimer : MonoBehaviour
         }
         else
         {
-            // Waktu habis -> Gagal
+            // Waktu habis -> Gagal kembali ke museum
             sisaWaktu = 0;
             timerBerjalan = false;
-            Debug.Log("Waktu habis! Kembali ke Museum.");
+            Debug.Log("Waktu habis! Kembali ke Museum Dalam.");
             SceneManager.LoadScene(sceneLobby);
         }
     }

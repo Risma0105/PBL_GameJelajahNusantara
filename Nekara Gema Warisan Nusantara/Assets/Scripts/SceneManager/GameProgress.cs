@@ -14,7 +14,7 @@ public class GameProgress : MonoBehaviour
     public Image fillBarImage;
 
     [Header("Pengaturan Waktu & Checkpoint")]
-    public float durasiPerSekat = 180f; // Bisa diubah jadi 20 untuk tes cepat
+    public float durasiPerSekat = 180f; // Waktu utama per sekat (180 detik / 3 menit)
     private float waktuBerjalanDiSekatIni = 0f;
     private int sekatAktif = 0; // 0: Angklung, 1: Alat 2, 2: Sarone, 3: Alat 4
     private bool timerAktif = false;
@@ -27,6 +27,7 @@ public class GameProgress : MonoBehaviour
         if (Instance == null) 
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject); // Opsional: Supaya data progress tetap terbawa antar scene jika diperlukan
         }
         else
         {
@@ -53,7 +54,6 @@ public class GameProgress : MonoBehaviour
             {
                 waktuBerjalanDiSekatIni += Time.deltaTime;
                 
-                // BAR BERGERAK PENUH DI SETIAP SEKAT:
                 // Menghitung persentase kemajuan (0 sampai 1) di sekat yang sedang aktif saja
                 float progressDalamSekat = waktuBerjalanDiSekatIni / durasiPerSekat;
                 
@@ -87,7 +87,7 @@ public class GameProgress : MonoBehaviour
             }
             else
             {
-                // Waktu di sekat ini habis! Gagal dan reset sekat ini.
+                // Waktu di sekat ini habis! Gagal dan reset ke museum.
                 timerAktif = false;
                 Debug.Log($"⏰ Waktu sekat ke-{sekatAktif + 1} habis! Kembali ke museum.");
                 PlayerGagalDanResetSekatIni();
@@ -127,7 +127,7 @@ public class GameProgress : MonoBehaviour
 
     public void MulaiProgressOtomatis(float durasi)
     {
-        durasiPerSekat = durasi;
+        // PENTING: Durasi per sekat TIDAK ditimpa agar waktu utama 180 detik tetap aman!
         MulaiTimerBar();
     }
 
