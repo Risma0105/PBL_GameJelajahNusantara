@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using System.Collections;
 using TMPro;
-using UnityEngine.UI;
 
 public class NPCCrafting : MonoBehaviour
 {
@@ -23,7 +21,7 @@ public class NPCCrafting : MonoBehaviour
     [Header("Efek Visual Crafting")]
     public ParticleSystem efekAsap;
 
-    [Header("Referensi Bubble Dialog Crafting")]
+    [Header("Referensi Bubble Dialog")]
     public GameObject bubblePlayer;    
     public GameObject bubbleNPC;        
     public TMP_Text teksPlayer;         
@@ -32,20 +30,17 @@ public class NPCCrafting : MonoBehaviour
     [System.Serializable]
     public struct DialogData
     {
-        public bool apakahPlayerYangNgomong;
+        public bool apakahPlayerYangNgomong; 
         [TextArea(2, 4)]
         public string isiPesan;
     }
 
-    [Header("Alur Obrolan Sebelum Crafting")]
+    [Header("Daftar Percakapan")]
     public DialogData[] daftarPercakapan; 
     private int indeksDialog = 0;
     private bool sedangBerdialog = false;
 
-    [Header("UI Feedback & Overlay")]
-    public GameObject teksPetunjuk;               
-    public TMP_Text komponenTeksTMP;             
-    public UnityEngine.UI.Text komponenTeksBiasa; 
+    [Header("Panel Badge / UI Tambahan")]
     public GameObject panelBadgeUnlock;
 
     private bool playerDekat = false;
@@ -64,32 +59,24 @@ public class NPCCrafting : MonoBehaviour
         {
             sudahDirakit = true;
             if (kumpulanBahan != null) kumpulanBahan.SetActive(false);
-            TampilkanPesan($"{namaAlatMusik} sudah selesai dibuat!");
             return;
         }
     }
 
     void Update()
     {
+        // Tekan 'E' untuk mulai atau lanjut dialog saat dekat NPC
         if (playerDekat && !sudahDirakit && !sedangCrafting)
         {
-            // Jika pemain menekan tombol E
             if (Input.GetKeyDown(KeyCode.E))
             {
-                if (!sedangBerdialog && indeksDialog == 0 && !teksPetunjuk.activeSelf)
+                if (!sedangBerdialog)
                 {
-                    // Belum mulai dialog
                     MulaiDialog();
-                }
-                else if (sedangBerdialog)
-                {
-                    // Sedang dalam percakapan, lanjut ke dialog berikutnya
-                    LanjutDialog();
                 }
                 else
                 {
-                    // Dialog sudah selesai, tekan E lagi untuk mulai crafting!
-                    CekDanMulaiCrafting();
+                    LanjutDialog();
                 }
             }
         }
@@ -99,7 +86,6 @@ public class NPCCrafting : MonoBehaviour
     {
         sedangBerdialog = true;
         indeksDialog = 0;
-        if (teksPetunjuk != null) teksPetunjuk.SetActive(false);
         TampilkanPesanSaatIni();
     }
 
@@ -112,7 +98,7 @@ public class NPCCrafting : MonoBehaviour
         }
         else
         {
-            SelesaiDialog();
+            SelesaiDialogDanCrafting();
         }
     }
 
@@ -143,14 +129,12 @@ public class NPCCrafting : MonoBehaviour
         if (bubbleNPC != null) bubbleNPC.SetActive(false);
     }
 
-    void SelesaiDialog()
+    void SelesaiDialogDanCrafting()
     {
         sedangBerdialog = false;
         TutupSemuaBubble();
 
-        // Diubah menggunakan Tombol E sepenuhnya
-        TampilkanPesan($"Tekan 'E' untuk merakit {namaAlatMusik}");
-        if (teksPetunjuk != null) teksPetunjuk.SetActive(true);
+        CekDanMulaiCrafting();
     }
 
     void CekDanMulaiCrafting()
@@ -174,7 +158,6 @@ public class NPCCrafting : MonoBehaviour
         else
         {
             Debug.Log($"❌ Bahan untuk membuat {namaAlatMusik} belum lengkap!");
-            TampilkanPesan($"❌ Bahan pembuatan {namaAlatMusik} belum lengkap!");
         }
     }
 
@@ -185,10 +168,7 @@ public class NPCCrafting : MonoBehaviour
 
         if (efekAsap != null) efekAsap.Play();
 
-        TampilkanPesan($"⏳ Sedang merakit {namaAlatMusik}...");
-        if (teksPetunjuk != null) teksPetunjuk.SetActive(false);
-
-        // Menjalankan Progress Bar secara otomatis selama durasi perakitan
+        // Menjalankan Progress Bar otomatis selama 5 detik
         float durasiCrafting = 5f;
         if (GameProgress.Instance != null)
         {
@@ -210,17 +190,21 @@ public class NPCCrafting : MonoBehaviour
         if (GameManager.Instance != null) GameManager.Instance.TandaiSelesai(namaAlatMusik);
         if (MuseumManager.Instance != null) MuseumManager.Instance.SelesaiCrafting(namaAlatMusik);
 
-        // Pemanggilan RoomTimer yang tidak terpakai sudah dibersihkan dari sini
-
-        Debug.Log($"🎉 Selamat! {namaAlatMusik} berhasil dirakit!");
-        TampilkanPesan($"🎉 {namaAlatMusik} berhasil dirakit!");
-
+        // Hapus bahan dari inventaris pemain
         foreach (string bahan in bahanDibutuhkan)
         {
             inventoryPlayer.daftarItem.Remove(bahan);
         }
 
-        if (inventoryPlayer != null) inventoryPlayer.RefreshInventoryUI();
+        // Masukkan hasil alat musik jadi ke inventaris pemain agar terbaca di museum
+        if (inventoryPlayer != null)
+        {
+            if (!inventoryPlayer.daftarItem.Contains(namaAlatMusik))
+            {
+                inventoryPlayer.daftarItem.Add(namaAlatMusik);
+            }
+            inventoryPlayer.RefreshInventoryUI();
+        }
 
         Vector3 titikMuncul = spawnPoint != null ? spawnPoint.position : transform.position + new Vector3(0, 1.2f, 0);
         if (prefabAlatMusikJadi != null)
@@ -230,13 +214,8 @@ public class NPCCrafting : MonoBehaviour
 
         if (panelBadgeUnlock != null) panelBadgeUnlock.SetActive(true);
 
+        Debug.Log($"🎉 Selamat! {namaAlatMusik} berhasil dirakit!");
         sedangCrafting = false;
-    }
-
-    void TampilkanPesan(string pesan)
-    {
-        if (komponenTeksTMP != null) komponenTeksTMP.text = pesan;
-        else if (komponenTeksBiasa != null) komponenTeksBiasa.text = pesan;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -245,9 +224,6 @@ public class NPCCrafting : MonoBehaviour
         {
             playerDekat = true;
             inventoryPlayer = other.GetComponent<PlayerInventory>();
-
-            TampilkanPesan($"Tekan 'E' untuk berbicara dengan perajin");
-            if (teksPetunjuk != null) teksPetunjuk.SetActive(true);
         }
     }
 
@@ -259,8 +235,6 @@ public class NPCCrafting : MonoBehaviour
             inventoryPlayer = null;
             sedangBerdialog = false;
             TutupSemuaBubble();
-
-            if (teksPetunjuk != null && !sudahDirakit) teksPetunjuk.SetActive(false);
         }
     }
 }
