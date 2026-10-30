@@ -8,16 +8,24 @@ public class PlayerInventory : MonoBehaviour
     public List<string> daftarItem = new List<string>();
 
     [Header("Pengaturan UI Slot Inventory (4 Slot)")]
-    public Image[] slotIcons;          // Tarik Slot_1 sampai Slot_4 dari Panel_Inventory
+    public Image[] slotIcons;           // Tarik Slot_1 sampai Slot_4 dari Panel_Inventory
     public GameObject[] itemPrefabs;   // Tarik prefab item dari Kumpulan Bahan ke sini
+
+    void Start()
+    {
+
+        // Muat kembali inventaris yang tersimpan saat scene dimuat
+        MuatInventaris();
+    }
 
     public void AddItem(string itemName)
     {
         // Cek agar item yang sama tidak ditambahkan berkali-kali secara dobel
-        if (!daftarItem.Contains(itemName))
+        if (!PunyaItem(itemName))
         {
             daftarItem.Add(itemName);
             Debug.Log($"🎒 [INVENTORI]: {itemName} berhasil disimpan ke tas!");
+            SimpanInventaris();
             UpdateInventoryUI();
         }
         else
@@ -35,6 +43,8 @@ public class PlayerInventory : MonoBehaviour
     {
         for (int i = 0; i < slotIcons.Length; i++)
         {
+            if (slotIcons[i] == null) continue;
+
             if (i < daftarItem.Count)
             {
                 // Ambil Sprite dari GameObject item yang cocok
@@ -68,7 +78,7 @@ public class PlayerInventory : MonoBehaviour
     {
         foreach (GameObject prefab in itemPrefabs)
         {
-            if (prefab != null && prefab.name.Contains(itemName))
+            if (prefab != null && prefab.name.Trim().ToLower().Contains(itemName.Trim().ToLower()))
             {
                 var spriteRenderer = prefab.GetComponent<SpriteRenderer>();
                 if (spriteRenderer != null)
@@ -80,8 +90,46 @@ public class PlayerInventory : MonoBehaviour
         return null;
     }
 
+    // Pengecekan aman dari perbedaan huruf besar/kecil & spasi
     public bool PunyaItem(string itemName)
     {
-        return daftarItem.Contains(itemName);
+        foreach (string item in daftarItem)
+        {
+            if (item.Trim().ToLower() == itemName.Trim().ToLower())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Menyimpan inventaris ke PlayerPrefs agar aman saat pindah scene
+    public void SimpanInventaris()
+    {
+        string gabunganItem = string.Join(",", daftarItem);
+        PlayerPrefs.SetString("SavedInventory", gabunganItem);
+        PlayerPrefs.Save();
+    }
+
+    // Memuat kembali inventaris dengan membersihkan data lama yang menumpuk
+    void MuatInventaris()
+    {
+        if (PlayerPrefs.HasKey("SavedInventory"))
+        {
+            string gabunganItem = PlayerPrefs.GetString("SavedInventory");
+            if (!string.IsNullOrEmpty(gabunganItem))
+            {
+                string[] itemArray = gabunganItem.Split(',');
+                daftarItem.Clear(); // Bersihkan daftar lama agar tidak muncul bahan mentah sisa
+                foreach (string item in itemArray)
+                {
+                    if (!string.IsNullOrEmpty(item) && !daftarItem.Contains(item))
+                    {
+                        daftarItem.Add(item);
+                    }
+                }
+                UpdateInventoryUI();
+            }
+        }
     }
 }

@@ -8,15 +8,15 @@ public class MuseumDisplay : MonoBehaviour
     public string namaAlatMusik = "Angklung"; 
     
     [Header("Visual & Titik Taruh di Meja")]
-    public GameObject objekVisualAlatMusikDiMuseum; // Sprite/objek alat musik di meja
+    public GameObject objekVisualAlatMusikDiMuseum; // Sprite/objek alat musik di meja (di-drag dari Hierarchy)
     public Transform posisiTaruhDiMeja;             // Titik kosong (GameObject Empty) tepat di atas permukaan meja
     
     [Header("UI Pesan (Opsional)")]
-    public GameObject panelPesan;                  
+    public GameObject panelPesan;                    
     public TMP_Text teksPesan;                     
 
     [Header("Pengaturan Interaksi")]
-    public float jarakInteraksi = 2.0f;              
+    public float jarakInteraksi = 2.0f;               
     private Transform playerTransform;
     private PlayerInventory playerInventory; // Referensi ke inventaris pemain
     private bool sudahDipajang = false;
@@ -38,6 +38,7 @@ public class MuseumDisplay : MonoBehaviour
         }
         else
         {
+            // Jika belum selesai, sembunyikan objek visual di meja secara otomatis di awal game
             if (objekVisualAlatMusikDiMuseum != null)
             {
                 objekVisualAlatMusikDiMuseum.SetActive(false);
@@ -69,10 +70,22 @@ public class MuseumDisplay : MonoBehaviour
     {
         if (playerInventory != null && GameManager.Instance != null)
         {
-            // Cek apakah alat musiknya ada di dalam tas inventaris pemain
-            bool adaDiTas = playerInventory.PunyaItem(namaAlatMusik);
+            // Pengecekan fleksibel: periksa langsung daftarItem milik pemain tanpa takut beda huruf/spasi
+            bool adaDiTas = false;
+            if (playerInventory.daftarItem != null)
+            {
+                foreach (string item in playerInventory.daftarItem)
+                {
+                    if (item.Trim().ToLower() == namaAlatMusik.Trim().ToLower())
+                    {
+                        adaDiTas = true;
+                        break;
+                    }
+                }
+            }
 
-            if (adaDiTas)
+            // Fallback cadangan: Jika tercatat sudah selesai di GameManager, anggap sah punya
+            if (adaDiTas || GameManager.Instance.CekSudahSelesai(namaAlatMusik))
             {
                 // Tandai selesai di GameManager pusat agar tersimpan permanen
                 GameManager.Instance.TandaiSelesai(namaAlatMusik);
@@ -80,9 +93,7 @@ public class MuseumDisplay : MonoBehaviour
                 // Tampilkan visual alat musik di meja museum
                 TampilkanAlatMusikDiMeja();
 
-                // Opsional: Jika ingin itemnya hilang dari tas setelah dipajang, bisa tambahkan fungsi hapus item di sini jika ada.
-                
-                TampilkanPesan($"✨ Berhasil! {namaAlatMusik} dari tas telah dipajang di museum.");
+                TampilkanPesan($"✨ Berhasil! {namaAlatMusik} berhasil dipajang di museum.");
                 Debug.Log($"✨ {namaAlatMusik} berhasil dipajang di museum dari inventaris!");
             }
             else
@@ -99,13 +110,23 @@ public class MuseumDisplay : MonoBehaviour
 
         if (objekVisualAlatMusikDiMuseum != null)
         {
-            // Jika titik taruh di meja diatur, sesuaikan posisinya
+            // Jika titik taruh di meja diatur, sesuaikan posisinya secara akurat
             if (posisiTaruhDiMeja != null)
             {
                 objekVisualAlatMusikDiMuseum.transform.position = posisiTaruhDiMeja.position;
             }
             
+            // Aktifkan objek visual di meja
             objekVisualAlatMusikDiMuseum.SetActive(true);
+
+            // Memastikan transparansi sprite penuh (Alpha = 1) agar langsung terlihat jelas
+            var spriteRenderer = objekVisualAlatMusikDiMuseum.GetComponent<SpriteRenderer>();
+            if (spriteRenderer != null)
+            {
+                Color warna = spriteRenderer.color;
+                warna.a = 1f;
+                spriteRenderer.color = warna;
+            }
         }
     }
 

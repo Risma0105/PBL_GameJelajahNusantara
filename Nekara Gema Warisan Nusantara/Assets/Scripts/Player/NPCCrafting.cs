@@ -196,13 +196,16 @@ public class NPCCrafting : MonoBehaviour
             inventoryPlayer.daftarItem.Remove(bahan);
         }
 
-        // Masukkan hasil alat musik jadi ke inventaris pemain agar terbaca di museum
+        // Masukkan hasil alat musik jadi ke inventaris pemain & simpan secara permanen
         if (inventoryPlayer != null)
         {
             if (!inventoryPlayer.daftarItem.Contains(namaAlatMusik))
             {
                 inventoryPlayer.daftarItem.Add(namaAlatMusik);
             }
+            
+            // Simpan perubahan ke PlayerPrefs agar aman saat pindah scene
+            inventoryPlayer.SimpanInventaris();
             inventoryPlayer.RefreshInventoryUI();
         }
 

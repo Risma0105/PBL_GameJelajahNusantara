@@ -6736,6 +6736,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4680277018024894247, guid: 23d3025a4667df44ea8bae66704483ca, type: 3}
+      propertyPath: namaSceneTujuan
+      value: Scene_MuseumDalam
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
