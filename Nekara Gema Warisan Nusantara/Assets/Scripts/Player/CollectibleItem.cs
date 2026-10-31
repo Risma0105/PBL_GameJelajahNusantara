@@ -1,18 +1,26 @@
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class CollectibleItem : MonoBehaviour
 {
     [Header("Nama Item yang Dimasukkan ke Inventori")]
-    public string namaItem = "Angklung"; // Sesuaikan nama item (misal: Angklung, Sarone)
+    public string namaItem = "Angklung";
+
+    [Header("Referensi NPC Crafting")]
+    public NPCCrafting npcCrafting;
 
     private bool playerDekat = false;
+    private bool sudahDiambil = false;
+
     private PlayerInventory inventoryPlayer;
 
     void Update()
     {
-        // Jika player dekat dan menekan Klik Kiri Mouse, ambil itemnya
-        if (playerDekat && Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        if (playerDekat &&
+            !sudahDiambil &&
+            Mouse.current != null &&
+            Mouse.current.leftButton.wasPressedThisFrame)
         {
             AmbilItem();
         }
@@ -20,14 +28,31 @@ public class CollectibleItem : MonoBehaviour
 
     void AmbilItem()
     {
-        if (inventoryPlayer != null)
-        {
-            // Memanggil fungsi AddItem dari PlayerInventory-mu
-            inventoryPlayer.AddItem(namaItem);
+        if (inventoryPlayer == null || sudahDiambil)
+            return;
 
-            // Hilangkan (destroy) objek alat musik dari scene setelah masuk tas
-            Destroy(gameObject);
+        // Masukkan alat musik ke inventory
+        inventoryPlayer.AddItem(namaItem);
+
+        // Simpan inventory
+        inventoryPlayer.SimpanInventaris();
+        inventoryPlayer.RefreshInventoryUI();
+
+        sudahDiambil = true;
+
+        // Tandai alat musik selesai setelah benar-benar diambil
+        if (npcCrafting != null)
+        {
+            npcCrafting.KonfirmasiAlatDiambil();
         }
+        else if (GameProgress.Instance != null)
+        {
+            GameProgress.Instance.CollectInstrument(namaItem);
+        }
+
+        Debug.Log(namaItem + " berhasil diambil dan masuk inventory!");
+
+        Destroy(gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -36,7 +61,8 @@ public class CollectibleItem : MonoBehaviour
         {
             playerDekat = true;
             inventoryPlayer = other.GetComponent<PlayerInventory>();
-            Debug.Log($"Tekan Klik Kiri untuk mengambil {namaItem}");
+
+            Debug.Log("Tekan klik kiri untuk mengambil " + namaItem);
         }
     }
 

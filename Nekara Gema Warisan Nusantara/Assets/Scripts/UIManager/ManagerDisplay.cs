@@ -1,118 +1,169 @@
+
 using UnityEngine;
 using TMPro;
 
 public class MuseumDisplay : MonoBehaviour
 {
     [Header("Pengaturan Display Alat Musik")]
-    [Tooltip("Isi dengan nama alat musik yang sesuai: Angklung, GesoGeso, atau Sarone")]
-    public string namaAlatMusik = "Angklung"; 
-    
+    [Tooltip("Isi: Angklung, GesoGeso, atau Sarone")]
+    public string namaAlatMusik = "Angklung";
+
     [Header("Visual & Titik Taruh di Meja")]
-    public GameObject objekVisualAlatMusikDiMuseum; // Sprite/objek alat musik di meja (di-drag dari Hierarchy)
-    public Transform posisiTaruhDiMeja;             // Titik kosong (GameObject Empty) tepat di atas permukaan meja
-    
-    [Header("UI Pesan (Opsional)")]
-    public GameObject panelPesan;                    
-    public TMP_Text teksPesan;                     
+    public GameObject objekVisualAlatMusikDiMuseum;
+    public Transform posisiTaruhDiMeja;
+
+    [Header("UI Pesan")]
+    public GameObject panelPesan;
+    public TMP_Text teksPesan;
 
     [Header("Pengaturan Interaksi")]
-    public float jarakInteraksi = 2.0f;               
+    public float jarakInteraksi = 2.0f;
+
     private Transform playerTransform;
-    private PlayerInventory playerInventory; // Referensi ke inventaris pemain
+    private PlayerInventory playerInventory;
+
     private bool sudahDipajang = false;
+
+    // Key penyimpanan khusus untuk setiap alat musik
+    private string KeyDisplay
+    {
+        get
+        {
+            return "MuseumDisplay_" + namaAlatMusik;
+        }
+    }
 
     void Start()
     {
-        // Cari posisi player dan komponen PlayerInventory secara otomatis di scene
-        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-        if (playerObj != null)
-        {
-            playerTransform = playerObj.transform;
-            playerInventory = playerObj.GetComponent<PlayerInventory>();
-        }
+        CariPlayer();
 
-        // Cek apakah alat musik ini sudah pernah dipajang sebelumnya (melalui GameManager)
-        if (GameManager.Instance != null && GameManager.Instance.CekSudahSelesai(namaAlatMusik))
+        // Cek apakah alat musik sudah pernah dipajang
+        sudahDipajang = PlayerPrefs.GetInt(KeyDisplay, 0) == 1;
+
+        if (sudahDipajang)
         {
             TampilkanAlatMusikDiMeja();
         }
         else
         {
-            // Jika belum selesai, sembunyikan objek visual di meja secara otomatis di awal game
             if (objekVisualAlatMusikDiMuseum != null)
             {
                 objekVisualAlatMusikDiMuseum.SetActive(false);
             }
         }
+
+        if (panelPesan != null)
+        {
+            panelPesan.SetActive(false);
+        }
+    }
+
+    void CariPlayer()
+    {
+        GameObject playerObj =
+            GameObject.FindGameObjectWithTag("Player");
+
+        if (playerObj != null)
+        {
+            playerTransform = playerObj.transform;
+            playerInventory =
+                playerObj.GetComponent<PlayerInventory>();
+        }
     }
 
     void Update()
     {
-        if (sudahDipajang) return;
+        if (sudahDipajang)
+            return;
 
-        // Cek jarak antara player dan meja display
-        if (playerTransform != null)
+        // Cari ulang jika referensi Player belum ditemukan
+        if (playerTransform == null || playerInventory == null)
         {
-            float jarak = Vector2.Distance(transform.position, playerTransform.position);
+            CariPlayer();
+        }
 
-            if (jarak <= jarakInteraksi)
+        if (playerTransform == null || playerInventory == null)
+            return;
+
+        float jarak = Vector2.Distance(
+            transform.position,
+            playerTransform.position
+        );
+
+        if (jarak <= jarakInteraksi)
+        {
+            if (Input.GetKeyDown(KeyCode.E) ||
+                Input.GetKeyDown(KeyCode.F))
             {
-                // Pemain mendekat dan menekan tombol interaksi (E atau F)
-                if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.F))
-                {
-                    CobaTaruhAlatMusikDariInventaris(); 
-                }
+                CobaTaruhAlatMusikDariInventaris();
             }
         }
     }
+
+    // =====================================
+    // CEK INVENTORY DAN PAJANG ALAT MUSIK
+    // =====================================
 
     void CobaTaruhAlatMusikDariInventaris()
     {
-        if (playerInventory != null && GameManager.Instance != null)
+        if (playerInventory == null)
         {
-            bool adaDiTas = false;
-            string itemDitemukan = "";
+            Debug.LogWarning(
+                "PlayerInventory tidak ditemukan!"
+            );
+            return;
+        }
 
-            if (playerInventory.daftarItem != null)
-            {
-                foreach (string item in playerInventory.daftarItem)
-                {
-                    if (item.Trim().ToLower() == namaAlatMusik.Trim().ToLower())
-                    {
-                        adaDiTas = true;
-                        itemDitemukan = item;
-                        break;
-                    }
-                }
-            }
+        // Pastikan alat musik benar-benar ada di inventory
+        if (playerInventory.PunyaItem(namaAlatMusik))
+        {
+            // Simpan status pajangan
+            PlayerPrefs.SetInt(KeyDisplay, 1);
+            PlayerPrefs.Save();
 
-            // Fallback cadangan: Jika tercatat sudah selesai di GameManager, atau ada di tas
-            if (adaDiTas || GameManager.Instance.CekSudahSelesai(namaAlatMusik))
-            {
-                // Tandai selesai di GameManager pusat agar tersimpan permanen
-                GameManager.Instance.TandaiSelesai(namaAlatMusik);
+            // Tampilkan alat musik di meja museum
+            TampilkanAlatMusikDiMeja();
 
-                // JIKA ITEMNYA ADA DI TAS, HAPUS DAN KOSONGKAN TAS SEKARANG!
-                if (adaDiTas)
-                {
-                    playerInventory.daftarItem.Remove(itemDitemukan);
-                    playerInventory.SimpanInventaris();       // Simpan perubahan tas secara permanen
-                    playerInventory.RefreshInventoryUI();   // Perbarui UI slot tas agar langsung kosong
-                }
+            // Tampilkan pesan berhasil
+            TampilkanPesan(
+                "✨ Berhasil! " + namaAlatMusik +
+                " berhasil dipajang di museum!"
+            );
 
-                // Tampilkan visual alat musik di meja museum
-                TampilkanAlatMusikDiMeja();
+            Debug.Log(
+                "✨ " + namaAlatMusik +
+                " berhasil dipajang di museum!"
+            );
 
-                TampilkanPesan($"✨ Berhasil! {namaAlatMusik} berhasil dipajang di museum.");
-                Debug.Log($"✨ {namaAlatMusik} berhasil dipajang di museum dan hilang dari tas!");
-            }
-            else
-            {
-                TampilkanPesan($"❌ Kamu belum memiliki {namaAlatMusik} di dalam tas inventaris!");
-                Debug.Log($"❌ {namaAlatMusik} tidak ditemukan di tas pemain.");
-            }
+            Debug.Log(
+                "🎒 Inventory tetap menyimpan " +
+                namaAlatMusik +
+                ". Jumlah item: " +
+                playerInventory.daftarItem.Count
+            );
+
+            // PENTING:
+            // Tidak ada Remove(), HapusItem(),
+            // atau penghapusan data inventory di sini.
+        }
+        else
+        {
+            TampilkanPesan(
+                "❌ Kamu belum memiliki " +
+                namaAlatMusik +
+                " di dalam tas inventaris!"
+            );
+
+            Debug.LogWarning(
+                namaAlatMusik +
+                " tidak ditemukan di inventory."
+            );
         }
     }
+
+    // =====================================
+    // TAMPILKAN ALAT MUSIK DI MEJA
+    // =====================================
 
     void TampilkanAlatMusikDiMeja()
     {
@@ -120,17 +171,21 @@ public class MuseumDisplay : MonoBehaviour
 
         if (objekVisualAlatMusikDiMuseum != null)
         {
-            // Jika titik taruh di meja diatur, sesuaikan posisinya secara akurat
+            // Atur posisi objek pada meja
             if (posisiTaruhDiMeja != null)
             {
-                objekVisualAlatMusikDiMuseum.transform.position = posisiTaruhDiMeja.position;
+                objekVisualAlatMusikDiMuseum.transform.position =
+                    posisiTaruhDiMeja.position;
             }
-            
-            // Aktifkan objek visual di meja
+
+            // Aktifkan visual alat musik
             objekVisualAlatMusikDiMuseum.SetActive(true);
 
-            // Memastikan transparansi sprite penuh (Alpha = 1) agar langsung terlihat jelas
-            var spriteRenderer = objekVisualAlatMusikDiMuseum.GetComponent<SpriteRenderer>();
+            // Pastikan sprite terlihat
+            SpriteRenderer spriteRenderer =
+                objekVisualAlatMusikDiMuseum
+                .GetComponentInChildren<SpriteRenderer>(true);
+
             if (spriteRenderer != null)
             {
                 Color warna = spriteRenderer.color;
@@ -138,7 +193,18 @@ public class MuseumDisplay : MonoBehaviour
                 spriteRenderer.color = warna;
             }
         }
+        else
+        {
+            Debug.LogWarning(
+                "Objek visual " + namaAlatMusik +
+                " belum diisi di Inspector!"
+            );
+        }
     }
+
+    // =====================================
+    // PESAN UI
+    // =====================================
 
     void TampilkanPesan(string pesan)
     {
@@ -146,6 +212,7 @@ public class MuseumDisplay : MonoBehaviour
         {
             teksPesan.text = pesan;
         }
+
         if (panelPesan != null)
         {
             panelPesan.SetActive(true);

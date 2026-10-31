@@ -1,11 +1,14 @@
+
 using UnityEngine;
 
 public class ItemPickup : MonoBehaviour
 {
-    [Header("Info Bahan Mentah")]
-    public string itemName = "BambuApus"; // Nama bahan (contoh: BahanA, BahanB, TaliRotan, dll)
+    [Header("Info Item")]
+    public string itemName = "BambuApus";
 
     private bool playerDiDekat = false;
+    private bool sudahDiambil = false;
+
     private PlayerInventory playerInventory;
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -14,7 +17,8 @@ public class ItemPickup : MonoBehaviour
         {
             playerDiDekat = true;
             playerInventory = collision.GetComponent<PlayerInventory>();
-            Debug.Log("💡 Berada dekat dengan " + itemName + ". Klik untuk mengambil bahan!");
+
+            Debug.Log("Dekat dengan " + itemName + ". Klik untuk mengambil!");
         }
     }
 
@@ -29,23 +33,41 @@ public class ItemPickup : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (playerDiDekat && playerInventory != null)
-        {
-            Debug.Log("✨ Berhasil mengambil bahan: " + itemName);
-            
-            // Masukkan nama bahan mentah ke tas inventaris
-            playerInventory.AddItem(itemName);
-            
-            // Simpan inventaris agar aman
-            playerInventory.SimpanInventaris();
-            playerInventory.RefreshInventoryUI();
+        // Pastikan belum diambil
+        if (sudahDiambil) return;
 
-            // Hapus objek bahan dari map/scene
-            Destroy(gameObject); 
-        }
-        else
+        // Pastikan pemain berada dekat objek
+        if (!playerDiDekat || playerInventory == null)
         {
-            Debug.Log("⚠️ Terlalu jauh atau player belum mendekat!");
+            Debug.Log("Pemain terlalu jauh dari " + itemName);
+            return;
         }
+
+        // Cegah item yang sama masuk dua kali
+        if (playerInventory.PunyaItem(itemName))
+        {
+            Debug.Log(itemName + " sudah ada di inventory!");
+            return;
+        }
+
+        sudahDiambil = true;
+
+        // Masukkan item ke inventory
+        playerInventory.AddItem(itemName);
+        playerInventory.RefreshInventoryUI();
+
+        // Jika item adalah Angklung, update GameProgress
+        if (itemName.Trim().ToLower() == "angklung")
+        {
+            if (GameProgress.Instance != null)
+            {
+                GameProgress.Instance.CollectInstrument("Angklung");
+            }
+        }
+
+        Debug.Log("Berhasil mengambil " + itemName);
+
+        // Hapus objek dari scene
+        Destroy(gameObject);
     }
 }
