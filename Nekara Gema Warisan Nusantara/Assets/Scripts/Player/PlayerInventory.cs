@@ -11,13 +11,25 @@ public class PlayerInventory : MonoBehaviour
     public Image[] slotIcons;           // Tarik Slot_1 sampai Slot_4 dari Panel_Inventory
     public GameObject[] itemPrefabs;   // Tarik prefab item dari Kumpulan Bahan ke sini
 
+   // Variabel statis untuk mengecek apakah game baru saja dinyalakan dari tombol Play Unity
+    private static bool sudahDiresetDiAwal = false;
+
     void Start()
     {
-
-        // Muat kembali inventaris yang tersimpan saat scene dimuat
-        MuatInventaris();
+        // Hanya hapus data sekali saja pas pertama kali kamu tekan tombol Play di Editor Unity
+        if (!sudahDiresetDiAwal)
+        {
+            PlayerPrefs.DeleteAll();
+            daftarItem.Clear();
+            sudahDiresetDiAwal = true;
+            Debug.Log("🗑️ [DEBUG]: Game baru dimulai, inventaris di-reset ke 0.");
+        }
+        else
+        {
+            // Jika hanya pindah-pindah scene, muat inventaris normal tanpa menghapusnya
+            MuatInventaris();
+        }
     }
-
     public void AddItem(string itemName)
     {
         // Cek agar item yang sama tidak ditambahkan berkali-kali secara dobel

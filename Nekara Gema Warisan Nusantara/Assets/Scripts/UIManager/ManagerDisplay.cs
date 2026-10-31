@@ -60,7 +60,7 @@ public class MuseumDisplay : MonoBehaviour
                 // Pemain mendekat dan menekan tombol interaksi (E atau F)
                 if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.F))
                 {
-                    CobaTaruhAlatMusikDariInventaris();
+                    CobaTaruhAlatMusikDariInventaris(); 
                 }
             }
         }
@@ -70,8 +70,9 @@ public class MuseumDisplay : MonoBehaviour
     {
         if (playerInventory != null && GameManager.Instance != null)
         {
-            // Pengecekan fleksibel: periksa langsung daftarItem milik pemain tanpa takut beda huruf/spasi
             bool adaDiTas = false;
+            string itemDitemukan = "";
+
             if (playerInventory.daftarItem != null)
             {
                 foreach (string item in playerInventory.daftarItem)
@@ -79,22 +80,31 @@ public class MuseumDisplay : MonoBehaviour
                     if (item.Trim().ToLower() == namaAlatMusik.Trim().ToLower())
                     {
                         adaDiTas = true;
+                        itemDitemukan = item;
                         break;
                     }
                 }
             }
 
-            // Fallback cadangan: Jika tercatat sudah selesai di GameManager, anggap sah punya
+            // Fallback cadangan: Jika tercatat sudah selesai di GameManager, atau ada di tas
             if (adaDiTas || GameManager.Instance.CekSudahSelesai(namaAlatMusik))
             {
                 // Tandai selesai di GameManager pusat agar tersimpan permanen
                 GameManager.Instance.TandaiSelesai(namaAlatMusik);
 
+                // JIKA ITEMNYA ADA DI TAS, HAPUS DAN KOSONGKAN TAS SEKARANG!
+                if (adaDiTas)
+                {
+                    playerInventory.daftarItem.Remove(itemDitemukan);
+                    playerInventory.SimpanInventaris();       // Simpan perubahan tas secara permanen
+                    playerInventory.RefreshInventoryUI();   // Perbarui UI slot tas agar langsung kosong
+                }
+
                 // Tampilkan visual alat musik di meja museum
                 TampilkanAlatMusikDiMeja();
 
                 TampilkanPesan($"✨ Berhasil! {namaAlatMusik} berhasil dipajang di museum.");
-                Debug.Log($"✨ {namaAlatMusik} berhasil dipajang di museum dari inventaris!");
+                Debug.Log($"✨ {namaAlatMusik} berhasil dipajang di museum dan hilang dari tas!");
             }
             else
             {
