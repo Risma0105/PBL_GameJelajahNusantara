@@ -8,6 +8,7 @@ public class BadgeManager : MonoBehaviour
     public class BadgeData
     {
         public string namaAlat;     // Contoh: "Angklung", "Sarone", "GesoGeso"
+        public GameObject badgeObjek; // Objek GameObject badge-nya (untuk digeser kanan-kiri)
         public Image iconImage;     // Komponen Image icon badge
     }
 
@@ -18,27 +19,63 @@ public class BadgeManager : MonoBehaviour
     public Color warnaTerkunci = new Color(0.25f, 0.25f, 0.25f, 0.7f); // Abu-abu saat terkunci
     public Color warnaTerbuka = Color.white;                            // Warna asli saat terbuka
 
+    private int currentIndex = 0;
+
     void Start()
     {
         PerbaruiStatusBadge();
+        TampilkanBadgeIndex(currentIndex);
     }
 
-    // Dipanggil otomatis setiap kali Panel UI Badge diaktifkan/dibuka
     void OnEnable()
     {
         PerbaruiStatusBadge();
+        TampilkanBadgeIndex(currentIndex);
     }
 
+    // Cek status terkunci / terbuka via PlayerPrefs
     public void PerbaruiStatusBadge()
     {
         foreach (var badge in listBadge)
         {
             if (badge.iconImage == null) continue;
 
-            // PlayerPrefs format: Badge_Angklung (1 = didapat, 0 = belum)
             bool sudahDidapat = PlayerPrefs.GetInt("Badge_" + badge.namaAlat, 0) == 1;
-
             badge.iconImage.color = sudahDidapat ? warnaTerbuka : warnaTerkunci;
+        }
+    }
+
+    // Fungsi untuk Tombol Kanan (>)
+    public void NextBadge()
+    {
+        currentIndex++;
+        if (currentIndex >= listBadge.Count)
+        {
+            currentIndex = 0; // Balik ke awal kalau sudah mentok kanan
+        }
+        TampilkanBadgeIndex(currentIndex);
+    }
+
+    // Fungsi untuk Tombol Kiri (<)
+    public void PrevBadge()
+    {
+        currentIndex--;
+        if (currentIndex < 0)
+        {
+            currentIndex = listBadge.Count - 1; // Ke ujung akhir kalau dari awal
+        }
+        TampilkanBadgeIndex(currentIndex);
+    }
+
+    // Menampilkan hanya 1 badge sesuai index yang aktif, yang lain disembunyikan
+    void TampilkanBadgeIndex(int index)
+    {
+        for (int i = 0; i < listBadge.Count; i++)
+        {
+            if (listBadge[i].badgeObjek != null)
+            {
+                listBadge[i].badgeObjek.SetActive(i == index);
+            }
         }
     }
 
