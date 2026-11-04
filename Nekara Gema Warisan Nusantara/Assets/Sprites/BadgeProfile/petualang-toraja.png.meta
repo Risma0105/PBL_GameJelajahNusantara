@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: e4c2b688cc9e2c84dac49ad39e59b9e0
+guid: f4338468dceb755498313d4cfe12ebc9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -4804769707291131343
-    second: Untitled design (74)_0
+      213: -892798445162959480
+    second: petualang-toraja_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Untitled design (74)_0
+      name: petualang-toraja_0
       rect:
         serializedVersion: 2
-        x: 206
-        y: 61
-        width: 669
-        height: 1225
+        x: 29
+        y: 29
+        width: 682
+        height: 682
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 132ca517867025db0800000000000000
-      internalID: -4804769707291131343
+      spriteID: 88d6a0c5b842c93f0800000000000000
+      internalID: -892798445162959480
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Untitled design (74)_0: -4804769707291131343
+      petualang-toraja_0: -892798445162959480
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
