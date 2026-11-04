@@ -439,7 +439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36405ab89badb314d8c9173a35e3fa9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PrologueManager
-  namaSceneMuseum: Scene_MuseumDalam
+  namaSceneMuseum: 05_MuseumDalam
 --- !u!4 &621646791
 Transform:
   m_ObjectHideFlags: 0

@@ -80,4 +80,22 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("BGM '" + nama + "' tidak ditemukan!");
         }
     }
+
+    // Tambahkan fungsi ini di dalam skrip AudioManager.cs kamu:
+
+public void SetBGMVolume(float volume)
+{
+    if (bgmSource != null)
+    {
+        bgmSource.volume = volume; // Mengatur besar kecilnya suara BGM (0 sampai 1)
+    }
+}
+
+public void SetSFXVolume(float volume)
+{
+    if (sfxSource != null)
+    {
+        sfxSource.volume = volume; // Mengatur besar kecilnya suara SFX (0 sampai 1)
+    }
+}
 }
