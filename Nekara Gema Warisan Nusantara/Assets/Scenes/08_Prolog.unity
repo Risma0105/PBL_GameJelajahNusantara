@@ -368,7 +368,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 223.5, y: 25}
+  m_AnchoredPosition: {x: 347, y: 46.197}
   m_SizeDelta: {x: 508.6894, y: 182.2804}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &466476236
@@ -856,32 +856,55 @@ MonoBehaviour:
   imageKiri: {fileID: 758515413}
   imageKanan: {fileID: 421043702}
   daftarPercakapan:
-  - siapaYangNgobrol: 0
-    namaKarakter: risma
-    isiDialog: haiii
-    spriteKiri: {fileID: -7018839967963246232, guid: 747bbfa7eb7a5cb49a8abecb4a8e7f76, type: 3}
-    spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
   - siapaYangNgobrol: 1
-    namaKarakter: rote
-    isiDialog: haloo
+    namaKarakter: Ujang
+    isiDialog: '"Kek, kabut itu muncul lagi?"'
     spriteKiri: {fileID: -7018839967963246232, guid: 747bbfa7eb7a5cb49a8abecb4a8e7f76, type: 3}
     spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
   - siapaYangNgobrol: 0
-    namaKarakter: risma
-    isiDialog: lagi apa
+    namaKarakter: Aki Rana
+    isiDialog: '"Iya, Jang. Dan kali ini, kabutnya semakin sulit dikendalikan."'
     spriteKiri: {fileID: -7018839967963246232, guid: 747bbfa7eb7a5cb49a8abecb4a8e7f76, type: 3}
     spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
   - siapaYangNgobrol: 1
-    namaKarakter: rote
-    isiDialog: Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-      Lorem Ipsum has been the industry's standard dummy text ever since 1966, when
-      designers at Letraset and James Mosley, the librarian at St Bride Printing
-      Library in London, took a 1914 Cicero translation and scrambled it to make
-      dummy text for Letraset's Body Type sheets. It has survived not only many decades,
-      but also the leap into electronic typesetting, remaining essentially unchanged.
-      It was popularised thanks to these sheets and more recently with desktop publishing
-      software like Aldus PageMaker and Microsoft Word including versions of Lorem
-      Ipsum
+    namaKarakter: 'Ujang '
+    isiDialog: '"Kenapa kabut itu terus kembali?"'
+    spriteKiri: {fileID: -7018839967963246232, guid: 747bbfa7eb7a5cb49a8abecb4a8e7f76, type: 3}
+    spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
+  - siapaYangNgobrol: 0
+    namaKarakter: Aki Rana
+    isiDialog: '"Namanya Kabut Memori dia tidak muncul begitu saja, Jang."'
+    spriteKiri: {fileID: -7018839967963246232, guid: 747bbfa7eb7a5cb49a8abecb4a8e7f76, type: 3}
+    spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
+  - siapaYangNgobrol: 0
+    namaKarakter: Aki Rana
+    isiDialog: '"Kabut ini tumbuh dari ingatan yang hilang Semakin banyak orang melupakan
+      kebudayaan mereka, semakin kuat kabut itu. Hingga akhirnya, ia menjadi entitas
+      tersendiri."'
+    spriteKiri: {fileID: -7018839967963246232, guid: 747bbfa7eb7a5cb49a8abecb4a8e7f76, type: 3}
+    spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
+  - siapaYangNgobrol: 1
+    namaKarakter: Ujang
+    isiDialog: '"Lalu bagaimana nasib festival budaya kita kek? sepuluh hari dari
+      sekarang festival harus dilaksanakan, tetapi semua alatmusik dimuseum terkena
+      kabut memori!"'
+    spriteKiri: {fileID: -7018839967963246232, guid: 747bbfa7eb7a5cb49a8abecb4a8e7f76, type: 3}
+    spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
+  - siapaYangNgobrol: 0
+    namaKarakter: Aki Rana
+    isiDialog: '" Betul Jang, Aki titipkan festival museum kita kepadamu."'
+    spriteKiri: {fileID: -7018839967963246232, guid: 747bbfa7eb7a5cb49a8abecb4a8e7f76, type: 3}
+    spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
+  - siapaYangNgobrol: 0
+    namaKarakter: Aki Rana
+    isiDialog: '"Menjelajah lah kamu, pergi ke daerah asal alat-alat musik, kumpulkan
+      pemahaman yang telah dilupakan dan buat kembali alat musiknya. "'
+    spriteKiri: {fileID: -7018839967963246232, guid: 747bbfa7eb7a5cb49a8abecb4a8e7f76, type: 3}
+    spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
+  - siapaYangNgobrol: 1
+    namaKarakter: Ujang
+    isiDialog: '"Baik Ki, Akan ku jelajahi daerah dan upayakan yang terbaik agar
+      kebudayaan Nusantara tetap lestari"'
     spriteKiri: {fileID: -7018839967963246232, guid: 747bbfa7eb7a5cb49a8abecb4a8e7f76, type: 3}
     spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
   kecepatanKetik: 0.03
