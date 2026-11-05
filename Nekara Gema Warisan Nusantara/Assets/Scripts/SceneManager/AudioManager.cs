@@ -47,6 +47,11 @@ public class AudioManager : MonoBehaviour
             bgmSource = sources[1];
         }
     }
+   
+   void Start()
+{
+    PlayBGM("BGMs");
+}
 
     // Fungsi untuk memutar SFX
     public void PlaySFX(string nama)
@@ -61,11 +66,6 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("SFX '" + nama + "' tidak ditemukan!");
         }
     }
-    
-    void Start()
-{
-    PlayBGM("BGMs");
-} 
 
     // Fungsi untuk memutar BGM (Otomatis Looping)
     public void PlayBGM(string nama)

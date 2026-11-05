@@ -8069,6 +8069,59 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6882f9649686fd248a00b71c2ab9c57e, type: 3}
+--- !u!1 &1228577702
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1228577704}
+  - component: {fileID: 1228577703}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1228577703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1228577702}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffb80e6b0bee9064c9ed58fd92afc3eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  daftarAlatMusikDebug: []
+  durasiSatuHariNyata: 200.4
+  hariSekarang: 1
+  totalMaksimalHari: 10
+  warnaSiang: {r: 1, g: 1, b: 1, a: 1}
+  warnaMalam: {r: 0.12, g: 0.15, b: 0.32, a: 1}
+  intensitasSiang: 1
+  intensitasMalam: 0.2
+  teksHariDanWaktu: {fileID: 0}
+--- !u!4 &1228577704
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1228577702}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.26973, y: -0.76106, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1246217269
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9603,59 +9656,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1389359568653657649, guid: 5af39d1d9a50a764bbaffeed8fd15f7f, type: 3}
   m_PrefabInstance: {fileID: 1544358192}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1547117888
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1547117890}
-  - component: {fileID: 1547117889}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1547117889
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1547117888}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffb80e6b0bee9064c9ed58fd92afc3eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  daftarAlatMusikDebug: []
-  durasiSatuHariNyata: 200.4
-  hariSekarang: 1
-  totalMaksimalHari: 10
-  warnaSiang: {r: 1, g: 1, b: 1, a: 1}
-  warnaMalam: {r: 0.12, g: 0.15, b: 0.32, a: 1}
-  intensitasSiang: 1
-  intensitasMalam: 0.2
-  teksHariDanWaktu: {fileID: 0}
---- !u!4 &1547117890
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1547117888}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.26973, y: -0.76106, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1549134161
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17303,9 +17303,9 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 2039768817}
+  - {fileID: 1228577704}
   - {fileID: 1126244266}
   - {fileID: 482752903}
-  - {fileID: 1547117890}
   - {fileID: 4641043156819775468}
   - {fileID: 1811040578}
   - {fileID: 505620960}
