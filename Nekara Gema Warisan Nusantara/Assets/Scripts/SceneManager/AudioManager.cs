@@ -1,5 +1,8 @@
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -8,25 +11,37 @@ public class AudioManager : MonoBehaviour
     [System.Serializable]
     public struct SoundItem
     {
-        public string namaSuara;    
-        public AudioClip clipAudio; 
+        public string namaSuara;
+        public AudioClip clipAudio;
     }
 
-    [Header("Daftar SFX (Suara Pendek / Efek)")]
+    [Header("Daftar SFX")]
     public List<SoundItem> daftarSFX = new List<SoundItem>();
 
-    [Header("Daftar BGM (Musik Latar Belakang)")]
+    [Header("Daftar BGM")]
     public List<SoundItem> daftarBGM = new List<SoundItem>();
+
+    [Header("Pengaturan Fade")]
+    public float fadeDuration = 2f;
 
     private AudioSource sfxSource;
     private AudioSource bgmSource;
 
+    private Dictionary<AudioClip, float> posisiBGM =
+        new Dictionary<AudioClip, float>();
+
+    private string sceneSekarang;
+    private Coroutine fadeCoroutine;
+
+    private float bgmVolume = 1f;
+    private float sfxVolume = 1f;
+
     void Awake()
     {
-        if (Instance == null) 
+        if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); // Biar musik BGM tidak mati saat pindah scene
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -34,29 +49,150 @@ public class AudioManager : MonoBehaviour
             return;
         }
 
-        // Otomatis buat 2 AudioSource terpisah untuk SFX dan BGM
         AudioSource[] sources = GetComponents<AudioSource>();
-        if (sources.Length < 2)
-        {
+
+        if (sources.Length > 0)
+            sfxSource = sources[0];
+        else
             sfxSource = gameObject.AddComponent<AudioSource>();
+
+        if (sources.Length > 1)
+            bgmSource = sources[1];
+        else
             bgmSource = gameObject.AddComponent<AudioSource>();
+
+        sfxSource.playOnAwake = false;
+        bgmSource.playOnAwake = false;
+
+        SceneManager.sceneLoaded += GantiScene;
+    }
+
+    
+    void OnDestroy()
+    {
+        if (Instance == this)
+        {
+            SceneManager.sceneLoaded -= GantiScene;
+            Instance = null;
+        }
+    }
+
+    // Mendeteksi perpindahan scene
+    void GantiScene(Scene scene, LoadSceneMode mode)
+    {
+        string namaSceneBaru = scene.name;
+
+        if (sceneSekarang == namaSceneBaru)
+            return;
+
+        SoundItem sound = daftarBGM.Find(
+            s => s.namaSuara == namaSceneBaru
+        );
+
+        if (sound.clipAudio == null)
+        {
+            Debug.LogWarning("BGM scene '" + namaSceneBaru + "' tidak ditemukan!");
+            return;
+        }
+
+        // Jika BGM sama, lanjutkan tanpa restart
+        if (bgmSource.clip == sound.clipAudio && bgmSource.isPlaying)
+        {
+            sceneSekarang = namaSceneBaru;
+            return;
+        }
+
+        // Simpan posisi BGM sebelumnya
+        if (bgmSource.clip != null)
+        {
+            posisiBGM[bgmSource.clip] = bgmSource.time;
+        }
+
+        // Hentikan fade sebelumnya
+        if (fadeCoroutine != null)
+        {
+            StopCoroutine(fadeCoroutine);
+            fadeCoroutine = null;
+        }
+
+        // Cut BGM sebelumnya
+        bgmSource.Stop();
+
+        // Putar BGM scene baru
+        PlayBGM(namaSceneBaru);
+    }
+
+    // Memutar BGM berdasarkan nama scene
+    public void PlayBGM(string nama)
+    {
+        SoundItem sound = daftarBGM.Find(
+            s => s.namaSuara == nama
+        );
+
+        if (sound.clipAudio == null)
+        {
+            Debug.LogWarning("BGM '" + nama + "' tidak ditemukan!");
+            return;
+        }
+
+        sceneSekarang = nama;
+
+        bgmSource.clip = sound.clipAudio;
+        bgmSource.loop = true;
+
+        // Mengambil posisi terakhir lagu
+        if (posisiBGM.ContainsKey(sound.clipAudio))
+        {
+            bgmSource.time = posisiBGM[sound.clipAudio];
         }
         else
         {
-            sfxSource = sources[0];
-            bgmSource = sources[1];
+            bgmSource.time = 0;
         }
-    }
-   
-   void Start()
-{
-    PlayBGM("BGMs");
-}
 
-    // Fungsi untuk memutar SFX
+        // Memulai lagu dengan fade in
+        bgmSource.volume = 0;
+        bgmSource.Play();
+
+        fadeCoroutine = StartCoroutine(FadeIn());
+    }
+
+    // Efek fade in
+    IEnumerator FadeIn()
+    {
+        float waktu = 0;
+
+        if (fadeDuration <= 0)
+        {
+            bgmSource.volume = bgmVolume;
+            fadeCoroutine = null;
+            yield break;
+        }
+
+        while (waktu < fadeDuration)
+        {
+            waktu += Time.deltaTime;
+
+            bgmSource.volume = Mathf.Lerp(
+                0,
+                bgmVolume,
+                waktu / fadeDuration
+            );
+
+            yield return null;
+        }
+
+        bgmSource.volume = bgmVolume;
+        fadeCoroutine = null;
+    }
+
+    // Memutar SFX
     public void PlaySFX(string nama)
     {
-        SoundItem sound = daftarSFX.Find(s => s.namaSuara == nama);
+        SoundItem sound = daftarSFX.Find(
+            s => s.namaSuara == nama
+        );
+
         if (sound.clipAudio != null)
         {
             sfxSource.PlayOneShot(sound.clipAudio);
@@ -67,40 +203,26 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // Fungsi untuk memutar BGM (Otomatis Looping)
-    public void PlayBGM(string nama)
+    // Mengatur volume BGM
+    public void SetBGMVolume(float volume)
     {
-        SoundItem sound = daftarBGM.Find(s => s.namaSuara == nama);
-        if (sound.clipAudio != null)
-        {
-            // Kalau BGM yang sama lagi diputar, biarkan jalan terus
-            if (bgmSource.clip == sound.clipAudio && bgmSource.isPlaying) return;
+        bgmVolume = Mathf.Clamp01(volume);
 
-            bgmSource.clip = sound.clipAudio;
-            bgmSource.loop = true; // Musik latar wajib looping
-            bgmSource.Play();
-        }
-        else
+        if (bgmSource != null && fadeCoroutine == null)
         {
-            Debug.LogWarning("BGM '" + nama + "' tidak ditemukan!");
+            bgmSource.volume = bgmVolume;
         }
     }
 
-    // Tambahkan fungsi ini di dalam skrip AudioManager.cs kamu:
-
-public void SetBGMVolume(float volume)
-{
-    if (bgmSource != null)
+    // Mengatur volume SFX
+    public void SetSFXVolume(float volume)
     {
-        bgmSource.volume = volume; // Mengatur besar kecilnya suara BGM (0 sampai 1)
+        sfxVolume = Mathf.Clamp01(volume);
+
+        if (sfxSource != null)
+        {
+            sfxSource.volume = sfxVolume;
+        }
     }
 }
 
-public void SetSFXVolume(float volume)
-{
-    if (sfxSource != null)
-    {
-        sfxSource.volume = volume; // Mengatur besar kecilnya suara SFX (0 sampai 1)
-    }
-}
-}
