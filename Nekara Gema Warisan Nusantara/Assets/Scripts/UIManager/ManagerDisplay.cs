@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using TMPro;
 
@@ -124,6 +123,12 @@ public class MuseumDisplay : MonoBehaviour
             // Tampilkan alat musik di meja museum
             TampilkanAlatMusikDiMeja();
 
+            // PENTING: Matikan timer & kunci progress bar via GameProgress
+            if (GameProgress.Instance != null)
+            {
+                GameProgress.Instance.CollectInstrument(namaAlatMusik);
+            }
+
             // Tampilkan pesan berhasil
             TampilkanPesan(
                 "✨ Berhasil! " + namaAlatMusik +
@@ -141,10 +146,6 @@ public class MuseumDisplay : MonoBehaviour
                 ". Jumlah item: " +
                 playerInventory.daftarItem.Count
             );
-
-            // PENTING:
-            // Tidak ada Remove(), HapusItem(),
-            // atau penghapusan data inventory di sini.
         }
         else
         {

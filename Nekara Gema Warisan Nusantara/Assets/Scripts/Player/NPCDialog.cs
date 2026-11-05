@@ -52,6 +52,13 @@ public class NPCDialog : MonoBehaviour
     {
         sedangBerdialog = true;
         indeksDialog = 0;
+        
+        // Kosongkan teks panduan utama saat bubble dialog aktif
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.TampilkanPesan("");
+        }
+
         TampilkanPesanSaatIni();
     }
 
@@ -107,6 +114,12 @@ public class NPCDialog : MonoBehaviour
         {
             panelCraftingAtauBadge.SetActive(true);
         }
+
+        // Kembali ke teks statis default setelah selesai ngobrol
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.TampilkanDefault();
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -114,7 +127,14 @@ public class NPCDialog : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerDekat = true;
-            Debug.Log("Tekan 'E' untuk berbicara.");
+            string pesanPanduan = "Tekan 'E' untuk berbicara dengan " + gameObject.name;
+            Debug.Log(pesanPanduan);
+
+            // Tampilkan teks panduan lewat UIManager
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.TampilkanPesan(pesanPanduan);
+            }
         }
     }
 
@@ -125,6 +145,12 @@ public class NPCDialog : MonoBehaviour
             playerDekat = false;
             sedangBerdialog = false;
             TutupSemuaBubble();
+
+            // Kembalikan ke teks statis default saat pemain menjauh
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.TampilkanDefault();
+            }
         }
     }
 }

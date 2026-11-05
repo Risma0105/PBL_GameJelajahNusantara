@@ -27,13 +27,12 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1341702369422772758}
+  m_Children: []
   m_Father: {fileID: 5952647629457867342}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -5, y: -0.00000047683716}
+  m_AnchoredPosition: {x: -33, y: -0.00000047683716}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1242475087327542969
@@ -68,6 +67,7 @@ RectTransform:
   m_Children:
   - {fileID: 4969582099645615793}
   - {fileID: 5060408727377148805}
+  - {fileID: 1341702369422772758}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -141,8 +141,24 @@ MonoBehaviour:
   progressBar: {fileID: 7129761887496331704}
   progressText: {fileID: 0}
   fillBarImage: {fileID: 0}
-  durasiPerSekat: 180
+  namaSlider: ProgressBar
+  namaTeks: ProgressText
+  sceneAlatMusik:
+  - Scene_Angklung
+  - Scene_GesoGeso
+  - Scene_Sarone
+  - Scene_AlatKeempat
   namaSceneMuseumAwal: Scene_MuseumAwal
+  durasiPerSekat: 180
+  waktuPeringatan: 60
+  posisiCheckpoint:
+  - 0.27
+  - 0.51
+  - 0.77
+  - 1
+  warnaNormal: {r: 0, g: 1, b: 0, a: 1}
+  warnaPeringatan: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  warnaBahaya: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &6749830649594103450
 GameObject:
   m_ObjectHideFlags: 0
@@ -248,12 +264,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4969582099645615793}
+  m_Father: {fileID: 5952647629457867342}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 10, y: 0}
+  m_AnchoredPosition: {x: -21.400007, y: -14.000001}
+  m_SizeDelta: {x: 10, y: -10.270199}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7579764254671826015
 CanvasRenderer:

@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 public class ItemPickup : MonoBehaviour
@@ -18,7 +17,14 @@ public class ItemPickup : MonoBehaviour
             playerDiDekat = true;
             playerInventory = collision.GetComponent<PlayerInventory>();
 
-            Debug.Log("Dekat dengan " + itemName + ". Klik untuk mengambil!");
+            string pesan = "Dekat dengan " + itemName + ". Klik untuk mengambil!";
+            Debug.Log(pesan);
+
+            // Tampilkan ke UIManager saat player mendekat
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.TampilkanPesan(pesan);
+            }
         }
     }
 
@@ -28,6 +34,12 @@ public class ItemPickup : MonoBehaviour
         {
             playerDiDekat = false;
             playerInventory = null;
+
+            // Kembali ke teks statis default saat player menjauh
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.TampilkanDefault();
+            }
         }
     }
 
@@ -39,14 +51,26 @@ public class ItemPickup : MonoBehaviour
         // Pastikan pemain berada dekat objek
         if (!playerDiDekat || playerInventory == null)
         {
-            Debug.Log("Pemain terlalu jauh dari " + itemName);
+            string pesanJauh = "Pemain terlalu jauh dari " + itemName;
+            Debug.Log(pesanJauh);
+
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.TampilkanPesan(pesanJauh);
+            }
             return;
         }
 
         // Cegah item yang sama masuk dua kali
         if (playerInventory.PunyaItem(itemName))
         {
-            Debug.Log(itemName + " sudah ada di inventory!");
+            string pesanAda = itemName + " sudah ada di inventory!";
+            Debug.Log(pesanAda);
+
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.TampilkanPesan(pesanAda);
+            }
             return;
         }
 
@@ -65,7 +89,14 @@ public class ItemPickup : MonoBehaviour
             }
         }
 
-        Debug.Log("Berhasil mengambil " + itemName);
+        string pesanBerhasil = "Berhasil mengambil " + itemName;
+        Debug.Log(pesanBerhasil);
+
+        // Tampilkan pesan sukses ke UIManager
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.TampilkanPesan(pesanBerhasil);
+        }
 
         // Hapus objek dari scene
         Destroy(gameObject);

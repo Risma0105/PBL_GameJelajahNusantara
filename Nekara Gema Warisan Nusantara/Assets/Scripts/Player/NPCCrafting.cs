@@ -1,4 +1,3 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -126,6 +125,12 @@ public class NPCCrafting : MonoBehaviour
         sedangBerdialog = true;
         indeksDialog = 0;
 
+        // Kosongkan teks panduan utama saat bubble dialog aktif
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.TampilkanPesan("");
+        }
+
         TampilkanPesanSaatIni();
     }
 
@@ -213,11 +218,13 @@ public class NPCCrafting : MonoBehaviour
         }
         else
         {
-            Debug.Log(
-                "Bahan untuk membuat " +
-                namaAlatMusik +
-                " belum lengkap!"
-            );
+            string pesanBelumLengkap = "Bahan untuk membuat " + namaAlatMusik + " belum lengkap!";
+            Debug.Log(pesanBelumLengkap);
+
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.TampilkanPesan(pesanBelumLengkap);
+            }
         }
     }
 
@@ -232,7 +239,13 @@ public class NPCCrafting : MonoBehaviour
         if (efekAsap != null)
             efekAsap.Play();
 
-        Debug.Log("Crafting " + namaAlatMusik + " dimulai!");
+        string pesanMulai = "Crafting " + namaAlatMusik + " dimulai!";
+        Debug.Log(pesanMulai);
+
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.TampilkanPesan(pesanMulai);
+        }
 
         // Progress otomatis crafting jika masih digunakan
         if (GameProgress.Instance != null)
@@ -304,11 +317,13 @@ public class NPCCrafting : MonoBehaviour
 
         sedangCrafting = false;
 
-        Debug.Log(
-            "Crafting selesai! " +
-            namaAlatMusik +
-            " muncul. Tutup panel badge untuk mengambil alat musik."
-        );
+        string pesanSelesaiCrafting = "Crafting selesai! " + namaAlatMusik + " muncul. Tutup panel badge untuk mengambil alat musik.";
+        Debug.Log(pesanSelesaiCrafting);
+
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.TampilkanPesan(pesanSelesaiCrafting);
+        }
     }
 
     // =====================================
@@ -322,7 +337,13 @@ public class NPCCrafting : MonoBehaviour
 
         panelBadgeTerbuka = false;
 
-        Debug.Log("Panel badge ditutup. Silakan ambil alat musik!");
+        string pesanTutupBadge = "Panel badge ditutup. Silakan ambil alat musik!";
+        Debug.Log(pesanTutupBadge);
+
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.TampilkanDefault();
+        }
     }
 
     // =====================================
@@ -362,10 +383,13 @@ public class NPCCrafting : MonoBehaviour
         if (kumpulanBahan != null)
             kumpulanBahan.SetActive(false);
 
-        Debug.Log(
-            "Alat musik " + namaAlatMusik +
-            " berhasil diambil! Checkpoint selesai."
-        );
+        string pesanAmbil = "Alat musik " + namaAlatMusik + " berhasil diambil! Checkpoint selesai.";
+        Debug.Log(pesanAmbil);
+
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.TampilkanDefault();
+        }
     }
 
     // =====================================
@@ -378,6 +402,15 @@ public class NPCCrafting : MonoBehaviour
         {
             playerDekat = true;
             inventoryPlayer = other.GetComponent<PlayerInventory>();
+
+            string pesanPanduan = "Tekan 'E' untuk merakit " + namaAlatMusik;
+            Debug.Log(pesanPanduan);
+
+            // Tampilkan teks panduan lewat UIManager
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.TampilkanPesan(pesanPanduan);
+            }
         }
     }
 
@@ -390,6 +423,12 @@ public class NPCCrafting : MonoBehaviour
 
             sedangBerdialog = false;
             TutupSemuaBubble();
+
+            // Kembalikan ke teks statis default saat pemain menjauh
+            if (UIManager.Instance != null)
+            {
+                UIManager.Instance.TampilkanDefault();
+            }
         }
     }
 }
