@@ -36,8 +36,6 @@ public class CultureBookManager : MonoBehaviour
 
     void Start()
     {
-        // Karena pakai On Click di Inspector, fungsi tombol di-handle manual di sana.
-        // Cukup panggil fungsi update tampilan awal di sini.
         UpdateTampilanLangsung();
     }
 
@@ -74,7 +72,7 @@ public class CultureBookManager : MonoBehaviour
         UpdateTampilanLangsung();
 
         waktu = 0f;
-        while (waktu < durasiBalik)
+        while (waktu < durasiBalik) // wait, keep standard variable name
         {
             waktu += Time.deltaTime;
             float rotYProgress = Mathf.Lerp(90f * arah, 0f, waktu / durasiBalik);
@@ -83,7 +81,9 @@ public class CultureBookManager : MonoBehaviour
         }
 
         if (lembarTarget != null) lembarTarget.localEulerAngles = Vector3.zero;
+        
         sedangAnimasi = false;
+        UpdateTampilanLangsung(); // Refresh tombol setelah animasi benar-benar selesai
     }
 
     void UpdateTampilanLangsung()
