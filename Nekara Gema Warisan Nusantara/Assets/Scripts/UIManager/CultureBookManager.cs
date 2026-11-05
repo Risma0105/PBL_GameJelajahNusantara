@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -13,84 +14,99 @@ public class CultureBookManager : MonoBehaviour
         public Sprite gambarAlatMusik;
     }
 
-    [Header("Daftar Konten")]
+    [Header("Daftar Konten Buku")]
     public List<CultureItem> daftarBudaya = new List<CultureItem>();
     private int indexSekarang = 0;
 
-    [Header("Komponen UI Buku & Konten")]
-    public Image imgAlatMusik;          
-    public TextMeshProUGUI txtJudul;    
-    public TextMeshProUGUI txtDeskripsi;
+    [Header("Komponen UI (Halaman Kiri: Teks | Halaman Kanan: Gambar)")]
+    public TextMeshProUGUI txtJudulKiri;
+    public TextMeshProUGUI txtDeskripsiKiri;
+    public Image imgKanan;
 
-    [Header("Animasi & Navigasi")]
-    public Animator AnimatorBuku;       
-    public Button BtnNext;
-    public Button BtnPrev;
+    [Header("Transform Lembaran untuk Animasi Flip")]
+    public RectTransform lembarKanan;
+    public RectTransform lembarKiri;
+    public float durasiBalik = 0.2f;
+
+    [Header("Tombol Navigasi (Opsional untuk referensi interaktif)")]
+    public Button btnNext;
+    public Button btnPrev;
+
+    private bool sedangAnimasi = false;
 
     void Start()
     {
-        if (BtnNext != null) BtnNext.onClick.AddListener(HalamanBerikutnya);
-        if (BtnPrev != null) BtnPrev.onClick.AddListener(HalamanSebelumnya);
-        
-        PerbaruiTampilan();
+        // Karena pakai On Click di Inspector, fungsi tombol di-handle manual di sana.
+        // Cukup panggil fungsi update tampilan awal di sini.
+        UpdateTampilanLangsung();
     }
 
     public void HalamanBerikutnya()
     {
-        if (indexSekarang < daftarBudaya.Count - 1)
-        {
-            indexSekarang++;
-            if (AnimatorBuku != null)
-            {
-                AnimatorBuku.SetTrigger("BukaBuku");
-            }
-            
-            // 1. Kosongkan layar dulu supaya pas kertas jalan, gambarnya ga kelihatan
-            KosongkanTampilanSementara();
-            
-            // 2. Munculkan gambar & teks BARU pas di ujung akhir animasi (misal 0.35 detik / pas lembar buku sudah kebuka penuh)
-            CancelInvoke("PerbaruiTampilan");
-            Invoke("PerbaruiTampilan", 0.35f); 
-        }
+        if (sedangAnimasi || indexSekarang >= daftarBudaya.Count - 1) return;
+        StartCoroutine(AnimasiBalikHalaman(true));
     }
 
     public void HalamanSebelumnya()
     {
-        if (indexSekarang > 0)
-        {
-            indexSekarang--;
-            if (AnimatorBuku != null)
-            {
-                AnimatorBuku.SetTrigger("TutupBuku");
-            }
-            
-            // 1. Kosongkan layar dulu
-            KosongkanTampilanSementara();
-            
-            // 2. Munculkan pas lembar buku selesai menutup/terbuka
-            CancelInvoke("PerbaruiTampilan");
-            Invoke("PerbaruiTampilan", 0.35f);
-        }
+        if (sedangAnimasi || indexSekarang <= 0) return;
+        StartCoroutine(AnimasiBalikHalaman(false));
     }
 
-    void KosongkanTampilanSementara()
+    IEnumerator AnimasiBalikHalaman(bool keKanan)
     {
-        if (imgAlatMusik != null) imgAlatMusik.sprite = null;
-        if (txtJudul != null) txtJudul.text = "";
-        if (txtDeskripsi != null) txtDeskripsi.text = "";
+        sedangAnimasi = true;
+
+        RectTransform lembarTarget = keKanan ? lembarKanan : lembarKiri;
+        float arah = keKanan ? 1f : -1f;
+
+        float waktu = 0f;
+        while (waktu < durasiBalik)
+        {
+            waktu += Time.deltaTime;
+            float rotYProgress = Mathf.Lerp(0f, 90f * arah, waktu / durasiBalik);
+            if (lembarTarget != null) lembarTarget.localEulerAngles = new Vector3(0, rotYProgress, 0);
+            yield return null;
+        }
+
+        if (keKanan) indexSekarang++;
+        else indexSekarang--;
+        UpdateTampilanLangsung();
+
+        waktu = 0f;
+        while (waktu < durasiBalik)
+        {
+            waktu += Time.deltaTime;
+            float rotYProgress = Mathf.Lerp(90f * arah, 0f, waktu / durasiBalik);
+            if (lembarTarget != null) lembarTarget.localEulerAngles = new Vector3(0, rotYProgress, 0);
+            yield return null;
+        }
+
+        if (lembarTarget != null) lembarTarget.localEulerAngles = Vector3.zero;
+        sedangAnimasi = false;
     }
 
-    public void PerbaruiTampilan()
+    void UpdateTampilanLangsung()
     {
         if (daftarBudaya.Count == 0) return;
 
         CultureItem data = daftarBudaya[indexSekarang];
 
-        if (imgAlatMusik != null) imgAlatMusik.sprite = data.gambarAlatMusik;
-        if (txtJudul != null) txtJudul.text = data.judul;
-        if (txtDeskripsi != null) txtDeskripsi.text = data.deskripsi;
+        if (txtJudulKiri != null) txtJudulKiri.text = data.judul;
+        if (txtDeskripsiKiri != null) txtDeskripsiKiri.text = data.deskripsi;
+        if (imgKanan != null) imgKanan.sprite = data.gambarAlatMusik;
 
-        if (BtnPrev != null) BtnPrev.interactable = (indexSekarang > 0);
-        if (BtnNext != null) BtnNext.interactable = (indexSekarang < daftarBudaya.Count - 1);
+        if (btnPrev != null) btnPrev.interactable = (indexSekarang > 0 && !sedangAnimasi);
+        if (btnNext != null) btnNext.interactable = (indexSekarang < daftarBudaya.Count - 1 && !sedangAnimasi);
+    }
+
+    public void TogglePanelBuku()
+    {
+        gameObject.SetActive(!gameObject.activeSelf);
+    }
+
+    public void TutupBuku()
+    {
+        gameObject.SetActive(false);
     }
 }
