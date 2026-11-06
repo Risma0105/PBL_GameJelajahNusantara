@@ -45,9 +45,25 @@ public class MuseumDisplay : MonoBehaviour
         }
         else
         {
+            // === JIKA BELUM DIPAJANG: TAMPILKAN SEBAGAI SILUET ABU-ABU DI MEJA ===
             if (objekVisualAlatMusikDiMuseum != null)
             {
-                objekVisualAlatMusikDiMuseum.SetActive(false);
+                // Atur posisi objek pada meja terlebih dahulu agar terlihat sebagai siluet
+                if (posisiTaruhDiMeja != null)
+                {
+                    objekVisualAlatMusikDiMuseum.transform.position = posisiTaruhDiMeja.position;
+                }
+
+                objekVisualAlatMusikDiMuseum.SetActive(true);
+
+                // Ubah warnanya menjadi abu-abu gelap (siluet)
+                SpriteRenderer spriteRenderer = objekVisualAlatMusikDiMuseum.GetComponentInChildren<SpriteRenderer>(true);
+                if (spriteRenderer != null)
+                {
+                    Color warnaAbu = new Color(0.4f, 0.4f, 0.4f, 1f); // Abu-abu gelap
+                    warnaAbu.a = 1f; // Pastikan tetap terlihat (tidak transparan)
+                    spriteRenderer.color = warnaAbu;
+                }
             }
         }
 
@@ -177,16 +193,16 @@ public class MuseumDisplay : MonoBehaviour
             // Aktifkan visual alat musik
             objekVisualAlatMusikDiMuseum.SetActive(true);
 
-            // Pastikan sprite terlihat
+            // Kembalikan warna sprite menjadi normal/terang
             SpriteRenderer spriteRenderer =
                 objekVisualAlatMusikDiMuseum
                 .GetComponentInChildren<SpriteRenderer>(true);
 
             if (spriteRenderer != null)
             {
-                Color warna = spriteRenderer.color;
-                warna.a = 1f;
-                spriteRenderer.color = warna;
+                Color warnaNormal = Color.white; // Warna asli / terang
+                warnaNormal.a = 1f;
+                spriteRenderer.color = warnaNormal;
             }
         }
         else
