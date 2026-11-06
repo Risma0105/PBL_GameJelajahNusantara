@@ -11,26 +11,47 @@ public class MainMenuManager : MonoBehaviour
 
     [Header("Loading Component")]
     public Slider sliderLoading;
-    public float durasiLoading = 2.5f; // ローディングの表示時間（秒）
+    public float durasiLoading = 2.5f; 
 
     [Header("Sprite Tombol (UI Image)")]
-    public Image tombolPlayImage;      // Tarik komponen Image dari tombol Btn_Play ke sini
-    public Sprite spriteMulai;         // Masukkan sprite gambar tombol "Start"
-    public Sprite spriteResume;        // Masukkan sprite gambar tombol "Resume" kamu
+    public Image tombolPlayImage;      
+    public Sprite spriteMulai;         
+    public Sprite spriteResume;        
 
-    // ゲーム起動中、シーン遷移をまたいで記憶される静的フラグ
     private static bool sudahPernahLoadingAwal = false;
+
+    // Supaya objek MainMenuManager ini tidak hancur saat pindah scene dan bisa terus mencatat
+    void Awake()
+    {
+        // Daftarkan fungsi pemantau scene
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void OnDestroy()
+    {
+        // Hapus pendaftaran saat objek dihancurkan
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    // Fungsi otomatis yang berjalan setiap kali pindah scene
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Jangan simpan kalau sedang berada di scene MainMenu (00_MainMenu)
+        if (scene.name != "00_MainMenu")
+        {
+            PlayerPrefs.SetString("SceneTerakhir", scene.name);
+            PlayerPrefs.Save();
+            Debug.Log("📌 Scene terakhir berhasil dicatat: " + scene.name);
+        }
+    }
 
     void Start()
     {
-        // Cek dan ganti gambar tombol (Start / Resume)
         PerbaruiSpriteTombol();
 
-        // 初回起動時かどうかのチェック
         if (!sudahPernahLoadingAwal)
         {
-            // --- ゲームを初めて起動した時 ---
-            sudahPernahLoadingAwal = true; // 初回ローディング完了フラグを立てる
+            sudahPernahLoadingAwal = true; 
 
             if (panelLoading != null) panelLoading.SetActive(true);
             if (panelMainMenu != null) panelMainMenu.SetActive(false);
@@ -39,8 +60,6 @@ public class MainMenuManager : MonoBehaviour
         }
         else
         {
-            // --- 博物館などの他シーンから戻ってきた時 ---
-            // ローディングをスキップして直接メインメニューを開く
             if (panelLoading != null) panelLoading.SetActive(false);
             if (panelMainMenu != null) panelMainMenu.SetActive(true);
         }
@@ -55,43 +74,51 @@ public class MainMenuManager : MonoBehaviour
             timer += Time.deltaTime;
             if (sliderLoading != null)
             {
-                sliderLoading.value = timer / durasiLoading; // 0から1へ進行
+                sliderLoading.value = timer / durasiLoading; 
             }
             yield return null;
         }
 
-        // ローディング完了後、メインメニューを表示
         if (panelLoading != null) panelLoading.SetActive(false);
         if (panelMainMenu != null) panelMainMenu.SetActive(true);
     }
 
-    // Fungsi untuk mengecek dan mengubah sprite tombol
     void PerbaruiSpriteTombol()
     {
         if (tombolPlayImage != null)
         {
-            // Cek apakah pemain sudah pernah memulai game / punya progres
             bool sudahPernahMain = PlayerPrefs.GetInt("GameSudahDimulai", 0) == 1;
 
             if (sudahPernahMain && spriteResume != null)
             {
-                tombolPlayImage.sprite = spriteResume; // Berubah jadi gambar Resume
+                tombolPlayImage.sprite = spriteResume; 
             }
             else if (!sudahPernahMain && spriteMulai != null)
             {
-                tombolPlayImage.sprite = spriteMulai;  // Tetap gambar Start
+                tombolPlayImage.sprite = spriteMulai;  
             }
         }
     }
 
-    // Playボタン用
+    // Fungsi saat tombol Start / Resume diklik
     public void TombolPlay()
     {
-        // Tandai bahwa game sudah pernah dimulai/ditekan
-        PlayerPrefs.SetInt("GameSudahDimulai", 1);
-        PlayerPrefs.Save();
+        bool sudahPernahMain = PlayerPrefs.GetInt("GameSudahDimulai", 0) == 1;
 
-        // Pindah ke scene prolog atau scene permainan
-        SceneManager.LoadScene("08_Prolog");
+        if (sudahPernahMain)
+        {
+            // --- JIKA RESUME: Langsung buka scene terakhir yang tersimpan ---
+            string sceneTerakhir = PlayerPrefs.GetString("SceneTerakhir", "08_Prolog");
+            SceneManager.LoadScene(sceneTerakhir);
+        }
+        else
+        {
+            // --- JIKA START BARU: Mulai dari prolog ---
+            PlayerPrefs.SetInt("GameSudahDimulai", 1);
+            PlayerPrefs.SetString("SceneTerakhir", "08_Prolog");
+            PlayerPrefs.Save();
+
+            SceneManager.LoadScene("08_Prolog");
+        }
     }
 }

@@ -41,6 +41,8 @@ public class BadgeManager : MonoBehaviour
             if (badge.iconImage == null) continue;
 
             bool sudahDidapat = PlayerPrefs.GetInt("Badge_" + badge.namaAlat, 0) == 1;
+            
+            // DIPERBAIKI DI SINI: Jika sudah didapat pakai warnaTerbuka, jika belum pakai warnaTerkunci
             badge.iconImage.color = sudahDidapat ? warnaTerbuka : warnaTerkunci;
         }
     }

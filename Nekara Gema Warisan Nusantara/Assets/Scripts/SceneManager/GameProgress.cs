@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -127,6 +126,18 @@ public class GameProgress : MonoBehaviour
         BindUI();
 
         PeriksaSceneAktif(scene);
+
+        // --- TAMBAHAN: OTOMATIS CATAT SCENE TERAKHIR UNTUK FITUR RESUME ---
+        string namaSceneIni = scene.name;
+        
+        // Jangan catat kalau sedang di Main Menu atau Prolog
+        if (namaSceneIni != "00_MainMenu" && namaSceneIni != "08_Prolog")
+        {
+            PlayerPrefs.SetString("SceneTerakhir", namaSceneIni);
+            PlayerPrefs.Save();
+            Debug.Log("📌 Scene terakhir berhasil dicatat oleh GameProgress: " + namaSceneIni);
+        }
+        // -----------------------------------------------------------------
     }
 
 
