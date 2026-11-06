@@ -1352,6 +1352,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4151093340709238948, guid: fb27f5d9b5eb64245a67323a8f996126, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7562828456518483419, guid: fb27f5d9b5eb64245a67323a8f996126, type: 3}
       propertyPath: m_LocalScale.x
       value: 379.45667
@@ -1414,7 +1418,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8485264047610557783, guid: fb27f5d9b5eb64245a67323a8f996126, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8743743027274082519, guid: fb27f5d9b5eb64245a67323a8f996126, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
