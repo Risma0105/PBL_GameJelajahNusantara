@@ -24,6 +24,10 @@ public class NPCDialog : MonoBehaviour
     [Header("Referensi UI Crafting / Progress")]
     public GameObject panelCraftingAtauBadge; // Panel yang muncul setelah obrolan selesai
 
+    [Header("Pengaturan Buku Budaya (Culture Book)")]
+    [Tooltip("Nama alat musik yang terkait dengan NPC ini, contoh: Angklung")]
+    public string namaAlatMusikTerkait = "Angklung";
+
     private bool playerDekat = false;
     private bool sedangBerdialog = false;
 
@@ -108,6 +112,13 @@ public class NPCDialog : MonoBehaviour
     {
         sedangBerdialog = false;
         TutupSemuaBubble();
+
+        // OTOMATIS BUKA INFO PERTAMA DI CULTURE BOOK SAAT OBROLAN NPC SELESAI
+        if (!string.IsNullOrEmpty(namaAlatMusikTerkait))
+        {
+            CultureBookManager.BukaProgresBuku(namaAlatMusikTerkait, "Warlok");
+            Debug.Log("📖 Informasi awal " + namaAlatMusikTerkait + " terbuka di Culture Book!");
+        }
 
         // Buka panel crafting/badge setelah obrolan selesai
         if (panelCraftingAtauBadge != null)

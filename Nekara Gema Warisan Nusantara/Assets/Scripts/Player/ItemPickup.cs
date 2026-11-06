@@ -5,6 +5,13 @@ public class ItemPickup : MonoBehaviour
     [Header("Info Item")]
     public string itemName = "BambuApus";
 
+    [Header("Pengaturan Progres Culture Book (Opsional)")]
+    [Tooltip("Nama alat musik yang terkait dengan bahan ini, contoh: Angklung")]
+    public string namaAlatTerkait = "Angklung";
+    
+    [Tooltip("Berapa total item bahan yang harus dikumpulkan di scene ini untuk membuka info buku?")]
+    public int targetBahanDiScene = 3; 
+
     private bool playerDiDekat = false;
     private bool sudahDiambil = false;
 
@@ -20,7 +27,6 @@ public class ItemPickup : MonoBehaviour
             string pesan = "Dekat dengan " + itemName + ". Klik untuk mengambil!";
             Debug.Log(pesan);
 
-            // Tampilkan ke UIManager saat player mendekat
             if (UIManager.Instance != null)
             {
                 UIManager.Instance.TampilkanPesan(pesan);
@@ -35,7 +41,6 @@ public class ItemPickup : MonoBehaviour
             playerDiDekat = false;
             playerInventory = null;
 
-            // Kembali ke teks statis default saat player menjauh
             if (UIManager.Instance != null)
             {
                 UIManager.Instance.TampilkanDefault();
@@ -45,10 +50,8 @@ public class ItemPickup : MonoBehaviour
 
     private void OnMouseDown()
     {
-        // Pastikan belum diambil
         if (sudahDiambil) return;
 
-        // Pastikan pemain berada dekat objek
         if (!playerDiDekat || playerInventory == null)
         {
             string pesanJauh = "Pemain terlalu jauh dari " + itemName;
@@ -61,7 +64,6 @@ public class ItemPickup : MonoBehaviour
             return;
         }
 
-        // Cegah item yang sama masuk dua kali
         if (playerInventory.PunyaItem(itemName))
         {
             string pesanAda = itemName + " sudah ada di inventory!";
@@ -80,7 +82,23 @@ public class ItemPickup : MonoBehaviour
         playerInventory.AddItem(itemName);
         playerInventory.RefreshInventoryUI();
 
-        // Jika item adalah Angklung, update GameProgress
+        // =========================================================================
+        // CEK TOTAL BAHAN DI INVENTORY UNTUK MEMBUKA INFO CULTURE BOOK
+        // =========================================================================
+        if (!string.IsNullOrEmpty(namaAlatTerkait) && playerInventory.daftarItem != null)
+        {
+            // Menghitung total seluruh item yang sudah terkumpul di inventaris
+            int jumlahTerkumpul = playerInventory.daftarItem.Count;
+
+            // Jika jumlah bahan yang dikumpulkan sudah mencapai atau melebihi target scene ini
+            if (jumlahTerkumpul >= targetBahanDiScene)
+            {
+                CultureBookManager.BukaProgresBuku(namaAlatTerkait, "Bahan");
+                Debug.Log("📖 Target bahan " + namaAlatTerkait + " (" + jumlahTerkumpul + "/" + targetBahanDiScene + ") tercapai! Info bahan di Culture Book terbuka.");
+            }
+        }
+        // =========================================================================
+
         if (itemName.Trim().ToLower() == "angklung")
         {
             if (GameProgress.Instance != null)
@@ -92,13 +110,11 @@ public class ItemPickup : MonoBehaviour
         string pesanBerhasil = "Berhasil mengambil " + itemName;
         Debug.Log(pesanBerhasil);
 
-        // Tampilkan pesan sukses ke UIManager
         if (UIManager.Instance != null)
         {
             UIManager.Instance.TampilkanPesan(pesanBerhasil);
         }
 
-        // Hapus objek dari scene
         Destroy(gameObject);
     }
 }

@@ -59,14 +59,12 @@ public class MuseumDisplay : MonoBehaviour
 
     void CariPlayer()
     {
-        GameObject playerObj =
-            GameObject.FindGameObjectWithTag("Player");
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
 
         if (playerObj != null)
         {
             playerTransform = playerObj.transform;
-            playerInventory =
-                playerObj.GetComponent<PlayerInventory>();
+            playerInventory = playerObj.GetComponent<PlayerInventory>();
         }
     }
 
@@ -91,8 +89,7 @@ public class MuseumDisplay : MonoBehaviour
 
         if (jarak <= jarakInteraksi)
         {
-            if (Input.GetKeyDown(KeyCode.E) ||
-                Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.F))
             {
                 CobaTaruhAlatMusikDariInventaris();
             }
@@ -107,9 +104,7 @@ public class MuseumDisplay : MonoBehaviour
     {
         if (playerInventory == null)
         {
-            Debug.LogWarning(
-                "PlayerInventory tidak ditemukan!"
-            );
+            Debug.LogWarning("PlayerInventory tidak ditemukan!");
             return;
         }
 
@@ -119,6 +114,13 @@ public class MuseumDisplay : MonoBehaviour
             // Simpan status pajangan
             PlayerPrefs.SetInt(KeyDisplay, 1);
             PlayerPrefs.Save();
+
+            // OTOMATIS BUKA BADGE SAAT BERHASIL DIPAJANG DI MUSEUM
+            BadgeManager managerBadge = FindFirstObjectByType<BadgeManager>();
+            if (managerBadge != null)
+            {
+                managerBadge.BukaBadge(namaAlatMusik);
+            }
 
             // Tampilkan alat musik di meja museum
             TampilkanAlatMusikDiMeja();
@@ -137,14 +139,7 @@ public class MuseumDisplay : MonoBehaviour
 
             Debug.Log(
                 "✨ " + namaAlatMusik +
-                " berhasil dipajang di museum!"
-            );
-
-            Debug.Log(
-                "🎒 Inventory tetap menyimpan " +
-                namaAlatMusik +
-                ". Jumlah item: " +
-                playerInventory.daftarItem.Count
+                " berhasil dipajang di museum dan badge terbuka!"
             );
         }
         else

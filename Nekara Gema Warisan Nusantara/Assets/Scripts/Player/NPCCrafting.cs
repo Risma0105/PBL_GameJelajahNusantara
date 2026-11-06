@@ -1,6 +1,6 @@
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using TMPro;
 
 public class NPCCrafting : MonoBehaviour
@@ -307,6 +307,16 @@ public class NPCCrafting : MonoBehaviour
         {
             Debug.LogError("Prefab alat musik belum diisi!");
         }
+
+        // =====================================================================
+        // OTOMATIS BUKA INFO TAHAP CRAFTING DI CULTURE BOOK
+        // =====================================================================
+        if (!string.IsNullOrEmpty(namaAlatMusik))
+        {
+            CultureBookManager.BukaProgresBuku(namaAlatMusik, "Craft");
+            Debug.Log("📖 Informasi tahap crafting " + namaAlatMusik + " terbuka di Culture Book!");
+        }
+        // =====================================================================
 
         // Tampilkan panel badge setelah crafting selesai
         if (panelBadgeUnlock != null)

@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 223672534c168d04f9b651b7c490c456
+guid: 0c031e1e6f114e24cb0f47726a527fb8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 9043827281743129168
-    second: Untitled (100 x 50 cm) (1)_0
+      213: -6789619209737623831
+    second: jurnal-book-icon_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Untitled (100 x 50 cm) (1)_0
+      name: jurnal-book-icon_0
       rect:
         serializedVersion: 2
-        x: 236
-        y: 231
-        width: 1663
-        height: 1527
+        x: 8
+        y: 5
+        width: 16
+        height: 21
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 05a294a1ff0228d70800000000000000
-      internalID: 9043827281743129168
+      spriteID: 9e6ab6b3d4d66c1a0800000000000000
+      internalID: -6789619209737623831
       vertices: []
       indices: 
       edges: []
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Untitled (100 x 50 cm) (1)_0: 9043827281743129168
+      jurnal-book-icon_0: -6789619209737623831
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
