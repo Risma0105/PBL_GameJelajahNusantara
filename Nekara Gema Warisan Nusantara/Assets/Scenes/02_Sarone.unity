@@ -19095,11 +19095,28 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5160442685055505193, guid: 537d48264f8a54845be5cbeb9e21f88a, type: 3}
+      propertyPath: warnaMalam.b
+      value: 0.9490196
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160442685055505193, guid: 537d48264f8a54845be5cbeb9e21f88a, type: 3}
+      propertyPath: warnaMalam.g
+      value: 0.44705883
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160442685055505193, guid: 537d48264f8a54845be5cbeb9e21f88a, type: 3}
+      propertyPath: warnaMalam.r
+      value: 0.44705883
+      objectReference: {fileID: 0}
+    - target: {fileID: 5160442685055505193, guid: 537d48264f8a54845be5cbeb9e21f88a, type: 3}
+      propertyPath: daftarLampu.Array.size
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 5384745848746508566, guid: 537d48264f8a54845be5cbeb9e21f88a, type: 3}
       propertyPath: m_Name
       value: Global Light 2D
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5160442685055505193, guid: 537d48264f8a54845be5cbeb9e21f88a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
