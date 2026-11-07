@@ -26,6 +26,7 @@ public class AudioManager : MonoBehaviour
 
     private AudioSource sfxSource;
     private AudioSource bgmSource;
+    private AudioSource loopSource;
 
     private Dictionary<AudioClip, float> posisiBGM =
         new Dictionary<AudioClip, float>();
@@ -35,6 +36,8 @@ public class AudioManager : MonoBehaviour
 
     private float bgmVolume = 1f;
     private float sfxVolume = 1f;
+    // [SFX] Referensi Rigidbody Player
+private Rigidbody2D playerRb;
 
     void Awake()
     {
@@ -61,13 +64,23 @@ public class AudioManager : MonoBehaviour
         else
             bgmSource = gameObject.AddComponent<AudioSource>();
 
+        if (sources.Length > 2)
+            loopSource = sources[2];
+        else
+            loopSource = gameObject.AddComponent<AudioSource>();
+
         sfxSource.playOnAwake = false;
         bgmSource.playOnAwake = false;
+        loopSource.playOnAwake = false;
+
+        sfxSource.volume = sfxVolume;
+        loopSource.volume = sfxVolume;
+
+        bgmSource.volume = bgmVolume;
 
         SceneManager.sceneLoaded += GantiScene;
     }
 
-    
     void OnDestroy()
     {
         if (Instance == this)
@@ -91,34 +104,31 @@ public class AudioManager : MonoBehaviour
 
         if (sound.clipAudio == null)
         {
-            Debug.LogWarning("BGM scene '" + namaSceneBaru + "' tidak ditemukan!");
+            Debug.LogWarning(
+                "BGM scene '" + namaSceneBaru + "' tidak ditemukan!"
+            );
             return;
         }
 
-        // Jika BGM sama, lanjutkan tanpa restart
         if (bgmSource.clip == sound.clipAudio && bgmSource.isPlaying)
         {
             sceneSekarang = namaSceneBaru;
             return;
         }
 
-        // Simpan posisi BGM sebelumnya
         if (bgmSource.clip != null)
         {
             posisiBGM[bgmSource.clip] = bgmSource.time;
         }
 
-        // Hentikan fade sebelumnya
         if (fadeCoroutine != null)
         {
             StopCoroutine(fadeCoroutine);
             fadeCoroutine = null;
         }
 
-        // Cut BGM sebelumnya
         bgmSource.Stop();
 
-        // Putar BGM scene baru
         PlayBGM(namaSceneBaru);
     }
 
@@ -140,24 +150,18 @@ public class AudioManager : MonoBehaviour
         bgmSource.clip = sound.clipAudio;
         bgmSource.loop = true;
 
-        // Mengambil posisi terakhir lagu
         if (posisiBGM.ContainsKey(sound.clipAudio))
-        {
             bgmSource.time = posisiBGM[sound.clipAudio];
-        }
         else
-        {
             bgmSource.time = 0;
-        }
 
-        // Memulai lagu dengan fade in
         bgmSource.volume = 0;
         bgmSource.Play();
 
         fadeCoroutine = StartCoroutine(FadeIn());
     }
 
-    // Efek fade in
+    // Efek fade in BGM
     IEnumerator FadeIn()
     {
         float waktu = 0;
@@ -186,7 +190,7 @@ public class AudioManager : MonoBehaviour
         fadeCoroutine = null;
     }
 
-    // Memutar SFX
+    // SFX sekali putar
     public void PlaySFX(string nama)
     {
         SoundItem sound = daftarSFX.Find(
@@ -203,6 +207,38 @@ public class AudioManager : MonoBehaviour
         }
     }
 
+    // SFX berulang (looping)
+    public void PlayLoopSFX(string nama)
+    {
+        SoundItem sound = daftarSFX.Find(
+            s => s.namaSuara == nama
+        );
+
+        if (sound.clipAudio == null)
+        {
+            Debug.LogWarning("SFX '" + nama + "' tidak ditemukan!");
+            return;
+        }
+
+        if (loopSource.isPlaying &&
+            loopSource.clip == sound.clipAudio)
+            return;
+
+        loopSource.Stop();
+
+        loopSource.clip = sound.clipAudio;
+        loopSource.loop = true;
+        loopSource.volume = sfxVolume;
+        loopSource.Play();
+    }
+
+    // Menghentikan SFX looping
+    public void StopLoopSFX()
+    {
+        if (loopSource != null)
+            loopSource.Stop();
+    }
+
     // Mengatur volume BGM
     public void SetBGMVolume(float volume)
     {
@@ -214,15 +250,36 @@ public class AudioManager : MonoBehaviour
         }
     }
 
-    // Mengatur volume SFX
+    // Mengatur volume seluruh SFX
     public void SetSFXVolume(float volume)
     {
         sfxVolume = Mathf.Clamp01(volume);
 
         if (sfxSource != null)
-        {
             sfxSource.volume = sfxVolume;
-        }
+
+        if (loopSource != null)
+            loopSource.volume = sfxVolume;
+    }
+    // [SFX] Deteksi gerakan Player
+void Update()
+{
+    if (playerRb == null)
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        if (player != null)
+            playerRb = player.GetComponent<Rigidbody2D>();
+    }
+
+    if (playerRb != null &&
+        playerRb.linearVelocity.sqrMagnitude > 0.01f)
+    {
+        PlayLoopSFX("Footstep");
+    }
+    else
+    {
+        StopLoopSFX();
     }
 }
-
+}

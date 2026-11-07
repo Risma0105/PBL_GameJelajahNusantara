@@ -1162,7 +1162,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -58.999985, y: 11}
+  m_AnchoredPosition: {x: -59, y: 11}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &537498647
@@ -4072,6 +4072,10 @@ PrefabInstance:
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarSFX.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
       propertyPath: daftarBGM.Array.data[0].clipAudio
       value: 
       objectReference: {fileID: 8300000, guid: ebe6f6103ea0a6a46a5aff919c194acf, type: 3}
@@ -4142,6 +4146,22 @@ PrefabInstance:
     - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
       propertyPath: daftarBGM.Array.data[8].namaSuara
       value: 08_Prolog
+      objectReference: {fileID: 0}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarSFX.Array.data[0].clipAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: df1e90b16faeb8243b74a4270382eba3, type: 3}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarSFX.Array.data[0].namaSuara
+      value: Footstep
+      objectReference: {fileID: 0}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarSFX.Array.data[1].clipAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 49ce70ebd5e0c66448dcfa26279833c5, type: 3}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarSFX.Array.data[1].namaSuara
+      value: MuseumDoor
       objectReference: {fileID: 0}
     - target: {fileID: 2107574597663090928, guid: 86e372fb879397447a82e12d712e2418, type: 3}
       propertyPath: m_LocalPosition.x
