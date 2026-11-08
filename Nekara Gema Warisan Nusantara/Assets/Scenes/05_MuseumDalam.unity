@@ -2582,7 +2582,7 @@ Transform:
   m_GameObject: {fileID: 473366998}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.4725, y: -7.72, z: 0}
+  m_LocalPosition: {x: 2.4725, y: -7.02, z: 0}
   m_LocalScale: {x: 2.0601048, y: 0.7222153, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2706,6 +2706,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PintuPindahScene
   namaSceneTujuan: 04_MuseumLuar
+  namaSFXPintu: DoorOpen
 --- !u!1 &485172012
 GameObject:
   m_ObjectHideFlags: 0
