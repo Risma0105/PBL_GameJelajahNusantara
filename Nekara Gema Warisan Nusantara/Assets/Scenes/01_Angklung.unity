@@ -3617,7 +3617,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3.0000002
+      m_AnimationSpeed: 3
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 16, y: -11, z: 0}
@@ -3968,7 +3968,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -2, y: -8, z: 0}
@@ -4046,7 +4046,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 4, y: -8, z: 0}
@@ -4098,7 +4098,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3.0000002
+      m_AnimationSpeed: 3
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -9, y: -7, z: 0}
@@ -4137,7 +4137,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3.0000002
+      m_AnimationSpeed: 3
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -6, y: -7, z: 0}
@@ -4163,7 +4163,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -4, y: -7, z: 0}
@@ -4215,7 +4215,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3.0000002
+      m_AnimationSpeed: 3
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 1, y: -7, z: 0}
@@ -4254,7 +4254,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 4, y: -7, z: 0}
@@ -4722,7 +4722,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 17, y: -3, z: 0}
@@ -4735,7 +4735,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 18, y: -3, z: 0}
@@ -4748,7 +4748,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 19, y: -3, z: 0}
@@ -4774,7 +4774,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3.0000002
+      m_AnimationSpeed: 3
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -2, y: -2, z: 0}
@@ -4787,7 +4787,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3.0000002
+      m_AnimationSpeed: 3
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: -1, y: -2, z: 0}
@@ -4800,7 +4800,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3.0000002
+      m_AnimationSpeed: 3
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 0, y: -2, z: 0}
@@ -4891,7 +4891,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 7, y: -2, z: 0}
@@ -5606,6 +5606,194 @@ Transform:
   - {fileID: 2068658474}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &535391265
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 59486886438235646, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: m_Name
+      value: AudioManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarBGM.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarSFX.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarBGM.Array.data[0].clipAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: ebe6f6103ea0a6a46a5aff919c194acf, type: 3}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarBGM.Array.data[0].namaSuara
+      value: 00_MainMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarBGM.Array.data[1].clipAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: db0e7fab29d370f44960b826457e23a4, type: 3}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarBGM.Array.data[1].namaSuara
+      value: 01_Angklung
+      objectReference: {fileID: 0}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarBGM.Array.data[2].clipAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: ad3fbbdffc1e0b54f9911891650ccbaf, type: 3}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarBGM.Array.data[2].namaSuara
+      value: 02_Sarone
+      objectReference: {fileID: 0}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarBGM.Array.data[3].clipAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 56cd2b4bd6182ef44b83b235aeedaa2e, type: 3}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarBGM.Array.data[3].namaSuara
+      value: 03_GesoGeso
+      objectReference: {fileID: 0}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarBGM.Array.data[4].clipAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 1e7edbfb16df8b642ab0aa4ea63a8634, type: 3}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarBGM.Array.data[4].namaSuara
+      value: 04_MuseumLuar04_MuseumLuar
+      objectReference: {fileID: 0}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarBGM.Array.data[5].clipAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 1e7edbfb16df8b642ab0aa4ea63a8634, type: 3}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarBGM.Array.data[5].namaSuara
+      value: 05_MuseumDalam
+      objectReference: {fileID: 0}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarBGM.Array.data[6].clipAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 1e7edbfb16df8b642ab0aa4ea63a8634, type: 3}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarBGM.Array.data[6].namaSuara
+      value: 06_PagelaranSeni
+      objectReference: {fileID: 0}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarBGM.Array.data[7].clipAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 90f798e018615ae43818d9b6524db3c5, type: 3}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarBGM.Array.data[7].namaSuara
+      value: 07_Pertanyaan
+      objectReference: {fileID: 0}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarBGM.Array.data[8].clipAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 90f798e018615ae43818d9b6524db3c5, type: 3}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarBGM.Array.data[8].namaSuara
+      value: 08_Prolog
+      objectReference: {fileID: 0}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarSFX.Array.data[0].clipAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: df1e90b16faeb8243b74a4270382eba3, type: 3}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarSFX.Array.data[0].namaSuara
+      value: Footstep
+      objectReference: {fileID: 0}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarSFX.Array.data[1].clipAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 49ce70ebd5e0c66448dcfa26279833c5, type: 3}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarSFX.Array.data[1].namaSuara
+      value: DoorOpen
+      objectReference: {fileID: 0}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarSFX.Array.data[2].clipAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: ab65fa0cc14f2ee498e5d4678f7ede3a, type: 3}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarSFX.Array.data[2].namaSuara
+      value: portal
+      objectReference: {fileID: 0}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarSFX.Array.data[3].clipAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 7abb6faa206c7794199ed7d1e0b6a286, type: 3}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarSFX.Array.data[3].namaSuara
+      value: ButtonClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarSFX.Array.data[4].clipAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 4638ec4390de203458eb032d40a711fb, type: 3}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarSFX.Array.data[4].namaSuara
+      value: Start
+      objectReference: {fileID: 0}
+    - target: {fileID: 2107574597663090928, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 423.70557
+      objectReference: {fileID: 0}
+    - target: {fileID: 2107574597663090928, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 299.80322
+      objectReference: {fileID: 0}
+    - target: {fileID: 2107574597663090928, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2107574597663090928, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2107574597663090928, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2107574597663090928, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2107574597663090928, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2107574597663090928, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2107574597663090928, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2107574597663090928, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+--- !u!114 &535391266 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+  m_PrefabInstance: {fileID: 535391265}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 609deb626a7725b41971915b399e8df9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
 --- !u!1 &572493659 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6340184000246410928, guid: 104e09e1a56c4a14c9222fd47c6fcf67, type: 3}
@@ -11360,7 +11548,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BahanUtama
   jumlahTebasanDibutuhkan: 3
   prefabItemBahan: {fileID: 504581733}
-  pesanPetunjuk: "\U0001FA93 Klik untuk menebang pohon"
+  pesanPetunjuk: ' Klik 3 kali untuk menebang pohon'
 --- !u!61 &1371824175
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -11407,6 +11595,35 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 2.1051438, y: 2.771862}
   m_EdgeRadius: 0
+--- !u!114 &1371824176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371824168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.EventSystems.EventTrigger
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 535391266}
+          m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+          m_MethodName: PlaySFX
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: pahat
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!4 &1388533976 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2272494676351645887, guid: 68e26de95622376429470e9144f33648, type: 3}
@@ -27711,6 +27928,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8310012818250970765, guid: 104e09e1a56c4a14c9222fd47c6fcf67, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1371824175}
+    - targetCorrespondingSourceObject: {fileID: 8310012818250970765, guid: 104e09e1a56c4a14c9222fd47c6fcf67, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1371824176}
     - targetCorrespondingSourceObject: {fileID: 2481919253606389190, guid: 104e09e1a56c4a14c9222fd47c6fcf67, type: 3}
       insertIndex: -1
       addedObject: {fileID: 980507913}
@@ -27919,3 +28139,4 @@ SceneRoots:
   - {fileID: 535355703}
   - {fileID: 6181156}
   - {fileID: 2082304370}
+  - {fileID: 535391265}

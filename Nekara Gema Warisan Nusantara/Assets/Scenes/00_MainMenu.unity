@@ -452,7 +452,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -10.2, y: -43.199997}
+  m_AnchoredPosition: {x: -10.200001, y: -43.199997}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &140302447
@@ -4121,7 +4121,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
       propertyPath: daftarSFX.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
       propertyPath: daftarBGM.Array.data[0].clipAudio
@@ -4234,6 +4234,14 @@ PrefabInstance:
     - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
       propertyPath: daftarSFX.Array.data[4].namaSuara
       value: Start
+      objectReference: {fileID: 0}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarSFX.Array.data[5].clipAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: a8c288ddf2363de45ac4cfaf4811bb69, type: 3}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarSFX.Array.data[5].namaSuara
+      value: pahat
       objectReference: {fileID: 0}
     - target: {fileID: 2107574597663090928, guid: 86e372fb879397447a82e12d712e2418, type: 3}
       propertyPath: m_LocalPosition.x
