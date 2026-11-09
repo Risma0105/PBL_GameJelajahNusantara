@@ -10,46 +10,58 @@ public class MemoryFogQuiz : MonoBehaviour
     {
         [TextArea(2, 3)]
         public string soal;
-        public string[] pilihanJawaban; // 4 pilihan (A, B, C, D)
-        public int indexJawabanBenar;   // Indeks jawaban benar (0 sampai 3)
+        public string[] pilihanJawaban; 
+        public int indexJawabanBenar;   
     }
 
     [Header("Data Pertanyaan")]
     public Pertanyaan[] daftarPertanyaan;
     private int indexSoalAktif = 0;
 
-    [Header("UI Referensi")]
+    [Header("UI Referensi Teks & Tombol")]
     public TextMeshProUGUI teksSoal;
-    public Button[] tombolPilihan; // Masukkan 4 tombol A, B, C, D
-    public TextMeshProUGUI teksStatusKabut;
+    public Button[] tombolPilihan; 
+    public TextMeshProUGUI teksTimer; 
+
+    [Header("UI Bar HP (Sesuai Desain)")]
+    public Slider sliderHpBoss;      // Bilah HP merah di atas (Kabut Memori)
+    public Slider sliderHpPlayer;    // Bilah HP hijau di bawah (Bramanta)
+    public TextMeshProUGUI teksNamaPlayer; 
 
     [Header("Referensi Musuh & Ekspresi UI Image")]
-    public GameObject objekKabut;       // Tarik objek "Musuh" dari Hierarchy ke sini
-    public Image imageMusuh;            // Tarik komponen "Image" milik objek Musuh ke sini
-    public Sprite spriteMusuhHappy;     // Tarik asset gambar Musuh_Happy
-    public Sprite spriteMusuhSakit;     // Tarik asset gambar Musuh_Sakit
+    public GameObject objekKabut;       
+    public Image imageMusuh;            
+    public Sprite spriteMusuhHappy;     
+    public Sprite spriteMusuhSakit;     
+    
+    [Header("Visual Efek Alat Musik (Otomatis Muncul)")]
+    public Image imageIkonAlatMusik;    // Tarik UI Image tempat ikon alat musik muncul di kabut
+    public Sprite[] spriteAlatMusik;    // Masukkan sprite (Angklung, Sarone, Gesok) di sini
 
-    [Header("Pengaturan Warna Tombol (UI Image)")]
+    [Header("Pengaturan Waktu & HP")]
+    public float batasWaktuJawab = 30f; 
+    private float timerSoal = 0f;
+    private bool sedangMenjawab = false;
+
+    public int maxHpBoss = 5;
+    private int currentHpBoss;
+    public int maxHpPlayer = 100;
+    private int currentHpPlayer;
+
+    [Header("Pengaturan Warna Tombol")]
     public Color warnaNormal = Color.white;
     public Color warnaBenar = Color.green;
     public Color warnaSalah = Color.red;
     public float durasiFeedback = 1f;   
 
-    [Header("Pengaturan Pertempuran")]
-    public int totalKabutHP = 5; 
-    private int sisaKabutHP;
-    private bool sedangMenunggu = false; 
-
     void Start()
     {
-        // PENGAMAN: Cek apakah ketiga alat musik sudah selesai dirakit atau belum
         if (MuseumManager.Instance != null)
         {
             bool semuaSelesai = MuseumManager.Instance.sudahCraftingAngklung && 
                                 MuseumManager.Instance.sudahCraftingGesoGeso && 
                                 MuseumManager.Instance.sudahCraftingSarone;
 
-            // Jika belum lengkap, matikan langsung objek Quest ini di awal game!
             if (!semuaSelesai)
             {
                 gameObject.SetActive(false);
@@ -57,19 +69,20 @@ public class MemoryFogQuiz : MonoBehaviour
             }
         }
 
-        // Kalau sudah lengkap, jalankan kuis seperti biasa
-        sisaKabutHP = totalKabutHP;
+        currentHpBoss = maxHpBoss;
+        currentHpPlayer = maxHpPlayer;
+        
         UpdateUIStatus();
         TampilkanSoal();
-
-        // KUNCI GERAKAN DAN SEMBUNYIKAN KARAKTER SAAT KUIS MUNCUL
         AturKarakterDanGerakan(false, false);
 
-        // Set ekspresi awal musuh ke Happy
         if (imageMusuh != null && spriteMusuhHappy != null)
         {
             imageMusuh.sprite = spriteMusuhHappy;
         }
+
+        // Sembunyikan ikon alat musik di awal
+        if (imageIkonAlatMusik != null) imageIkonAlatMusik.gameObject.SetActive(false);
 
         for (int i = 0; i < tombolPilihan.Length; i++)
         {
@@ -78,27 +91,39 @@ public class MemoryFogQuiz : MonoBehaviour
         }
     }
 
-    // Fungsi bantu untuk mengatur gerakan dan visibilitas karakter pemain
+    void Update()
+    {
+        if (sedangMenjawab)
+        {
+            timerSoal += Time.deltaTime;
+
+            if (teksTimer != null)
+            {
+                float sisaWaktuHitung = Mathf.Max(0f, batasWaktuJawab - timerSoal);
+                teksTimer.text = $"Waktu: {sisaWaktuHitung:F1}s";
+            }
+
+            if (timerSoal >= batasWaktuJawab)
+            {
+                ProsesWaktuHabis();
+            }
+        }
+    }
+
     void AturKarakterDanGerakan(bool statusJalan, bool statusTampil)
     {
-        // Mengunci atau membuka gerakan
         PlayerMovement playerMove = Object.FindFirstObjectByType<PlayerMovement>();
-        if (playerMove != null)
-        {
-            playerMove.enabled = statusJalan;
-        }
+        if (playerMove != null) playerMove.enabled = statusJalan;
 
-        // Menyembunyikan atau memunculkan GameObject Player (pastikan objek Player ber-Tag "Player")
         GameObject playerObj = GameObject.FindWithTag("Player");
-        if (playerObj != null)
-        {
-            playerObj.SetActive(statusTampil);
-        }
+        if (playerObj != null) playerObj.SetActive(statusTampil);
     }
 
     void TampilkanSoal()
     {
-        sedangMenunggu = false;
+        timerSoal = 0f;
+        sedangMenjawab = true;
+
         if (indexSoalAktif < daftarPertanyaan.Length)
         {
             Pertanyaan p = daftarPertanyaan[indexSoalAktif];
@@ -115,10 +140,7 @@ public class MemoryFogQuiz : MonoBehaviour
                 {
                     tombolPilihan[i].gameObject.SetActive(true);
                     TextMeshProUGUI teksTombol = tombolPilihan[i].GetComponentInChildren<TextMeshProUGUI>();
-                    if (teksTombol != null)
-                    {
-                        teksTombol.text = p.pilihanJawaban[i];
-                    }
+                    if (teksTombol != null) teksTombol.text = p.pilihanJawaban[i];
                 }
                 else
                 {
@@ -135,54 +157,104 @@ public class MemoryFogQuiz : MonoBehaviour
 
     public void CekJawaban(int pilihanPemain)
     {
-        if (sedangMenunggu) return;
-        sedangMenunggu = true;
+        if (!sedangMenjawab) return;
+        sedangMenjawab = false; 
 
+        float waktuPilihan = timerSoal; 
         Pertanyaan p = daftarPertanyaan[indexSoalAktif];
         
-        foreach (Button btn in tombolPilihan)
-        {
-            btn.interactable = false;
-        }
+        foreach (Button btn in tombolPilihan) btn.interactable = false;
 
         Image imgPemain = tombolPilihan[pilihanPemain].GetComponent<Image>();
         Image imgBenar = tombolPilihan[p.indexJawabanBenar].GetComponent<Image>();
 
-        if (pilihanPemain == p.indexJawabanBenar)
+        bool apakahBenar = (pilihanPemain == p.indexJawabanBenar);
+
+        if (apakahBenar)
         {
-            // JAWABAN BENAR: Tombol Hijau, Musuh Sakit/Marah
+            HitungPenaltiAtauRewardWaktu(waktuPilihan);
+
             if (imgPemain != null) imgPemain.color = warnaBenar;
-            sisaKabutHP--;
+            currentHpBoss--; // Kurangi HP Boss di atas
+
+            // MUNCULKAN ALAT MUSIK OTOMATIS SAAT JAWAB BENAR
+            MunculkanEfekAlatMusik();
 
             if (imageMusuh != null && spriteMusuhSakit != null)
-            {
                 imageMusuh.sprite = spriteMusuhSakit;
-            }
 
-            Debug.Log("✨ Benar! Kabut kesakitan");
+            Debug.Log($"✨ Benar dalam {waktuPilihan:F1} detik! Boss kesakitan.");
         }
         else
         {
-            // JAWABAN SALAH: Tombol Merah, Musuh Tetap/Happy
+            currentHpPlayer -= 25; // Penalti salah
             if (imgPemain != null) imgPemain.color = warnaSalah;
             if (imgBenar != null) imgBenar.color = warnaBenar; 
 
             if (imageMusuh != null && spriteMusuhHappy != null)
-            {
                 imageMusuh.sprite = spriteMusuhHappy;
-            }
 
-            Debug.Log("❌ Salah! Kabut memori menguat.");
+            Debug.Log("❌ Salah! HP Bramanta berkurang.");
         }
 
         UpdateUIStatus();
 
-        if (sisaKabutHP <= 0)
+        if (currentHpBoss <= 0)
         {
             StartCoroutine(SelesaiMenangCoroutine());
             return;
         }
 
+        if (currentHpPlayer <= 0)
+        {
+            Debug.Log("💀 Pemain Kalah!");
+        }
+
+        StartCoroutine(ResetEkspresiDanLanjutSoal());
+    }
+
+    void HitungPenaltiAtauRewardWaktu(float waktu)
+    {
+        if (waktu <= 5f)
+        {
+            currentHpPlayer -= 25;
+            Debug.Log("🎵 Respon Cepat (<= 5s): [Gesok] | HP Player -25");
+        }
+        else if (waktu > 5f && waktu <= 10f)
+        {
+            currentHpPlayer -= 15;
+            Debug.Log("🎵 Respon Sedang (5s - 10s): [Sarone] | HP Player -15");
+        }
+        else
+        {
+            currentHpPlayer -= 10;
+            Debug.Log("🎵 Respon Lambat (> 10s): [Angklung] | HP Player -10");
+        }
+    }
+
+    void MunculkanEfekAlatMusik()
+    {
+        if (imageIkonAlatMusik == null || spriteAlatMusik.Length == 0) return;
+
+        int indexSprite = (maxHpBoss - currentHpBoss - 1);
+        indexSprite = Mathf.Clamp(indexSprite, 0, spriteAlatMusik.Length - 1);
+
+        if (spriteAlatMusik[indexSprite] != null)
+        {
+            imageIkonAlatMusik.sprite = spriteAlatMusik[indexSprite];
+            imageIkonAlatMusik.gameObject.SetActive(true);
+        }
+    }
+
+    void ProsesWaktuHabis()
+    {
+        sedangMenjawab = false;
+        currentHpPlayer -= 30; 
+        Debug.Log("⏳ Waktu Habis!");
+        
+        foreach (Button btn in tombolPilihan) btn.interactable = false;
+
+        UpdateUIStatus();
         StartCoroutine(ResetEkspresiDanLanjutSoal());
     }
 
@@ -190,11 +262,11 @@ public class MemoryFogQuiz : MonoBehaviour
     {
         yield return new WaitForSeconds(durasiFeedback);
         
-        // Kembalikan ekspresi musuh ke Happy setelah jeda
+        // Sembunyikan lagi ikon alat musik untuk soal berikutnya
+        if (imageIkonAlatMusik != null) imageIkonAlatMusik.gameObject.SetActive(false);
+
         if (imageMusuh != null && spriteMusuhHappy != null)
-        {
             imageMusuh.sprite = spriteMusuhHappy;
-        }
 
         indexSoalAktif++;
         TampilkanSoal();
@@ -203,16 +275,12 @@ public class MemoryFogQuiz : MonoBehaviour
     IEnumerator SelesaiMenangCoroutine()
     {
         yield return new WaitForSeconds(durasiFeedback);
-        Debug.Log("🎉 Kabut Memori Musnah! Museum Menjadi Ramai.");
+        Debug.Log("🎉 Kabut Memori Musnah!");
         
-        // MUNCULKAN KEMBALI KARAKTER DAN NYALAKAN GERAKAN SETELAH MENANG
         AturKarakterDanGerakan(true, true);
-
-        // Matikan objek kabut musuh
         if (objekKabut != null) objekKabut.SetActive(false);
         gameObject.SetActive(false);
 
-        // Panggil MuseumManager untuk mengubah fase ke Karnaval Ramai
         if (MuseumManager.Instance != null)
         {
             MuseumManager.Instance.MenangKarnaval();
@@ -221,9 +289,16 @@ public class MemoryFogQuiz : MonoBehaviour
 
     void UpdateUIStatus()
     {
-        if (teksStatusKabut != null)
+        if (sliderHpBoss != null)
         {
-            teksStatusKabut.text = "Sisa Kabut: " + sisaKabutHP + " / " + totalKabutHP;
+            sliderHpBoss.maxValue = maxHpBoss;
+            sliderHpBoss.value = currentHpBoss;
+        }
+
+        if (sliderHpPlayer != null)
+        {
+            sliderHpPlayer.maxValue = maxHpPlayer;
+            sliderHpPlayer.value = currentHpPlayer;
         }
     }
 }

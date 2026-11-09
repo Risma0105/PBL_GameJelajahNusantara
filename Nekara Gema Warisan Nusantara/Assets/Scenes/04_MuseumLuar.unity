@@ -7822,6 +7822,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: objek-luarmuseum_1
       objectReference: {fileID: 0}
+    - target: {fileID: 4815030074807615276, guid: fba16500d9ea9cb469d9ccd24d530238, type: 3}
+      propertyPath: m_TagString
+      value: LampuMap
+      objectReference: {fileID: 0}
     - target: {fileID: 5104232810147861255, guid: fba16500d9ea9cb469d9ccd24d530238, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.7167
@@ -7936,17 +7940,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 537d48264f8a54845be5cbeb9e21f88a, type: 3}
---- !u!114 &1126244267 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5985455127672120316, guid: 537d48264f8a54845be5cbeb9e21f88a, type: 3}
-  m_PrefabInstance: {fileID: 1126244266}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1130316092
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12273,17 +12266,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5ae94851b16543d40a22358c27b92a75, type: 3}
---- !u!114 &1811040579 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6443161466988490383, guid: 5ae94851b16543d40a22358c27b92a75, type: 3}
-  m_PrefabInstance: {fileID: 1811040578}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1001 &1815179282
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17816,6 +17798,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: stone-lantern
       objectReference: {fileID: 0}
+    - target: {fileID: 6512616886871682665, guid: 88afe433cdeaed841bfaab42b49a03c4, type: 3}
+      propertyPath: m_TagString
+      value: LampuMap
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -18490,71 +18476,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e6e7586c2b61c14e8824a6100e2aa74, type: 3}
---- !u!1001 &4641043156819775468
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 875299012725806303, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
-      propertyPath: globalLight
-      value: 
-      objectReference: {fileID: 1126244267}
-    - target: {fileID: 875299012725806303, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
-      propertyPath: nightOverlay
-      value: 
-      objectReference: {fileID: 1811040579}
-    - target: {fileID: 1691274126551551671, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 243.54962
-      objectReference: {fileID: 0}
-    - target: {fileID: 1691274126551551671, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 206.13023
-      objectReference: {fileID: 0}
-    - target: {fileID: 1691274126551551671, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1691274126551551671, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1691274126551551671, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1691274126551551671, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1691274126551551671, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1691274126551551671, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1691274126551551671, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1691274126551551671, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5892115333517640520, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
-      propertyPath: m_Name
-      value: DayNightManager
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d3ba870bee7cd0342a62d4f5174be421, type: 3}
 --- !u!1001 &5042063976140850444
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18566,6 +18487,10 @@ PrefabInstance:
     - target: {fileID: 1690696106196272987, guid: 2d9cfc3333e7c33498713a4cc678cb69, type: 3}
       propertyPath: m_Name
       value: objek-luarmuseum_3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1690696106196272987, guid: 2d9cfc3333e7c33498713a4cc678cb69, type: 3}
+      propertyPath: m_TagString
+      value: LampuMap
       objectReference: {fileID: 0}
     - target: {fileID: 3247161298259118196, guid: 2d9cfc3333e7c33498713a4cc678cb69, type: 3}
       propertyPath: m_LocalPosition.x
@@ -19080,7 +19005,6 @@ SceneRoots:
   - {fileID: 1228577704}
   - {fileID: 1126244266}
   - {fileID: 482752903}
-  - {fileID: 4641043156819775468}
   - {fileID: 1811040578}
   - {fileID: 1614306600}
   - {fileID: 793233031}

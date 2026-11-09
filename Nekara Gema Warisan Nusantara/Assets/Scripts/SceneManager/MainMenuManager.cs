@@ -20,31 +20,6 @@ public class MainMenuManager : MonoBehaviour
 
     private static bool sudahPernahLoadingAwal = false;
 
-    // Supaya objek MainMenuManager ini tidak hancur saat pindah scene dan bisa terus mencatat
-    void Awake()
-    {
-        // Daftarkan fungsi pemantau scene
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    void OnDestroy()
-    {
-        // Hapus pendaftaran saat objek dihancurkan
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    // Fungsi otomatis yang berjalan setiap kali pindah scene
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        // Jangan simpan kalau sedang berada di scene MainMenu (00_MainMenu)
-        if (scene.name != "00_MainMenu")
-        {
-            PlayerPrefs.SetString("SceneTerakhir", scene.name);
-            PlayerPrefs.Save();
-            Debug.Log("📌 Scene terakhir berhasil dicatat: " + scene.name);
-        }
-    }
-
     void Start()
     {
         PerbaruiSpriteTombol();
@@ -95,25 +70,33 @@ public class MainMenuManager : MonoBehaviour
             }
             else if (!sudahPernahMain && spriteMulai != null)
             {
-                tombolPlayImage.sprite = spriteMulai;  
+                tombolPlayImage.sprite = spriteMulai;   
             }
         }
     }
 
-    // Fungsi saat tombol Start / Resume diklik
+    // Fungsi saat tombol Start / Resume diklik di Main Menu
     public void TombolPlay()
     {
         bool sudahPernahMain = PlayerPrefs.GetInt("GameSudahDimulai", 0) == 1;
 
         if (sudahPernahMain)
         {
-            // --- JIKA RESUME: Langsung buka scene terakhir yang tersimpan ---
+            // --- JIKA RESUME: Ambil nama scene terakhir yang terekam ---
             string sceneTerakhir = PlayerPrefs.GetString("SceneTerakhir", "08_Prolog");
+            
+            // Validasi agar tidak meload scene Main Menu lagi
+            if (sceneTerakhir == "00_MainMenu" || string.IsNullOrEmpty(sceneTerakhir))
+            {
+                sceneTerakhir = "08_Prolog";
+            }
+
+            Debug.Log("▶️ Melanjutkan permainan ke scene: " + sceneTerakhir);
             SceneManager.LoadScene(sceneTerakhir);
         }
         else
         {
-            // --- JIKA START BARU: Mulai dari prolog ---
+            // --- JIKA START BARU ---
             PlayerPrefs.SetInt("GameSudahDimulai", 1);
             PlayerPrefs.SetString("SceneTerakhir", "08_Prolog");
             PlayerPrefs.Save();

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Rendering.Universal; // Wajib untuk Light2D
+using UnityEngine.SceneManagement;      // Wajib untuk mendeteksi perpindahan scene
 using TMPro;
 
 public class DayNightCycle : MonoBehaviour
@@ -7,15 +8,15 @@ public class DayNightCycle : MonoBehaviour
     public static DayNightCycle Instance;
 
     [Header("Referensi Cahaya Global")]
-    public Light2D globalLight; // Slot Global Light 2D (otomatis dicari jika kosong)
+    public Light2D globalLight; 
 
     [Header("Warna Cahaya")]
     public Color warnaSiang = Color.white;
     public Color warnaMalam = new Color(0.12f, 0.15f, 0.35f, 1f); 
 
     [Header("Pengaturan Waktu")]
-    public float durasiSiang = 80f; // 1.33 menit
-    public float durasiMalam = 80f; // 1.33 menit
+    public float durasiSiang = 80f; 
+    public float durasiMalam = 80f; 
     public int maxHari = 10;
 
     [Header("Status")]
@@ -27,28 +28,36 @@ public class DayNightCycle : MonoBehaviour
     public TextMeshProUGUI teksHari;
 
     [Header("Daftar Lampu di Map")]
-    public GameObject[] daftarLampu; // Masukkan Point Light 2D / lentera di sini
+    public GameObject[] daftarLampu; 
 
     void Awake()
     {
+        // Pola Singleton untuk mencegah duplikasi objek saat pindah scene
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded += OnSceneLoaded; // Daftarkan Event pindah scene
         }
         else
         {
             Destroy(gameObject);
+            return;
+        }
+    }
+
+    void OnDestroy()
+    {
+        // Bersihkan event saat objek dihancurkan
+        if (Instance == this)
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
     }
 
     void Start()
     {
-        CariGlobalLight();
-        UpdateTampilanUI();
-
-        // Mulai di kondisi siang: lampu dimatikan
-        SetSemuaLampu(!isSiang);
+        InisialisasiSceneBaru();
     }
 
     void Update()
@@ -91,6 +100,29 @@ public class DayNightCycle : MonoBehaviour
         }
     }
 
+    // Dipanggil otomatis setiap kali scene baru selesai dimuat
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        InisialisasiSceneBaru();
+    }
+
+    void InisialisasiSceneBaru()
+    {
+        CariGlobalLight();
+        UpdateTampilanUI();
+
+        // Sinkronkan warna cahaya & status lampu dengan kondisi saat ini (siang/malam)
+        if (globalLight != null)
+        {
+            float t = timerDetik / (isSiang ? durasiSiang : durasiMalam);
+            // Sesuaikan warna langsung agar tidak kaget/berubah drastis
+            globalLight.color = isSiang ? Color.Lerp(warnaSiang, warnaMalam, t) : Color.Lerp(warnaMalam, warnaSiang, t);
+        }
+
+        // Jika pindah scene pas malam, nyalakan lampunya. Kalau siang, matikan.
+        SetSemuaLampu(!isSiang);
+    }
+
     void CariGlobalLight()
     {
         if (globalLight != null) return;
@@ -108,20 +140,35 @@ public class DayNightCycle : MonoBehaviour
 
     void SetSemuaLampu(bool status)
     {
-        if (daftarLampu != null)
+        // Cari otomatis lampu ber-tag "LampuMap" jika array kosong di scene baru
+        if (daftarLampu == null || daftarLampu.Length == 0)
         {
-            foreach (GameObject lampu in daftarLampu)
+            GameObject[] lampuObjek = GameObject.FindGameObjectsWithTag("LampuMap");
+            foreach (GameObject l in lampuObjek)
             {
-                if (lampu != null)
-                {
-                    lampu.SetActive(status);
-                }
+                l.SetActive(status);
+            }
+            return;
+        }
+
+        foreach (GameObject lampu in daftarLampu)
+        {
+            if (lampu != null)
+            {
+                lampu.SetActive(status);
             }
         }
     }
 
     void UpdateTampilanUI()
     {
+        // Cari otomatis teks hari jika referensinya terputus karena pindah scene
+        if (teksHari == null)
+        {
+            GameObject teksObj = GameObject.FindWithTag("TeksHariUI");
+            if (teksObj != null) teksHari = teksObj.GetComponent<TextMeshProUGUI>();
+        }
+
         if (teksHari != null)
         {
             teksHari.text = "Hari: " + hariSekarang + " / " + maxHari;
