@@ -938,31 +938,34 @@ MonoBehaviour:
     spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
   - siapaYangNgobrol: 0
     namaKarakter: Aki Rana
-    isiDialog: '"Iya, Jang. Dan kali ini, kabutnya semakin sulit dikendalikan."'
+    isiDialog: '"Iya, Ujang. kali ini kabut itu semakin sulit dikendalikan. Dia telah
+      menjelma jadi entitas"'
     spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
     spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
   - siapaYangNgobrol: 1
     namaKarakter: 'Ujang '
-    isiDialog: '"Kenapa kabut itu terus kembali?"'
+    isiDialog: "\"Siapa dia? kenapa dia datang, Ki?\u201D"
     spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
     spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
   - siapaYangNgobrol: 0
     namaKarakter: Aki Rana
-    isiDialog: '"Namanya Kabut Memori dia tidak muncul begitu saja, Jang."'
+    isiDialog: '"Dia adalah Kabut Memori dia tidak muncul begitu saja, Jang."'
     spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
     spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
   - siapaYangNgobrol: 0
     namaKarakter: Aki Rana
-    isiDialog: '"Kabut ini tumbuh dari ingatan yang hilang Semakin banyak orang melupakan
-      kebudayaan mereka, semakin kuat kabut itu. Hingga akhirnya, ia menjadi entitas
-      tersendiri."'
+    isiDialog: '"Kabut ini tumbuh dari ingatan yang hilang. Semakin banyak orang
+      melupakan kebudayaan Nusantara, semakin kuat kabut itu. Hingga akhirnya, ia
+      menjadi entitas tersendiri."
+
+'
     spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
     spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
   - siapaYangNgobrol: 1
     namaKarakter: Ujang
     isiDialog: '"Lalu bagaimana nasib festival budaya kita kek? sepuluh hari dari
-      sekarang festival harus dilaksanakan, tetapi semua alatmusik dimuseum terkena
-      kabut memori!"'
+      sekarang festival harus dilaksanakan, tetapi semua alatmusik dimuseum hilang
+      akibat kabut memori!"'
     spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
     spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
   - siapaYangNgobrol: 0
@@ -972,14 +975,19 @@ MonoBehaviour:
     spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
   - siapaYangNgobrol: 0
     namaKarakter: Aki Rana
-    isiDialog: '"Menjelajah lah kamu, pergi ke daerah asal alat-alat musik, kumpulkan
-      pemahaman yang telah dilupakan dan buat kembali alat musiknya. "'
+    isiDialog: '"Menjelajah lah kamu, pergi ke daerah asal alat-alat musik. Kita
+      harus mengembalikan apa yang mulai dilupakan, Jang. '
+    spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
+    spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
+  - siapaYangNgobrol: 0
+    namaKarakter: Aki Rana
+    isiDialog: Itulah satu-satunya cara untuk melawan kabut ini
     spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
     spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
   - siapaYangNgobrol: 1
     namaKarakter: Ujang
-    isiDialog: '"Baik Ki, Akan ku jelajahi daerah dan upayakan yang terbaik agar
-      kebudayaan Nusantara tetap lestari"'
+    isiDialog: '"Baik Ki, Akan ku kumpulkan pemahaman yang telah dilupakan dan buat
+      kembali alat musiknya agar kebudayaan Nusantara tetap lestari"'
     spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
     spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
   kecepatanKetik: 0.03
