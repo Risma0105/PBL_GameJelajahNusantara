@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     public int hariSekarang = 1;
     public int totalMaksimalHari = 10;
 
-    [Header("Pengaturan Warna Cahaya")]
+    [Header("Pengaturan Warna & Cahaya Global")]
     public Color warnaSiang = Color.white;
     public Color warnaMalam = new Color(0.12f, 0.15f, 0.32f, 1f);
     public float intensitasSiang = 1.0f;
@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
 
     private float timerHari = 0f;
     private Light2D currentGlobalLight;
+    private bool statusMalamAktif = false;
 
     void Awake()
     {
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
     }
 
@@ -56,10 +58,13 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    // Tiap kali player pindah scene, otomatis deteksi Global Light 2D di scene baru
+    // Tiap kali player pindah scene, otomatis deteksi Light2D dan sinkronkan lampu di scene baru
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         currentGlobalLight = Object.FindFirstObjectByType<Light2D>();
+        
+        // Sinkronkan status lampu (nyala/mati) segera begitu masuk scene baru
+        AturSemuaLampuMap(statusMalamAktif);
     }
 
     void Update()
@@ -72,16 +77,26 @@ public class GameManager : MonoBehaviour
         {
             timerHari -= durasiSatuHariNyata;
             hariSekarang++;
-            Debug.Log($"Masuk ke Hari ke-{hariSekarang}!");
+            Debug.Log($"☀️ Masuk ke Hari ke-{hariSekarang}!");
 
             if (hariSekarang > totalMaksimalHari)
             {
-                Debug.Log("Batas 10 Hari Selesai!");
+                Debug.Log("🏁 Batas 10 Hari Selesai!");
             }
         }
 
         // Hitung siklus terang-gelap (1,67 menit siang, 1,67 menit malam)
         float progress = (Mathf.Sin((timerHari / durasiSatuHariNyata) * Mathf.PI * 2 + (Mathf.PI / 2)) + 1f) / 2f;
+        
+        // Tentukan apakah sekarang sudah masuk waktu malam (progress di bawah 0.5)
+        bool apakahMalamIni = progress <= 0.5f;
+        if (apakahMalamIni != statusMalamAktif)
+        {
+            statusMalamAktif = apakahMalamIni;
+            // Nyalakan lampu saat malam tiba, matikan saat siang
+            AturSemuaLampuMap(statusMalamAktif);
+            Debug.Log(statusMalamAktif ? "🌙 Malam tiba: Lampu map dinyalakan." : "☀️ Siang tiba: Lampu map dimatikan.");
+        }
 
         // Perbarui warna dan intensitas cahaya jika objek lampu ditemukan di scene aktif
         if (currentGlobalLight != null)
@@ -98,6 +113,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Fungsi otomatis untuk menyalakan/mematikan semua objek ber-Tag "LampuMap"
+    void AturSemuaLampuMap(bool nyala)
+    {
+        GameObject[] daftarLampu = GameObject.FindGameObjectsWithTag("LampuMap");
+        foreach (GameObject lampu in daftarLampu)
+        {
+            if (lampu != null)
+            {
+                lampu.SetActive(nyala);
+            }
+        }
+    }
+
     public bool CekSudahSelesai(string namaAlat)
     {
         return alatMusikSelesai.Contains(namaAlat);
@@ -109,7 +137,6 @@ public class GameManager : MonoBehaviour
         {
             alatMusikSelesai.Add(namaAlat);
             
-            // Masukkan juga ke list debug agar kelihatan di Inspector Unity
             if (!daftarAlatMusikDebug.Contains(namaAlat))
             {
                 daftarAlatMusikDebug.Add(namaAlat);
