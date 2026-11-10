@@ -15,13 +15,13 @@ public class GameManager : MonoBehaviour
     [Tooltip("Daftar alat musik yang sudah selesai (hanya untuk dilihat di Inspector)")]
     public List<string> daftarAlatMusikDebug = new List<string>();
 
-    [Header("Pengaturan Siklus Waktu (Detik)")]
-    // 1 hari game = 3,34 menit = 200,4 detik (1,67 menit siang, 1,67 menit malam)
-    public float durasiSatuHariNyata = 200.4f; 
+    [Header("Pengaturan Durasi Waktu (Detik)")]
+    public float durasiSiang = 100f; 
+    public float durasiMalam = 100f; 
     public int hariSekarang = 1;
     public int totalMaksimalHari = 10;
 
-    [Header("Pengaturan Warna Cahaya")]
+    [Header("Pengaturan Warna & Cahaya Global")]
     public Color warnaSiang = Color.white;
     public Color warnaMalam = new Color(0.12f, 0.15f, 0.32f, 1f);
     public float intensitasSiang = 1.0f;
@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
 
     private float timerHari = 0f;
     private Light2D currentGlobalLight;
+    private bool isSiang = true;
 
     void Awake()
     {
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
+            return;
         }
     }
 
@@ -56,45 +58,100 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    // Tiap kali player pindah scene, otomatis deteksi Global Light 2D di scene baru
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        currentGlobalLight = Object.FindFirstObjectByType<Light2D>();
+        GameObject globalLightObj = GameObject.Find("Global Light 2D");
+        if (globalLightObj != null)
+        {
+            currentGlobalLight = globalLightObj.GetComponent<Light2D>();
+        }
+        else
+        {
+            Light2D[] allLights = Object.FindObjectsByType<Light2D>(FindObjectsSortMode.None);
+            foreach (var light in allLights)
+            {
+                if (light.lightType == Light2D.LightType.Global)
+                {
+                    currentGlobalLight = light;
+                    break;
+                }
+            }
+        }
+        
+        AturSemuaLampuMap(!isSiang);
     }
 
     void Update()
     {
-        // Jalankan timer waktu global
         timerHari += Time.deltaTime;
 
-        // Cek pergantian hari (setiap 3,34 menit)
-        if (timerHari >= durasiSatuHariNyata)
+        if (isSiang)
         {
-            timerHari -= durasiSatuHariNyata;
-            hariSekarang++;
-            Debug.Log($"Masuk ke Hari ke-{hariSekarang}!");
+            float t = timerHari / durasiSiang;
+            t = Mathf.Clamp01(t);
 
-            if (hariSekarang > totalMaksimalHari)
+            if (currentGlobalLight != null)
             {
-                Debug.Log("Batas 10 Hari Selesai!");
+                currentGlobalLight.color = Color.Lerp(warnaSiang, warnaMalam, t);
+                currentGlobalLight.intensity = Mathf.Lerp(intensitasSiang, intensitasMalam, t);
+            }
+
+            if (timerHari >= durasiSiang)
+            {
+                isSiang = false;
+                timerHari = 0f; 
+                AturSemuaLampuMap(true); // Nyalakan cahaya lampu saat malam
+                Debug.Log("🌙 Malam tiba: Lampu map dinyalakan.");
+            }
+        }
+        else
+        {
+            float t = timerHari / durasiMalam;
+            t = Mathf.Clamp01(t);
+
+            if (currentGlobalLight != null)
+            {
+                currentGlobalLight.color = Color.Lerp(warnaMalam, warnaSiang, t);
+                currentGlobalLight.intensity = Mathf.Lerp(intensitasMalam, intensitasMalam, t); // Bisa disesuaikan transisinya
+            }
+
+            if (timerHari >= durasiMalam)
+            {
+                isSiang = true;
+                timerHari = 0f; 
+                hariSekarang++;
+                AturSemuaLampuMap(false); // Matikan cahaya lampu saat siang
+                Debug.Log($"☀️ Hari baru: Masuk ke Hari ke-{hariSekarang}");
+
+                if (hariSekarang > totalMaksimalHari)
+                {
+                    Debug.Log("🏁 Batas 10 Hari Selesai!");
+                }
             }
         }
 
-        // Hitung siklus terang-gelap (1,67 menit siang, 1,67 menit malam)
-        float progress = (Mathf.Sin((timerHari / durasiSatuHariNyata) * Mathf.PI * 2 + (Mathf.PI / 2)) + 1f) / 2f;
-
-        // Perbarui warna dan intensitas cahaya jika objek lampu ditemukan di scene aktif
-        if (currentGlobalLight != null)
-        {
-            currentGlobalLight.color = Color.Lerp(warnaMalam, warnaSiang, progress);
-            currentGlobalLight.intensity = Mathf.Lerp(intensitasMalam, intensitasSiang, progress);
-        }
-
-        // Tampilkan teks hari dan status siang/malam jika UI dihubungkan
         if (teksHariDanWaktu != null)
         {
-            string statusWaktu = progress > 0.5f ? "Siang" : "Malam";
+            string statusWaktu = isSiang ? "Siang" : "Malam";
             teksHariDanWaktu.text = $"Hari {hariSekarang} ({statusWaktu})";
+        }
+    }
+
+    // Fungsi paling aman: Tiang lampu dibiarkan utuh, hanya komponen Light2D yang diaktifkan/dimatikan
+    void AturSemuaLampuMap(bool nyala)
+    {
+        GameObject[] daftarLampu = GameObject.FindGameObjectsWithTag("LampuMap");
+        foreach (GameObject lampu in daftarLampu)
+        {
+            if (lampu != null)
+            {
+                // Ambil komponen Light2D langsung dari objek atau anak-anaknya tanpa mengubah SetActive objek utamanya
+                Light2D compLight = lampu.GetComponentInChildren<Light2D>();
+                if (compLight != null)
+                {
+                    compLight.enabled = nyala; // True saat malam (nyala), False saat siang (mati)
+                }
+            }
         }
     }
 
@@ -109,7 +166,6 @@ public class GameManager : MonoBehaviour
         {
             alatMusikSelesai.Add(namaAlat);
             
-            // Masukkan juga ke list debug agar kelihatan di Inspector Unity
             if (!daftarAlatMusikDebug.Contains(namaAlat))
             {
                 daftarAlatMusikDebug.Add(namaAlat);

@@ -8,6 +8,7 @@ public class MainMenuManager : MonoBehaviour
     [Header("Panels")]
     public GameObject panelMainMenu;
     public GameObject panelLoading;
+    public GameObject uiGameObj;
 
     [Header("Loading Component")]
     public Slider sliderLoading;
@@ -30,6 +31,7 @@ public class MainMenuManager : MonoBehaviour
 
             if (panelLoading != null) panelLoading.SetActive(true);
             if (panelMainMenu != null) panelMainMenu.SetActive(false);
+            if (uiGameObj != null) uiGameObj.SetActive(false); // Sembunyikan UI game saat loading awal
 
             StartCoroutine(JalankanLoadingAwal());
         }
@@ -37,6 +39,7 @@ public class MainMenuManager : MonoBehaviour
         {
             if (panelLoading != null) panelLoading.SetActive(false);
             if (panelMainMenu != null) panelMainMenu.SetActive(true);
+            if (uiGameObj != null) uiGameObj.SetActive(true); // Munculkan UI game jika sudah melewati loading
         }
     }
 
@@ -56,6 +59,7 @@ public class MainMenuManager : MonoBehaviour
 
         if (panelLoading != null) panelLoading.SetActive(false);
         if (panelMainMenu != null) panelMainMenu.SetActive(true);
+        if (uiGameObj != null) uiGameObj.SetActive(true); // Aktifkan UI game setelah bar loading selesai
     }
 
     void PerbaruiSpriteTombol()

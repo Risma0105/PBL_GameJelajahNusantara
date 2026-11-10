@@ -1,4 +1,3 @@
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,16 +27,16 @@ public class AudioManager : MonoBehaviour
     private AudioSource bgmSource;
     private AudioSource loopSource;
 
-    private Dictionary<AudioClip, float> posisiBGM =
-        new Dictionary<AudioClip, float>();
+    private Dictionary<AudioClip, float> posisiBGM = new Dictionary<AudioClip, float>();
 
     private string sceneSekarang;
     private Coroutine fadeCoroutine;
 
     private float bgmVolume = 1f;
     private float sfxVolume = 1f;
-    // [SFX] Referensi Rigidbody Player
-private Rigidbody2D playerRb;
+    
+    // Referensi Rigidbody Player untuk Footstep
+    private Rigidbody2D playerRb;
 
     void Awake()
     {
@@ -75,7 +74,6 @@ private Rigidbody2D playerRb;
 
         sfxSource.volume = sfxVolume;
         loopSource.volume = sfxVolume;
-
         bgmSource.volume = bgmVolume;
 
         SceneManager.sceneLoaded += GantiScene;
@@ -90,23 +88,22 @@ private Rigidbody2D playerRb;
         }
     }
 
-    // Mendeteksi perpindahan scene
+    // Mendeteksi perpindahan scene dan otomatis putar BGM sesuai nama scene
     void GantiScene(Scene scene, LoadSceneMode mode)
     {
         string namaSceneBaru = scene.name;
 
+        // Reset pencarian player setiap pindah scene
+        playerRb = null; 
+
         if (sceneSekarang == namaSceneBaru)
             return;
 
-        SoundItem sound = daftarBGM.Find(
-            s => s.namaSuara == namaSceneBaru
-        );
+        SoundItem sound = daftarBGM.Find(s => s.namaSuara == namaSceneBaru);
 
         if (sound.clipAudio == null)
         {
-            Debug.LogWarning(
-                "BGM scene '" + namaSceneBaru + "' tidak ditemukan!"
-            );
+            Debug.LogWarning("BGM scene '" + namaSceneBaru + "' tidak ditemukan di daftar BGM!");
             return;
         }
 
@@ -128,16 +125,13 @@ private Rigidbody2D playerRb;
         }
 
         bgmSource.Stop();
-
         PlayBGM(namaSceneBaru);
     }
 
-    // Memutar BGM berdasarkan nama scene
+    // Memutar BGM berdasarkan nama scene/string
     public void PlayBGM(string nama)
     {
-        SoundItem sound = daftarBGM.Find(
-            s => s.namaSuara == nama
-        );
+        SoundItem sound = daftarBGM.Find(s => s.namaSuara == nama);
 
         if (sound.clipAudio == null)
         {
@@ -161,7 +155,7 @@ private Rigidbody2D playerRb;
         fadeCoroutine = StartCoroutine(FadeIn());
     }
 
-    // Efek fade in BGM
+    // Efek fade in BGM supaya suaranya masuk dengan halus
     IEnumerator FadeIn()
     {
         float waktu = 0;
@@ -193,9 +187,7 @@ private Rigidbody2D playerRb;
     // SFX sekali putar
     public void PlaySFX(string nama)
     {
-        SoundItem sound = daftarSFX.Find(
-            s => s.namaSuara == nama
-        );
+        SoundItem sound = daftarSFX.Find(s => s.namaSuara == nama);
 
         if (sound.clipAudio != null)
         {
@@ -207,25 +199,22 @@ private Rigidbody2D playerRb;
         }
     }
 
-    // SFX berulang (looping)
+    // SFX berulang (looping - contoh: suara langkah kaki)
     public void PlayLoopSFX(string nama)
     {
-        SoundItem sound = daftarSFX.Find(
-            s => s.namaSuara == nama
-        );
+        SoundItem sound = daftarSFX.Find(s => s.namaSuara == nama);
 
         if (sound.clipAudio == null)
         {
-            Debug.LogWarning("SFX '" + nama + "' tidak ditemukan!");
+            Debug.LogWarning("SFX Loop '" + nama + "' tidak ditemukan!");
             return;
         }
 
-        if (loopSource.isPlaying &&
-            loopSource.clip == sound.clipAudio)
+        // Kalau clip yang sama sedang berputar, jangan di-restart supaya tidak patah-patah
+        if (loopSource.isPlaying && loopSource.clip == sound.clipAudio)
             return;
 
         loopSource.Stop();
-
         loopSource.clip = sound.clipAudio;
         loopSource.loop = true;
         loopSource.volume = sfxVolume;
@@ -235,7 +224,7 @@ private Rigidbody2D playerRb;
     // Menghentikan SFX looping
     public void StopLoopSFX()
     {
-        if (loopSource != null)
+        if (loopSource != null && loopSource.isPlaying)
             loopSource.Stop();
     }
 
@@ -261,25 +250,29 @@ private Rigidbody2D playerRb;
         if (loopSource != null)
             loopSource.volume = sfxVolume;
     }
-    // [SFX] Deteksi gerakan Player
-void Update()
-{
-    if (playerRb == null)
-    {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
 
-        if (player != null)
-            playerRb = player.GetComponent<Rigidbody2D>();
-    }
+    // Cek gerakan Player untuk suara langkah kaki otomatis
+    void Update()
+    {
+        // Cari referensi player jika belum ada atau hancur karena ganti scene
+        if (playerRb == null)
+        {
+            GameObject player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+            {
+                playerRb = player.GetComponent<Rigidbody2D>();
+            }
+            return; // Lewati frame ini kalau player belum ketemu
+        }
 
-    if (playerRb != null &&
-        playerRb.linearVelocity.sqrMagnitude > 0.01f)
-    {
-        PlayLoopSFX("Footstep");
+        // Cek kecepatan gerak player (pastikan Unity 6 menggunakan linearVelocity, atau velocity jika versi lama)
+        if (playerRb.linearVelocity.sqrMagnitude > 0.05f)
+        {
+            PlayLoopSFX("Footstep");
+        }
+        else
+        {
+            StopLoopSFX();
+        }
     }
-    else
-    {
-        StopLoopSFX();
-    }
-}
 }
