@@ -823,7 +823,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -58.999985, y: 11}
+  m_AnchoredPosition: {x: -59, y: 11}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &537498647
@@ -2627,7 +2627,7 @@ PrefabInstance:
     - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
       propertyPath: daftarBGM.Array.data[2].clipAudio
       value: 
-      objectReference: {fileID: 8300000, guid: ad3fbbdffc1e0b54f9911891650ccbaf, type: 3}
+      objectReference: {fileID: 8300000, guid: db0e7fab29d370f44960b826457e23a4, type: 3}
     - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
       propertyPath: daftarBGM.Array.data[2].namaSuara
       value: 02_Sarone
