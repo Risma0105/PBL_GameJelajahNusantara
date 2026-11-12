@@ -18186,6 +18186,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7996853411416232026, guid: b31ef3067d8a8ca45abc402fc9c230a1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 507885070}
+    - targetCorrespondingSourceObject: {fileID: 7996853411416232026, guid: b31ef3067d8a8ca45abc402fc9c230a1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 507885071}
   m_SourcePrefab: {fileID: 100100000, guid: b31ef3067d8a8ca45abc402fc9c230a1, type: 3}
 --- !u!4 &507885068 stripped
 Transform:
@@ -18243,6 +18246,21 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.41, y: 0.26}
   m_EdgeRadius: 0
+--- !u!114 &507885071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 507885069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a414d154e47dc2d4dbca9ba099298582, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BahanUtama
+  jumlahTebasanDibutuhkan: 3
+  prefabItemBahan: {fileID: 1920818754}
+  pesanPetunjuk: Klik untuk menebang pohon
 --- !u!4 &508915703 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3302727148234385898, guid: a5df650d090d5194fb54ef589010217e, type: 3}
@@ -25047,7 +25065,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &947215067
 Transform:
   m_ObjectHideFlags: 0
@@ -44480,8 +44498,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 50
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0, g: 1, b: 0.928751, a: 1}
+  m_Sprite: {fileID: -3450777564710549897, guid: 33f0a2e44ba337041a509cf6aa236054, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -44499,7 +44517,7 @@ Transform:
   m_GameObject: {fileID: 1545758628}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 17.38, y: -4.57, z: 0}
+  m_LocalPosition: {x: 16.323442, y: -5.371127, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44543,7 +44561,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.6875, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -49253,6 +49271,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4063863034462361902, guid: d95a516ce5f77444cbc26d13e2a2b5c2, type: 3}
   m_PrefabInstance: {fileID: 1016151879}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1809989289 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7156586378042656892, guid: 09f7274245f886d4da6f896f45d3205f, type: 3}
+  m_PrefabInstance: {fileID: 2112943235}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1815952963
 GameObject:
   m_ObjectHideFlags: 0
@@ -50671,8 +50694,8 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 50
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0.93962264, g: 0.5450439, b: 0, a: 1}
+  m_Sprite: {fileID: 8458011579125948789, guid: 0f2d04d7da35e2b4a83bd2f4fe4e4f07, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -50690,7 +50713,7 @@ Transform:
   m_GameObject: {fileID: 1920818754}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.66, y: -10.83, z: 0}
+  m_LocalPosition: {x: 0.09722525, y: -11.971402, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -50734,7 +50757,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.32, y: 0.29}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -51548,19 +51571,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 993489219170387449, guid: f79afc3695db5994d8edb58b61e5eca6, type: 3}
       propertyPath: maxX
-      value: 12
+      value: 16.2
       objectReference: {fileID: 0}
     - target: {fileID: 993489219170387449, guid: f79afc3695db5994d8edb58b61e5eca6, type: 3}
       propertyPath: maxY
-      value: 1
+      value: 1.93
       objectReference: {fileID: 0}
     - target: {fileID: 993489219170387449, guid: f79afc3695db5994d8edb58b61e5eca6, type: 3}
       propertyPath: minX
-      value: -9
+      value: -20
       objectReference: {fileID: 0}
     - target: {fileID: 993489219170387449, guid: f79afc3695db5994d8edb58b61e5eca6, type: 3}
       propertyPath: minY
-      value: -29
+      value: -91.3
       objectReference: {fileID: 0}
     - target: {fileID: 993489219170387449, guid: f79afc3695db5994d8edb58b61e5eca6, type: 3}
       propertyPath: target
@@ -52849,13 +52872,80 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7156586378042656892, guid: 09f7274245f886d4da6f896f45d3205f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2112943238}
+    - targetCorrespondingSourceObject: {fileID: 7156586378042656892, guid: 09f7274245f886d4da6f896f45d3205f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2112943237}
   m_SourcePrefab: {fileID: 100100000, guid: 09f7274245f886d4da6f896f45d3205f, type: 3}
 --- !u!4 &2112943236 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6362788505602165941, guid: 09f7274245f886d4da6f896f45d3205f, type: 3}
   m_PrefabInstance: {fileID: 2112943235}
   m_PrefabAsset: {fileID: 0}
+--- !u!61 &2112943237
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809989289}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3, y: 3}
+    newSize: {x: 3, y: 3}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 3, y: 3}
+  m_EdgeRadius: 0
+--- !u!114 &2112943238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809989289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a414d154e47dc2d4dbca9ba099298582, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BahanUtama
+  jumlahTebasanDibutuhkan: 3
+  prefabItemBahan: {fileID: 1545758628}
+  pesanPetunjuk: Klik untuk menebang pohon
 --- !u!1001 &2122552694
 PrefabInstance:
   m_ObjectHideFlags: 0
