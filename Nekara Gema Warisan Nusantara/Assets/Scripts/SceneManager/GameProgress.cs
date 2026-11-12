@@ -28,12 +28,12 @@ public class GameProgress : MonoBehaviour
     [Header("Scene Museum")]
     public string namaSceneMuseumAwal = "Scene_MuseumDalam";
 
-    [Header("Pengaturan Timer (3 Hari)")]
-    public int jumlahHariPerSekat = 3; // Batas waktu pengerjaan 1 scene adalah 3 hari dalam game
+    [Header("Pengaturan Timer (3 Hari per Sekat)")]
+    public int jumlahHariPerSekat = 3; 
 
     private float waktuBerjalan = 0f;
 
-    // Jumlah checkpoint yang sudah berhasil diselesaikan
+    // Jumlah checkpoint / sekat yang sudah BERHASIL DITARUH DI DISPLAY MUSEUM
     private int checkpointSelesai = 0;
 
     // Scene alat musik yang sedang dikerjakan
@@ -72,9 +72,7 @@ public class GameProgress : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-
             DontDestroyOnLoad(gameObject);
-
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
@@ -92,8 +90,6 @@ public class GameProgress : MonoBehaviour
     void Start()
     {
         BindUI();
-
-        // Periksa scene pertama saat game dimulai
         PeriksaSceneAktif(SceneManager.GetActiveScene());
     }
 
@@ -123,20 +119,16 @@ public class GameProgress : MonoBehaviour
         fillBarImage = null;
 
         BindUI();
-
         PeriksaSceneAktif(scene);
 
-        // --- TAMBAHAN: OTOMATIS CATAT SCENE TERAKHIR UNTUK FITUR RESUME ---
         string namaSceneIni = scene.name;
         
-        // Jangan catat kalau sedang di Main Menu atau Prolog
+        // Catat scene terakhir untuk fitur Resume (kecuali Main Menu & Prolog)
         if (namaSceneIni != "00_MainMenu" && namaSceneIni != "08_Prolog")
         {
             PlayerPrefs.SetString("SceneTerakhir", namaSceneIni);
             PlayerPrefs.Save();
-            Debug.Log("📌 Scene terakhir berhasil dicatat oleh GameProgress: " + namaSceneIni);
         }
-        // -----------------------------------------------------------------
     }
 
 
@@ -149,7 +141,6 @@ public class GameProgress : MonoBehaviour
         timerAktif = false;
         sceneAktif = -1;
 
-        // Cari scene alat musik yang sedang dibuka
         for (int i = 0; i < sceneAlatMusik.Length; i++)
         {
             if (scene.name == sceneAlatMusik[i])
@@ -159,57 +150,66 @@ public class GameProgress : MonoBehaviour
             }
         }
 
-        // Update tampilan progress
         UpdateProgressBar();
 
-        // Jika bukan scene alat musik, timer tidak berjalan
+        // Jika bukan scene alat musik
         if (sceneAktif == -1)
         {
-            Debug.Log("Bukan scene alat musik. Timer berhenti.");
+            // Jika berada di scene museum awal, timer 3 hari untuk sekat aktif kembali berjalan mengejar batas waktu
+            if (scene.name == namaSceneMuseumAwal && checkpointSelesai < 4)
+            {
+                timerAktif = true;
+                Debug.Log($"🏛️ Kembali ke Museum. Timer 3 hari untuk sekat ke-{checkpointSelesai + 1} dilanjutkan.");
+                return;
+            }
+
+            Debug.Log("Bukan scene alat musik/museum. Timer berhenti.");
             return;
         }
 
-        // Pastikan scene sesuai checkpoint berikutnya
         if (sceneAktif != checkpointSelesai)
         {
             Debug.Log("Scene belum sesuai urutan checkpoint.");
             return;
         }
 
-        // Timer dimulai saat masuk scene alat musik
-        waktuBerjalan = 0f;
+        // Masuk ke scene alat musik, timer 3 hari aktif berjalan
         timerAktif = true;
+        UpdateTeksSisaWaktu(HitungSisaWaktuTotal());
 
-        float totalDurasiTigaHari = HitungDurasiTigaHari();
-        UpdateTeksSisaWaktu(totalDurasiTigaHari);
-
-        Debug.Log("Timer dimulai (3 Hari): " + sceneAlatMusik[sceneAktif]);
+        Debug.Log("Timer 3 hari aktif di scene: " + sceneAlatMusik[sceneAktif]);
     }
 
 
     // =====================================
-    // MENCARI UI
+    // MENCARI UI (MENEMBUS PARENT SEPERTI UI_Game 1)
     // =====================================
 
     void BindUI()
     {
         if (progressBar == null)
         {
-            GameObject sliderObj = GameObject.Find(namaSlider);
-
-            if (sliderObj != null)
+            Slider[] semuaSlider = FindObjectsByType<Slider>(FindObjectsSortMode.None);
+            foreach (var s in semuaSlider)
             {
-                progressBar = sliderObj.GetComponent<Slider>();
+                if (s.gameObject.name == namaSlider)
+                {
+                    progressBar = s;
+                    break;
+                }
             }
         }
 
         if (progressText == null)
         {
-            GameObject textObj = GameObject.Find(namaTeks);
-
-            if (textObj != null)
+            TextMeshProUGUI[] semuaTeks = FindObjectsByType<TextMeshProUGUI>(FindObjectsSortMode.None);
+            foreach (var t in semuaTeks)
             {
-                progressText = textObj.GetComponent<TextMeshProUGUI>();
+                if (t.gameObject.name == namaTeks)
+                {
+                    progressText = t;
+                    break;
+                }
             }
         }
 
@@ -230,19 +230,24 @@ public class GameProgress : MonoBehaviour
     // =====================================
     // HITUNG DURASI 3 HARI DARI GAMEMANAGER
     // =====================================
-    float HitungDurasiTigaHari()
+    float HitungDurasiTigaHariTotal()
     {
         if (GameManager.Instance != null)
         {
-            // 1 hari = durasiSiang + durasiMalam, dikali jumlah hari per sekat (3 hari)
+            // 1 hari = durasiSiang + durasiMalam, dikalikan 3 hari dari GameManager
             return (GameManager.Instance.durasiSiang + GameManager.Instance.durasiMalam) * jumlahHariPerSekat;
         }
-        return 600f; // Nilai cadangan jika GameManager belum siap (misal 10 menit)
+        return 600f; // Nilai cadangan jika GameManager belum siap
+    }
+
+    float HitungSisaWaktuTotal()
+    {
+        return HitungDurasiTigaHariTotal() - waktuBerjalan;
     }
 
 
     // =====================================
-    // UPDATE TIMER DAN PROGRESS
+    // UPDATE TIMER DAN PROGRESS (BAR MAJU TERUS SAMPAI TARUH DISPLAY)
     // =====================================
 
     void Update()
@@ -250,28 +255,25 @@ public class GameProgress : MonoBehaviour
         if (!timerAktif)
             return;
 
-        if (sceneAktif != checkpointSelesai)
-            return;
-
         if (checkpointSelesai >= 4)
             return;
 
         waktuBerjalan += Time.deltaTime;
 
-        float totalDurasiTigaHari = HitungDurasiTigaHari();
-        float sisaWaktu = totalDurasiTigaHari - waktuBerjalan;
+        float totalDurasi = HitungDurasiTigaHariTotal();
+        float sisaWaktu = totalDurasi - waktuBerjalan;
 
-        // Jika waktu 3 hari habis
+        // Jika waktu 3 hari habis sebelum sempat menaruh ke display museum
         if (sisaWaktu <= 0f)
         {
             PlayerGagalDanResetSekatIni();
             return;
         }
 
-        // Hitung posisi progress
+        // Progress bar merayap maju dari checkpoint sebelumnya menuju checkpoint saat ini seiring waktu
         float progressAwal = checkpointSelesai == 0 ? 0f : posisiCheckpoint[checkpointSelesai - 1];
         float progressAkhir = posisiCheckpoint[checkpointSelesai];
-        float persentase = waktuBerjalan / totalDurasiTigaHari;
+        float persentase = Mathf.Clamp01(waktuBerjalan / totalDurasi);
 
         float nilaiProgress = Mathf.Lerp(progressAwal, progressAkhir, persentase);
 
@@ -280,10 +282,7 @@ public class GameProgress : MonoBehaviour
             progressBar.value = nilaiProgress;
         }
 
-        // Efek warna (peringatan jika waktu sisa sedikit)
         AturWarnaProgress(sisaWaktu);
-
-        // Update timer
         UpdateTeksSisaWaktu(sisaWaktu);
     }
 
@@ -297,18 +296,12 @@ public class GameProgress : MonoBehaviour
         if (fillBarImage == null)
             return;
 
-        // Peringatan jika waktu tersisa di bawah 20% dari total durasi 3 hari
-        float batasPeringatan = HitungDurasiTigaHari() * 0.2f;
+        float batasPeringatan = HitungDurasiTigaHariTotal() * 0.2f;
 
         if (sisaWaktu <= batasPeringatan)
         {
             float kedip = Mathf.PingPong(Time.time * 6f, 1f);
-
-            fillBarImage.color = Color.Lerp(
-                warnaPeringatan,
-                warnaBahaya,
-                kedip
-            );
+            fillBarImage.color = Color.Lerp(warnaPeringatan, warnaBahaya, kedip);
         }
         else
         {
@@ -327,7 +320,6 @@ public class GameProgress : MonoBehaviour
             return;
 
         float nilaiProgress = checkpointSelesai == 0 ? 0f : posisiCheckpoint[checkpointSelesai - 1];
-
         progressBar.value = nilaiProgress;
 
         if (fillBarImage != null)
@@ -338,14 +330,11 @@ public class GameProgress : MonoBehaviour
 
 
     // =====================================
-    // PENGUMPULAN ALAT MUSIK
+    // PENGUMPULAN ALAT MUSIK (SAAT DIAMBIL DARI NPC)
     // =====================================
 
     public void CollectInstrument(string namaAlat)
     {
-        if (!timerAktif)
-            return;
-
         if (checkpointSelesai >= 4)
             return;
 
@@ -353,21 +342,10 @@ public class GameProgress : MonoBehaviour
 
         switch (checkpointSelesai)
         {
-            case 0:
-                alatSesuai = namaAlat == "Angklung";
-                break;
-
-            case 1:
-                alatSesuai = namaAlat == "GesoGeso";
-                break;
-
-            case 2:
-                alatSesuai = namaAlat == "Sarone";
-                break;
-
-            case 3:
-                alatSesuai = namaAlat == "AlatKeempat" || namaAlat == "Suling";
-                break;
+            case 0: alatSesuai = namaAlat == "Angklung"; break;
+            case 1: alatSesuai = namaAlat == "GesoGeso"; break;
+            case 2: alatSesuai = namaAlat == "Sarone"; break;
+            case 3: alatSesuai = namaAlat == "AlatKeempat" || namaAlat == "Suling"; break;
         }
 
         if (!alatSesuai)
@@ -381,34 +359,46 @@ public class GameProgress : MonoBehaviour
         if (checkpointSelesai == 2) hasSarone = true;
         if (checkpointSelesai == 3) hasAlatKeempat = true;
 
-        timerAktif = false;
+        Debug.Log(namaAlat + " berhasil diambil dari NPC! Bawa kembali dan taruh di display museum.");
+    }
+
+
+    // =====================================
+    // KETIKA BERHASIL TARUH DISPLAY DI MUSEUM (BAR LANGSUNG FULL PENUH)
+    // =====================================
+
+    public void BerhasilTaruhDisplay()
+    {
+        if (checkpointSelesai >= 4)
+            return;
+
+        // Kunci progress bar tepat penuh di garis checkpoint sekat ini
+        if (progressBar != null)
+        {
+            progressBar.value = posisiCheckpoint[checkpointSelesai];
+        }
+
+        // Naikkan checkpoint ke sekat/alat musik berikutnya
         checkpointSelesai++;
-        waktuBerjalan = 0f;
+        waktuBerjalan = 0f; // Reset timer untuk jatah 3 hari sekat berikutnya
 
-        UpdateProgressBar();
-
-        Debug.Log(namaAlat + " berhasil dikumpulkan!");
+        Debug.Log("🎉 Alat musik berhasil ditaruh di display museum! Progress sekat ini terkunci penuh.");
 
         if (checkpointSelesai >= 4)
         {
             checkpointSelesai = 4;
 
-            if (progressBar != null)
-                progressBar.value = 1f;
+            if (progressBar != null) progressBar.value = 1f;
+            if (progressText != null) progressText.text = "Selesai!";
 
-            if (progressText != null)
-                progressText.text = "Selesai!";
-
-            Debug.Log("SEMUA ALAT MUSIK SELESAI!");
-            return;
+            timerAktif = false;
+            Debug.Log("🏆 SEMUA ALAT MUSIK SELESAI DITARRUH DI DISPLAY!");
         }
-
-        Debug.Log("Menunggu perpindahan ke scene berikutnya.");
     }
 
 
     // =====================================
-    // JIKA WAKTU HABIS
+    // JIKA WAKTU 3 HARI HABIS (GAGAL)
     // =====================================
 
     void PlayerGagalDanResetSekatIni()
@@ -417,7 +407,7 @@ public class GameProgress : MonoBehaviour
         waktuBerjalan = 0f;
         UpdateProgressBar();
 
-        Debug.Log("⏰ Waktu 3 hari habis! Mengulang kembali ke museum awal.");
+        Debug.Log("⏰ Waktu 3 hari habis sebelum ditaruh display! Mengulang kembali ke museum awal.");
         SceneManager.LoadScene(namaSceneMuseumAwal);
     }
 
@@ -431,17 +421,15 @@ public class GameProgress : MonoBehaviour
         if (progressText == null)
             return;
 
-        int totalDetik = Mathf.FloorToInt(sisaDetik);
-        int hari = totalDetik / 200; // Contoh estimasi jika 1 hari total 200 detik (siang+malam), atau tampilkan format jam/menit
         int menit = Mathf.FloorToInt(sisaDetik / 60f);
         int detik = Mathf.FloorToInt(sisaDetik % 60f);
 
-        progressText.text = $"Sisa: {menit:00}:{detik:00}";
+        progressText.text = $"Sisa Waktu: {menit:00}:{detik:00}";
     }
 
 
     // =====================================
-    // FUNGSI TAMBAHAN
+    // FUNGSI TAMBAHAN (YANG DIPANGGIL OLEH NPCCrafting)
     // =====================================
 
     public void MulaiTimerBar()

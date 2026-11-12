@@ -349,7 +349,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MuseumDisplay
   namaAlatMusik: Geso
-  objekVisualAlatMusikDiMuseum: {fileID: 0}
+  objekVisualAlatMusikDiMuseum: {fileID: 768577430}
   posisiTaruhDiMeja: {fileID: 632215920}
   panelPesan: {fileID: 0}
   teksPesan: {fileID: 0}
@@ -2962,6 +2962,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4598596859884147898, guid: fb27f5d9b5eb64245a67323a8f996126, type: 3}
+      propertyPath: slotIcons.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4598596859884147898, guid: fb27f5d9b5eb64245a67323a8f996126, type: 3}
       propertyPath: daftarItem.Array.size
       value: 0
       objectReference: {fileID: 0}
@@ -5569,7 +5573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MuseumDisplay
   namaAlatMusik: Sarone
-  objekVisualAlatMusikDiMuseum: {fileID: 0}
+  objekVisualAlatMusikDiMuseum: {fileID: 204294024}
   posisiTaruhDiMeja: {fileID: 558433428}
   panelPesan: {fileID: 0}
   teksPesan: {fileID: 0}
@@ -8482,19 +8486,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 993489219170387449, guid: f79afc3695db5994d8edb58b61e5eca6, type: 3}
       propertyPath: maxX
-      value: 0.3
+      value: 3.52
       objectReference: {fileID: 0}
     - target: {fileID: 993489219170387449, guid: f79afc3695db5994d8edb58b61e5eca6, type: 3}
       propertyPath: maxY
-      value: 5
+      value: -8.08
       objectReference: {fileID: 0}
     - target: {fileID: 993489219170387449, guid: f79afc3695db5994d8edb58b61e5eca6, type: 3}
       propertyPath: minX
-      value: -2.3
+      value: -5.54
       objectReference: {fileID: 0}
     - target: {fileID: 993489219170387449, guid: f79afc3695db5994d8edb58b61e5eca6, type: 3}
       propertyPath: minY
-      value: -7.3
+      value: 5.83
       objectReference: {fileID: 0}
     - target: {fileID: 993489219170387449, guid: f79afc3695db5994d8edb58b61e5eca6, type: 3}
       propertyPath: target
@@ -8510,7 +8514,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3454639081505468618, guid: f79afc3695db5994d8edb58b61e5eca6, type: 3}
       propertyPath: orthographic size
-      value: 3
+      value: 2.1
       objectReference: {fileID: 0}
     - target: {fileID: 3454639081505468618, guid: f79afc3695db5994d8edb58b61e5eca6, type: 3}
       propertyPath: m_NormalizedViewPortRect.width
