@@ -1519,11 +1519,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Halo, Penjelajah!
-
-    Lihat lencana yang sudah kamu
-
-    dapatkan!'
+  m_text: "Halo, Penjelajah!\nLihat lencana yang sudah kamu\ndapatkan! \u25BC"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 6b3db0e719b944e469206631f5e246f9, type: 2}
   m_sharedMaterial: {fileID: -678887154949189219, guid: 6b3db0e719b944e469206631f5e246f9, type: 2}
@@ -1563,7 +1559,7 @@ MonoBehaviour:
   m_characterSpacing: 0
   m_characterHorizontalScale: 1
   m_wordSpacing: 0
-  m_lineSpacing: -29.23
+  m_lineSpacing: -34.1
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
