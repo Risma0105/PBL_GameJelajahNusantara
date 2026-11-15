@@ -26,5 +26,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/03_GesoGeso.unity
     guid: e8a0b955cc5d5b346ae4f2b5feace6b8
+  - enabled: 1
+    path: Assets/Scenes/07_Pertanyaan.unity
+    guid: 8bd53604a61a5b044982245fe9b6645f
+  - enabled: 1
+    path: Assets/Scenes/06_PagelaranSeni.unity
+    guid: 4614ff5e446d68c46abee33b1774854f
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
