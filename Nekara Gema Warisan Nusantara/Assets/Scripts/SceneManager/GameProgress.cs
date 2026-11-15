@@ -9,12 +9,14 @@ using TMPro;
 // Aturan:
 //  - Tiap sekat (alat musik) punya jatah 'jumlahHariPerSekat' hari game.
 //  - Sumber waktu TUNGGAL = jam & hari di GameManager. Bar, teks sisa waktu,
-//    peringatan, dan batas gagal semuanya dihitung dari sana, jadi tidak
-//    mungkin tidak sinkron.
-//  - Bar jalan dari checkpoint sebelumnya (mis. 0) menuju checkpoint sekat
-//    ini (mis. 0.27) dan TEPAT sampai di sana saat jatah hari habis.
+//    peringatan, dan batas gagal semuanya dihitung dari sana.
+//  - Bar jalan dari checkpoint sebelumnya menuju checkpoint sekat ini
+//    dan TEPAT sampai di sana saat jatah hari habis.
+//  - Timer mulai saat pemain masuk scene alat musik sesuai urutan, lalu
+//    terus jalan di scene mana pun (museum luar, museum dalam, dll)
+//    kecuali Main Menu & Prolog. Berhenti saat game di-pause.
 //  - Kalau alat belum ditaruh di display saat jatah habis -> gagal,
-//    balik ke museum awal dan jatah 3 hari diulang.
+//    balik ke museum awal dan jatah diulang.
 // =====================================================================
 public class GameProgress : MonoBehaviour
 {
@@ -32,20 +34,27 @@ public class GameProgress : MonoBehaviour
     [Header("Nama Scene Alat Musik")]
     public string[] sceneAlatMusik =
     {
-        "Scene_Angklung",
-        "Scene_GesoGeso",
-        "Scene_Sarone",
-        "Scene_AlatKeempat"
+        "01_Angklung",
+        "03_GesoGeso",
+        "02_Sarone",
+        "07_Pertanyaan"
     };
 
     [Header("Scene Museum")]
-    public string namaSceneMuseumAwal = "Scene_MuseumDalam";
+    public string namaSceneMuseumAwal = "05_MuseumDalam";
+
+    [Header("Scene Tanpa Timer")]
+    public string[] sceneTanpaTimer =
+    {
+        "00_MainMenu",
+        "08_Prolog"
+    };
 
     [Header("Jatah Waktu per Sekat (ikut sistem hari GameManager)")]
     public int jumlahHariPerSekat = 3;
 
-    // true  = jatah habis tepat tengah malam akhir hari ke-3 (jam game mulai 09.00 -> 63 jam game)
-    // false = jatah habis setelah 3 x 24 jam penuh (hari ke-4 jam 09.00)
+    // true  = jatah habis tepat tengah malam akhir hari ke-3
+    // false = jatah habis setelah 3 x 24 jam penuh
     public bool akhirDiTengahMalam = true;
 
     // Dipakai hanya kalau GameManager tidak ada di scene
@@ -55,10 +64,10 @@ public class GameProgress : MonoBehaviour
     [Range(0f, 1f)]
     public float[] posisiCheckpoint =
     {
-        0.27f,
+        0.26f,
         0.51f,
         0.77f,
-        1f
+        0.9f
     };
 
     [Header("Warna Progress Bar & Peringatan")]
@@ -150,11 +159,23 @@ public class GameProgress : MonoBehaviour
         string namaSceneIni = scene.name;
 
         // Catat scene terakhir untuk fitur Resume (kecuali Main Menu & Prolog)
-        if (namaSceneIni != "00_MainMenu" && namaSceneIni != "08_Prolog")
+        if (!SceneTanpaTimer(namaSceneIni))
         {
             PlayerPrefs.SetString("SceneTerakhir", namaSceneIni);
             PlayerPrefs.Save();
         }
+    }
+
+    bool SceneTanpaTimer(string namaScene)
+    {
+        if (sceneTanpaTimer == null) return false;
+
+        foreach (string s in sceneTanpaTimer)
+        {
+            if (namaScene == s)
+                return true;
+        }
+        return false;
     }
 
     void PeriksaSceneAktif(Scene scene)
@@ -173,29 +194,37 @@ public class GameProgress : MonoBehaviour
 
         UpdateProgressBar();
 
-        // Bukan scene alat musik
+        bool bebasTimer = SceneTanpaTimer(scene.name);
+        bool masihAdaSekat = checkpointSelesai < 4;
+
+        // ----- Bukan scene alat musik -----
         if (sceneAktif == -1)
         {
-            // Di museum awal, timer sekat yang sedang berjalan tetap dikejar
-            if (scene.name == namaSceneMuseumAwal && checkpointSelesai < 4)
+            // Kalau sekat sudah dimulai, timer terus jalan di scene mana pun (kecuali menu/prolog)
+            if (!bebasTimer && sekatSudahMulai && masihAdaSekat)
             {
                 MulaiAtauLanjutkanSekat();
-                Debug.Log($"🏛️ Di Museum. Timer sekat ke-{checkpointSelesai + 1} dilanjutkan.");
+                Debug.Log($"⏱️ Timer sekat ke-{checkpointSelesai + 1} dilanjutkan di {scene.name}.");
                 return;
             }
 
-            Debug.Log("Bukan scene alat musik/museum. Timer berhenti.");
+            Debug.Log("Scene menu/prolog atau sekat belum mulai. Timer berhenti.");
             return;
         }
 
+        // ----- Scene alat musik yang bukan gilirannya -----
         if (sceneAktif != checkpointSelesai)
         {
-            Debug.Log("Scene belum sesuai urutan checkpoint.");
+            if (sekatSudahMulai && masihAdaSekat && !bebasTimer)
+                MulaiAtauLanjutkanSekat();
+            else
+                Debug.Log("Scene belum sesuai urutan checkpoint.");
             return;
         }
 
+        // ----- Scene alat musik sesuai giliran -----
         MulaiAtauLanjutkanSekat();
-        Debug.Log("Timer 3 hari aktif di scene: " + sceneAlatMusik[sceneAktif]);
+        Debug.Log("Timer aktif di scene: " + sceneAlatMusik[sceneAktif]);
     }
 
 
@@ -253,7 +282,7 @@ public class GameProgress : MonoBehaviour
         if (fillBarImage == null)
             return;
 
-        // Satu mekanisme saja yang mengisi bar (dulu dobel -> bar kelihatan kurang penuh):
+        // Satu mekanisme saja yang mengisi bar:
         //  - Image tipe Filled  -> diisi lewat fillAmount, lebar Fill dilepas dari Slider
         //  - Image tipe lain    -> diisi lewat Slider (lebar Fill yang berubah)
         pakaiFillAmount = fillBarImage.type == Image.Type.Filled;
@@ -344,7 +373,7 @@ public class GameProgress : MonoBehaviour
                 totalJam -= gm.jamMulaiGame;   // mulai 09.00 -> habis 24.00 hari terakhir
             totalJam = Mathf.Max(1f, totalJam);
 
-            // Jam game yang sudah lewat sejak sekat dimulai (naik terus, tidak loncat saat ganti hari)
+            // Jam game yang sudah lewat sejak sekat dimulai
             float jamBerlalu = (gm.hariSekarang - 1) * 24f + gm.JamSekarang - gm.jamMulaiGame;
             jamBerlalu = Mathf.Max(0f, jamBerlalu);
 
@@ -370,7 +399,6 @@ public class GameProgress : MonoBehaviour
     }
 
     // Aktifkan timer; jam hanya di-reset kalau sekat ini memang belum pernah mulai
-    // (balik dari museum / pindah scene tidak me-reset)
     void MulaiAtauLanjutkanSekat()
     {
         timerAktif = true;
@@ -389,6 +417,10 @@ public class GameProgress : MonoBehaviour
 
     void Update()
     {
+        // Game di-pause: bar dan timer berhenti
+        if (Time.timeScale == 0f)
+            return;
+
         GameManager gm = GameManager.Instance;
 
         // Jam game hanya jalan saat timer sekat aktif -> selalu sinkron dengan bar
@@ -493,15 +525,29 @@ public class GameProgress : MonoBehaviour
     // BERHASIL TARUH DISPLAY DI MUSEUM
     // =====================================
 
-    public void BerhasilTaruhDisplay()
+    // namaAlat opsional: kalau diisi, dicek harus sesuai urutan sekat
+    public void BerhasilTaruhDisplay(string namaAlat = null)
     {
         if (checkpointSelesai >= 4 || sedangGagal)
             return;
 
+        string[] urutan = { "Angklung", "GesoGeso", "Sarone", "AlatKeempat" };
+        if (!string.IsNullOrEmpty(namaAlat))
+        {
+            bool sesuai = namaAlat == urutan[checkpointSelesai]
+                          || (checkpointSelesai == 3 && namaAlat == "Suling");
+
+            if (!sesuai)
+            {
+                Debug.LogWarning("Urutan display salah, bar tidak naik.");
+                return;
+            }
+        }
+
         // Kunci bar tepat di garis checkpoint sekat ini
         SetNilaiBar(PosisiAkhirSekat());
 
-        // Lanjut ke sekat berikutnya, jatah 3 hari baru mulai dari nol
+        // Lanjut ke sekat berikutnya, jatah hari baru mulai dari nol
         checkpointSelesai++;
         MulaiHitungWaktuBaru();
 
@@ -520,7 +566,7 @@ public class GameProgress : MonoBehaviour
 
 
     // =====================================
-    // JATAH 3 HARI HABIS (GAGAL)
+    // JATAH HARI HABIS (GAGAL)
     // =====================================
 
     void PlayerGagal()
@@ -533,7 +579,7 @@ public class GameProgress : MonoBehaviour
         if (fillBarImage != null) fillBarImage.color = warnaBahaya;
         if (progressText != null) progressText.text = "Waktu Habis!";
 
-        Debug.Log("⏰ Jatah 3 hari habis sebelum ditaruh di display! Kembali ke museum awal.");
+        Debug.Log("⏰ Jatah hari habis sebelum ditaruh di display! Kembali ke museum awal.");
         Invoke(nameof(KembaliKeMuseum), Mathf.Max(0f, jedaSebelumGagal));
     }
 

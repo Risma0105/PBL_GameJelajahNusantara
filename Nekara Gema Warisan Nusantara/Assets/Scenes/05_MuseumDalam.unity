@@ -844,8 +844,8 @@ Transform:
   m_GameObject: {fileID: 204294024}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.643, y: -0.571, z: 0}
-  m_LocalScale: {x: 0.2649731, y: 0.2649731, z: 0.2649731}
+  m_LocalPosition: {x: -2.643, y: -0.84, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1556738632}
@@ -3884,7 +3884,7 @@ Transform:
   m_GameObject: {fileID: 632215919}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.82, y: 6.71, z: 0}
+  m_LocalPosition: {x: 0.82, y: 6.96, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4035,8 +4035,8 @@ Transform:
   m_GameObject: {fileID: 641147767}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.625, y: -0.627, z: 0}
-  m_LocalScale: {x: 0.24556005, y: 0.24556005, z: 0.24556005}
+  m_LocalPosition: {x: -9.625, y: -0.83, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1556738632}
@@ -4205,7 +4205,8 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 9056987664357322108, guid: fb27f5d9b5eb64245a67323a8f996126, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb27f5d9b5eb64245a67323a8f996126, type: 3}
@@ -4840,8 +4841,8 @@ Transform:
   m_GameObject: {fileID: 768577430}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.132, y: 5.9599, z: 0}
-  m_LocalScale: {x: 0.31045613, y: 0.31045613, z: 0.31045613}
+  m_LocalPosition: {x: -6.132, y: 5.64, z: 0}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1556738632}
@@ -6501,6 +6502,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2234004827869769985, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2234004827869769985, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -13139,11 +13144,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1 &1998130400 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4900820532107019835, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
-  m_PrefabInstance: {fileID: 2137049872}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2003355042 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4900820532107019835, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
@@ -13220,7 +13220,7 @@ Transform:
   m_GameObject: {fileID: 2023719332}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.614, y: 0.473, z: 0}
+  m_LocalPosition: {x: -2.58, y: 0.58, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13438,7 +13438,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MuseumManager
   faseAktif: 0
-  sudahCraftingAngklung: 0
+  sudahCraftingAngklung: 1
   sudahCraftingGesoGeso: 0
   sudahCraftingSarone: 0
   objekKabutDanMusuh: {fileID: 0}
@@ -13587,6 +13587,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1259609937}
     m_Modifications:
+    - target: {fileID: 2376218241612911229, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
+      propertyPath: posisiTaruhDiMeja
+      value: 
+      objectReference: {fileID: 2023719333}
+    - target: {fileID: 2376218241612911229, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
+      propertyPath: objekVisualAlatMusikDiMuseum
+      value: 
+      objectReference: {fileID: 641147767}
     - target: {fileID: 3543438798109847439, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.17
@@ -13627,10 +13635,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4701858147562918623, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
-      propertyPath: m_SortingOrder
-      value: 19
-      objectReference: {fileID: 0}
     - target: {fileID: 4900820532107019835, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
       propertyPath: m_Name
       value: dekorasi-museum-tambahan_5 (1)
@@ -13638,83 +13642,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4900820532107019835, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2137049875}
-    - targetCorrespondingSourceObject: {fileID: 4900820532107019835, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2137049876}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
 --- !u!4 &2137049873 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3543438798109847439, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
   m_PrefabInstance: {fileID: 2137049872}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2137049875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1998130400}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57107f5b852d0224eb0b60c345f3f653, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MuseumDisplay
-  namaAlatMusik: Angklung
-  objekVisualAlatMusikDiMuseum: {fileID: 641147767}
-  posisiTaruhDiMeja: {fileID: 2023719333}
-  panelPesan: {fileID: 0}
-  teksPesan: {fileID: 0}
-  jarakInteraksi: 2
---- !u!61 &2137049876
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1998130400}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.57}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 1}
-    newSize: {x: 2, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 2.58, y: 2.37}
-  m_EdgeRadius: 0
 --- !u!1001 &195892402272856314
 PrefabInstance:
   m_ObjectHideFlags: 0

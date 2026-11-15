@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6148980417158325107}
   - component: {fileID: 7202212828423359315}
   - component: {fileID: 7731331888085206722}
+  - component: {fileID: 2972084530411656941}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -49,13 +50,105 @@ MonoBehaviour:
   - 
   - 
   - 
-  durasiSatuHariNyata: 200.4
+  durasiSiang: 80
+  durasiMalam: 20
   hariSekarang: 1
   totalMaksimalHari: 10
+  jamMulaiGame: 9
+  jamLampuNyala: 18
+  jamLampuMati: 6
   warnaSiang: {r: 1, g: 1, b: 1, a: 1}
-  warnaMalam: {r: 0.12, g: 0.15, b: 0.32, a: 1}
+  warnaSore: {r: 1, g: 0.62, b: 0.38, a: 1}
+  warnaMalam: {r: 0.44705883, g: 0.44705883, b: 0.9490196, a: 0.69411767}
   intensitasSiang: 1
   intensitasMalam: 0.2
+  kurvaCahaya24Jam:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 5
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 6.5
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 8
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 15
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 17
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 19
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 21
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 24
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   teksHariDanWaktu: {fileID: 0}
 --- !u!114 &7731331888085206722
 MonoBehaviour:
@@ -71,3 +164,44 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PauseManager
   panelSettings: {fileID: 0}
   teksTombolPause: {fileID: 0}
+--- !u!114 &2972084530411656941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5151668189902357577}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8b1367d97872154ba1e4588f28cd367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameProgress
+  progressBar: {fileID: 0}
+  progressText: {fileID: 0}
+  fillBarImage: {fileID: 0}
+  namaSlider: ProgressBar
+  namaTeks: ProgressText
+  sceneAlatMusik:
+  - 01_Angklung
+  - 02_Sarone
+  - 03_GesoGeso
+  - 07_Pertanyaan
+  namaSceneMuseumAwal: 00_MainMenu
+  sceneTanpaTimer:
+  - 00_MainMenu
+  - 08_Prolog
+  jumlahHariPerSekat: 3
+  akhirDiTengahMalam: 1
+  durasiCadanganDetik: 600
+  posisiCheckpoint:
+  - 0.26
+  - 0.51
+  - 0.77
+  - 0.9
+  warnaNormal: {r: 0, g: 1, b: 0, a: 1}
+  warnaPeringatan: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  warnaBahaya: {r: 1, g: 0, b: 0, a: 1}
+  batasKuning: 0.3
+  batasMerah: 0.15
+  kecepatanKedip: 4
+  jedaSebelumGagal: 1.5
