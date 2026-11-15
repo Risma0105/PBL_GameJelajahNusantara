@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using TMPro;
 
@@ -11,23 +12,35 @@ public class CultureBookManager : MonoBehaviour
     {
         public string namaAlat; // Contoh: "Angklung" (untuk mencocokkan kunci progres)
         public string judul;
-        
-        [Header("Tahapan Deskripsi Berdasarkan Progres")]
-        [TextArea(2, 4)] public string infoNPCWarlok;    // Terbuka setelah ngobrol sama NPC Warlok
-        [TextArea(2, 4)] public string infoBahan;       // Terbuka setelah berhasil ambil 3 bahan
-        [TextArea(2, 4)] public string infoCrafting;    // Terbuka setelah berhasil crafting alat musik
-        
+
+        [Header("Lembar 1: Deskripsi Singkat (terbuka setelah ngobrol dengan Warlok)")]
+        [FormerlySerializedAs("infoNPCWarlok")]
+        [TextArea(2, 4)] public string deskripsiSingkat;
+
+        [Header("Lembar 2: Daftar Bahan (terbuka setelah alat musik berhasil dibuat)")]
+        [FormerlySerializedAs("infoBahan")]
+        [TextArea(2, 6)] public string daftarBahan;
+
+        [Tooltip("Opsional. Kalau diisi, tampil di bawah daftar bahan.")]
+        [FormerlySerializedAs("infoCrafting")]
+        [TextArea(2, 4)] public string catatanCrafting;
+
         public Sprite gambarAlatMusik;
     }
 
     [Header("Daftar Konten Buku")]
     public List<CultureItem> daftarBudaya = new List<CultureItem>();
     private int indexSekarang = 0;
+    private int halamanSekarang = 0; // 0 = lembar deskripsi, 1 = lembar bahan
 
-    [Header("Komponen UI (Halaman Kiri: Teks | Halaman Kanan: Gambar)")]
-    public TextMeshProUGUI txtJudulKiri;
-    public TextMeshProUGUI txtDeskripsiKiri;
-    public Image imgKanan;
+    [Header("Komponen UI")]
+    public TextMeshProUGUI txtJudulKiri;      // objek Judul
+    public TextMeshProUGUI txtDeskripsiKiri;  // objek Info (halaman kanan)
+    public Image imgKanan;                    // objek AlatMusik
+
+    [Header("Teks Tambahan")]
+    public string judulLembarBahan = "Bahan yang Dibutuhkan";
+    [TextArea(1, 3)] public string teksTerkunci = "Temui Warlok setempat untuk membuka informasi awal...";
 
     [Header("Transform Lembaran untuk Animasi Flip")]
     public RectTransform lembarKanan;
@@ -40,20 +53,70 @@ public class CultureBookManager : MonoBehaviour
 
     private bool sedangAnimasi = false;
 
-    void Start()
+    // OnEnable, bukan Start: panel buku sering dimatikan, jadi harus refresh tiap dibuka
+    void OnEnable()
     {
+        sedangAnimasi = false; // jaga-jaga kalau buku ditutup di tengah animasi
+        if (lembarKanan != null) lembarKanan.localEulerAngles = Vector3.zero;
+        if (lembarKiri != null) lembarKiri.localEulerAngles = Vector3.zero;
         UpdateTampilanLangsung();
+    }
+
+    // ---------- Logika navigasi per lembar ----------
+
+    bool SudahCraft(CultureItem item)
+    {
+        return PlayerPrefs.GetInt("Quest_Craft_" + item.namaAlat, 0) == 1;
+    }
+
+    bool BisaMaju()
+    {
+        if (daftarBudaya.Count == 0) return false;
+        bool adaLembarBahan = halamanSekarang == 0 && SudahCraft(daftarBudaya[indexSekarang]);
+        return adaLembarBahan || indexSekarang < daftarBudaya.Count - 1;
+    }
+
+    bool BisaMundur()
+    {
+        return halamanSekarang > 0 || indexSekarang > 0;
+    }
+
+    void Maju()
+    {
+        if (halamanSekarang == 0 && SudahCraft(daftarBudaya[indexSekarang]))
+        {
+            halamanSekarang = 1;           // buka lembar bahan alat yang sama
+        }
+        else
+        {
+            indexSekarang++;               // pindah ke alat berikutnya
+            halamanSekarang = 0;
+        }
+    }
+
+    void Mundur()
+    {
+        if (halamanSekarang == 1)
+        {
+            halamanSekarang = 0;
+        }
+        else
+        {
+            indexSekarang--;
+            // mundur mendarat di lembar terakhir alat sebelumnya, seperti buku asli
+            halamanSekarang = SudahCraft(daftarBudaya[indexSekarang]) ? 1 : 0;
+        }
     }
 
     public void HalamanBerikutnya()
     {
-        if (sedangAnimasi || indexSekarang >= daftarBudaya.Count - 1) return;
+        if (sedangAnimasi || !BisaMaju()) return;
         StartCoroutine(AnimasiBalikHalaman(true));
     }
 
     public void HalamanSebelumnya()
     {
-        if (sedangAnimasi || indexSekarang <= 0) return;
+        if (sedangAnimasi || !BisaMundur()) return;
         StartCoroutine(AnimasiBalikHalaman(false));
     }
 
@@ -68,104 +131,78 @@ public class CultureBookManager : MonoBehaviour
         while (waktu < durasiBalik)
         {
             waktu += Time.deltaTime;
-            float rotYProgress = Mathf.Lerp(0f, 90f * arah, waktu / durasiBalik);
-            if (lembarTarget != null) lembarTarget.localEulerAngles = new Vector3(0, rotYProgress, 0);
+            float rotY = Mathf.Lerp(0f, 90f * arah, waktu / durasiBalik);
+            if (lembarTarget != null) lembarTarget.localEulerAngles = new Vector3(0, rotY, 0);
             yield return null;
         }
 
-        if (keKanan) indexSekarang++;
-        else indexSekarang--;
+        if (keKanan) Maju();
+        else Mundur();
         UpdateTampilanLangsung();
 
         waktu = 0f;
         while (waktu < durasiBalik)
         {
             waktu += Time.deltaTime;
-            float rotYProgress = Mathf.Lerp(90f * arah, 0f, waktu / durasiBalik);
-            if (lembarTarget != null) lembarTarget.localEulerAngles = new Vector3(0, rotYProgress, 0);
+            float rotY = Mathf.Lerp(90f * arah, 0f, waktu / durasiBalik);
+            if (lembarTarget != null) lembarTarget.localEulerAngles = new Vector3(0, rotY, 0);
             yield return null;
         }
 
         if (lembarTarget != null) lembarTarget.localEulerAngles = Vector3.zero;
-        
+
         sedangAnimasi = false;
         UpdateTampilanLangsung();
     }
+
+    // ---------- Tampilan ----------
 
     void UpdateTampilanLangsung()
     {
         if (daftarBudaya.Count == 0) return;
 
+        indexSekarang = Mathf.Clamp(indexSekarang, 0, daftarBudaya.Count - 1);
         CultureItem data = daftarBudaya[indexSekarang];
+
+        bool progressNPC = PlayerPrefs.GetInt("Quest_Warlok_" + data.namaAlat, 0) == 1;
+        bool progressBahan = PlayerPrefs.GetInt("Quest_Bahan_" + data.namaAlat, 0) == 1;
+        bool progressCraft = PlayerPrefs.GetInt("Quest_Craft_" + data.namaAlat, 0) == 1;
+
+        // Lembar bahan tidak ada kalau alat musiknya belum didapat
+        if (!progressCraft) halamanSekarang = 0;
 
         if (txtJudulKiri != null) txtJudulKiri.text = data.judul;
 
-        // --- PENGATURAN GAMBAR ALAT MUSIK & EFEK ABU-ABU (BADGE STYLE) ---
+        // Gambar: terang kalau semua progres lengkap, abu-abu gelap kalau belum
         if (imgKanan != null)
         {
             imgKanan.sprite = data.gambarAlatMusik;
-
-            // Cek apakah ketiga progres sudah terbuka semua
-            bool progressNPC = PlayerPrefs.GetInt("Quest_Warlok_" + data.namaAlat, 0) == 1;
-            bool progressBahan = PlayerPrefs.GetInt("Quest_Bahan_" + data.namaAlat, 0) == 1;
-            bool progressCraft = PlayerPrefs.GetInt("Quest_Craft_" + data.namaAlat, 0) == 1;
-
-            bool semuaTerbuka = (progressNPC && progressBahan && progressCraft);
-
-            if (semuaTerbuka)
-            {
-                // Jika sudah lengkap semua, gambar berwarna normal (terang)
-                imgKanan.color = Color.white; 
-            }
-            else
-            {
-                // Jika belum lengkap, gambar berubah jadi abu-abu gelap (terkunci)
-                imgKanan.color = new Color(0.4f, 0.4f, 0.4f, 1f); 
-            }
+            bool semuaTerbuka = progressNPC && progressBahan && progressCraft;
+            imgKanan.color = semuaTerbuka ? Color.white : new Color(0.4f, 0.4f, 0.4f, 1f);
         }
-        // -----------------------------------------------------------------
 
-        // --- GABUNGKAN DESKRIPSI BERDASARKAN PROGRES PLAYER ---
+        // Teks halaman kanan, tergantung lembar yang sedang dibuka
         if (txtDeskripsiKiri != null)
         {
-            string teksGabungan = "";
-
-            // Cek Progres 1: Ngobrol sama NPC Warlok
-            bool progressNPC = PlayerPrefs.GetInt("Quest_Warlok_" + data.namaAlat, 0) == 1;
-            // Cek Progres 2: Berhasil ambil 3 bahan
-            bool progressBahan = PlayerPrefs.GetInt("Quest_Bahan_" + data.namaAlat, 0) == 1;
-            // Cek Progres 3: Berhasil crafting
-            bool progressCraft = PlayerPrefs.GetInt("Quest_Craft_" + data.namaAlat, 0) == 1;
-
-            if (progressNPC)
+            if (halamanSekarang == 0)
             {
-                teksGabungan += data.infoNPCWarlok + "\n\n";
+                txtDeskripsiKiri.text = progressNPC ? data.deskripsiSingkat : teksTerkunci;
             }
             else
             {
-                teksGabungan += "🔒 Temui Warlok setempat untuk membuka informasi awal...\n\n";
+                string teks = judulLembarBahan + "\n\n" + data.daftarBahan;
+                if (!string.IsNullOrEmpty(data.catatanCrafting))
+                    teks += "\n\n" + data.catatanCrafting;
+                txtDeskripsiKiri.text = teks;
             }
-
-            if (progressBahan)
-            {
-                teksGabungan += data.infoBahan + "\n\n";
-            }
-
-            if (progressCraft)
-            {
-                teksGabungan += data.infoCrafting;
-            }
-
-            txtDeskripsiKiri.text = teksGabungan;
         }
 
-        if (btnPrev != null) btnPrev.interactable = (indexSekarang > 0 && !sedangAnimasi);
-        if (btnNext != null) btnNext.interactable = (indexSekarang < daftarBudaya.Count - 1 && !sedangAnimasi);
+        if (btnPrev != null) btnPrev.interactable = BisaMundur() && !sedangAnimasi;
+        if (btnNext != null) btnNext.interactable = BisaMaju() && !sedangAnimasi;
     }
 
-    // Fungsi helper yang bisa dipanggil dari skrip Quest / NPC / Crafting manapun
-    public static void BukaProgresBuku(string namaAlat, string jenisProgres) 
-    // jenisProgres bisa diisi: "Warlok", "Bahan", atau "Craft"
+    // Dipanggil dari skrip Quest / NPC / Crafting. jenisProgres: "Warlok", "Bahan", atau "Craft"
+    public static void BukaProgresBuku(string namaAlat, string jenisProgres)
     {
         PlayerPrefs.SetInt("Quest_" + jenisProgres + "_" + namaAlat, 1);
         PlayerPrefs.Save();
@@ -174,7 +211,6 @@ public class CultureBookManager : MonoBehaviour
     public void TogglePanelBuku()
     {
         gameObject.SetActive(!gameObject.activeSelf);
-        if (gameObject.activeSelf) UpdateTampilanLangsung(); // Refresh saat buku dibuka
     }
 
     public void TutupBuku()
