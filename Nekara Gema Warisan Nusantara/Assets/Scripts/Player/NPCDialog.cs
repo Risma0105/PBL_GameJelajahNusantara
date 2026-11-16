@@ -11,6 +11,10 @@ public class NPCDialog : MonoBehaviour
     public TMP_Text teksPlayer;         // Tarik Text_Player
     public TMP_Text teksNPC;            // Tarik Text_NPC
 
+    [Header("Mode Dipakai Script Lain")]
+    [Tooltip("Centang kalau dialog ini dijalankan script lain (misal NPCCrafting). Input E dan trigger bawaan dimatikan.")]
+    public bool dikendalikanScriptLain = false;
+
     [Header("Ukuran Bubble Dinamis")]
     public Vector2 padding = new Vector2(24f, 20f); // ruang kosong kiri-kanan & atas-bawah
     public float lebarMin = 40f;
@@ -37,8 +41,8 @@ public class NPCDialog : MonoBehaviour
         public string isiPesan;
     }
 
+    [Tooltip("Dialog bawaan (dipakai kalau 'Dikendalikan Script Lain' tidak dicentang)")]
     public DialogData[] daftarPercakapan;
-    private int indeksDialog = 0;
 
     [Header("Referensi UI Crafting / Progress")]
     public GameObject panelCraftingAtauBadge;
@@ -46,6 +50,11 @@ public class NPCDialog : MonoBehaviour
     [Header("Pengaturan Buku Budaya (Culture Book)")]
     [Tooltip("Nama alat musik yang terkait dengan NPC ini, contoh: Angklung")]
     public string namaAlatMusikTerkait = "Angklung";
+
+    // ---------- state ----------
+    private DialogData[] dataAktif;
+    private System.Action aksiSelesai;
+    private int indeksDialog = 0;
 
     private bool playerDekat = false;
     private bool sedangBerdialog = false;
@@ -58,6 +67,8 @@ public class NPCDialog : MonoBehaviour
     private float lebarAkhirAktif;
     private float tinggiAkhirAktif;
 
+    public bool SedangBerdialog { get { return sedangBerdialog; } }
+
     void Start()
     {
         TutupSemuaBubble();
@@ -66,26 +77,30 @@ public class NPCDialog : MonoBehaviour
 
     void Update()
     {
+        if (dikendalikanScriptLain) return;
+
         if (playerDekat && Input.GetKeyDown(KeyCode.E))
         {
-            if (!sedangBerdialog)
-            {
-                MulaiDialog();
-            }
-            else if (sedangMengetik)
-            {
-                // Tekan E saat masih mengetik = langsung tampilkan semua teks
-                SelesaikanKetik();
-            }
-            else
-            {
-                LanjutDialog();
-            }
+            if (!sedangBerdialog) MulaiDialogBawaan();
+            else TekanLanjut();
         }
     }
 
-    void MulaiDialog()
+    // =====================================
+    // API PUBLIK (dipanggil script lain)
+    // =====================================
+
+    // Mulai dialog dengan data sendiri. 'selesai' dipanggil saat baris terakhir ditutup.
+    public void MulaiDialog(DialogData[] data, System.Action selesai)
     {
+        if (data == null || data.Length == 0)
+        {
+            if (selesai != null) selesai.Invoke();
+            return;
+        }
+
+        dataAktif = data;
+        aksiSelesai = selesai;
         sedangBerdialog = true;
         indeksDialog = 0;
 
@@ -97,10 +112,36 @@ public class NPCDialog : MonoBehaviour
         TampilkanPesanSaatIni();
     }
 
+    // Dipanggil saat player tekan E: skip ketikan, atau lanjut ke baris berikutnya
+    public void TekanLanjut()
+    {
+        if (!sedangBerdialog) return;
+
+        if (sedangMengetik) SelesaikanKetik();
+        else LanjutDialog();
+    }
+
+    // Tutup paksa (misal player menjauh)
+    public void TutupDialog()
+    {
+        sedangBerdialog = false;
+        aksiSelesai = null;
+        TutupSemuaBubble();
+    }
+
+    // =====================================
+    // INTERNAL
+    // =====================================
+
+    void MulaiDialogBawaan()
+    {
+        MulaiDialog(daftarPercakapan, null);
+    }
+
     void LanjutDialog()
     {
         indeksDialog++;
-        if (indeksDialog < daftarPercakapan.Length) TampilkanPesanSaatIni();
+        if (dataAktif != null && indeksDialog < dataAktif.Length) TampilkanPesanSaatIni();
         else SelesaiDialog();
     }
 
@@ -108,9 +149,9 @@ public class NPCDialog : MonoBehaviour
     {
         TutupSemuaBubble();
 
-        if (indeksDialog >= daftarPercakapan.Length) return;
+        if (dataAktif == null || indeksDialog >= dataAktif.Length) return;
 
-        DialogData dialogAktif = daftarPercakapan[indeksDialog];
+        DialogData dialogAktif = dataAktif[indeksDialog];
 
         GameObject bubble = dialogAktif.apakahPlayerYangNgomong ? bubblePlayer : bubbleNPC;
         TMP_Text teks = dialogAktif.apakahPlayerYangNgomong ? teksPlayer : teksNPC;
@@ -303,6 +344,15 @@ public class NPCDialog : MonoBehaviour
         sedangBerdialog = false;
         TutupSemuaBubble();
 
+        // Kalau dialog dijalankan script lain, serahkan kelanjutannya ke callback
+        if (aksiSelesai != null)
+        {
+            System.Action aksi = aksiSelesai;
+            aksiSelesai = null;
+            aksi.Invoke();
+            return;
+        }
+
         if (!string.IsNullOrEmpty(namaAlatMusikTerkait))
         {
             CultureBookManager.BukaProgresBuku(namaAlatMusikTerkait, "Warlok");
@@ -316,6 +366,8 @@ public class NPCDialog : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (dikendalikanScriptLain) return;
+
         if (other.CompareTag("Player"))
         {
             playerDekat = true;
@@ -328,11 +380,12 @@ public class NPCDialog : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
+        if (dikendalikanScriptLain) return;
+
         if (other.CompareTag("Player"))
         {
             playerDekat = false;
-            sedangBerdialog = false;
-            TutupSemuaBubble();
+            TutupDialog();
 
             if (UIManager.Instance != null) UIManager.Instance.TampilkanDefault();
         }

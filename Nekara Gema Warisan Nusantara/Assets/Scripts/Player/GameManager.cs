@@ -49,6 +49,10 @@ public class GameManager : MonoBehaviour
         new Keyframe(21f, 1f),    // gelap
         new Keyframe(24f, 1f));
 
+    [Header("Scene Indoor (waktu tetap jalan, cahaya tetap terang)")]
+    [Tooltip("Isi dengan nama scene persis seperti di Build Profiles, mis. museum dalam")]
+    public List<string> sceneIndoor = new List<string> { "NAMA_SCENE_MUSEUM_DALAM" };
+
     [Header("UI Feedback (Opsional)")]
     public TMP_Text teksHariDanWaktu;
 
@@ -56,10 +60,12 @@ public class GameManager : MonoBehaviour
     private Light2D currentGlobalLight;
     private bool isSiang = true;
     private bool waktuJalan = true;
+    private bool cahayaAktif = true; // false = scene indoor (cahaya dikunci terang)
 
     public bool IsSiang => isSiang;
     public float JamSekarang => jamGame;
     public bool WaktuJalan => waktuJalan;
+    public bool CahayaAktif => cahayaAktif;
 
     float DetikPerHari => Mathf.Max(1f, durasiSiang + durasiMalam);
 
@@ -90,14 +96,30 @@ public class GameManager : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
+    void Start()
+    {
+        // Pastikan scene pertama (tempat GameManager dibuat) juga ikut dicek
+        if (Instance == this)
+        {
+            OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
+        }
+    }
+
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        // Abaikan GameManager duplikat yang akan dihancurkan
+        if (Instance != this) return;
+
+        cahayaAktif = !sceneIndoor.Contains(scene.name);
+
+        currentGlobalLight = null;
         GameObject globalLightObj = GameObject.Find("Global Light 2D");
         if (globalLightObj != null)
         {
             currentGlobalLight = globalLightObj.GetComponent<Light2D>();
         }
-        else
+
+        if (currentGlobalLight == null)
         {
             Light2D[] allLights = Object.FindObjectsByType<Light2D>(FindObjectsSortMode.None);
             foreach (var light in allLights)
@@ -110,12 +132,14 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        AturSemuaLampuMap(!isSiang);
+        // Lampu map hanya menyala kalau scene outdoor dan sedang malam
+        AturSemuaLampuMap(cahayaAktif && !isSiang);
     }
 
     void Update()
     {
         // Jam hanya maju kalau waktuJalan aktif (diatur oleh GameProgress)
+        // Tetap jalan di semua scene, termasuk indoor
         if (waktuJalan)
         {
             // Satu jam penuh 24 jam berjalan selama DetikPerHari
@@ -134,12 +158,18 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        // Lampu hanya diganti saat status siang/malam berubah
+        // Status siang/malam tetap dihitung (supaya sinkron saat kembali ke outdoor)
         bool siangSekarang = HitungSiang(jamGame);
         if (siangSekarang != isSiang)
         {
             isSiang = siangSekarang;
-            AturSemuaLampuMap(!isSiang);
+
+            // Lampu map hanya diganti di scene outdoor
+            if (cahayaAktif)
+            {
+                AturSemuaLampuMap(!isSiang);
+            }
+
             Debug.Log(isSiang ? "☀️ Pagi tiba: lampu map dimatikan." : "🌙 Malam tiba: lampu map dinyalakan.");
         }
 
@@ -160,6 +190,14 @@ public class GameManager : MonoBehaviour
     void TerapkanCahaya()
     {
         if (currentGlobalLight == null) return;
+
+        if (!cahayaAktif)
+        {
+            // Indoor: selalu terang, tidak ikut siklus siang-malam
+            currentGlobalLight.color = warnaSiang;
+            currentGlobalLight.intensity = intensitasSiang;
+            return;
+        }
 
         float gelap = kurvaCahaya24Jam.Evaluate(jamGame);
         currentGlobalLight.color = WarnaDariGelap(gelap);
@@ -185,7 +223,7 @@ public class GameManager : MonoBehaviour
         jamGame = jamMulaiGame;
         hariSekarang = 1;
         isSiang = HitungSiang(jamGame);
-        AturSemuaLampuMap(!isSiang);
+        AturSemuaLampuMap(cahayaAktif && !isSiang);
     }
 
     // Tiang lampu dibiarkan utuh, hanya komponen Light2D yang diaktifkan/dimatikan
