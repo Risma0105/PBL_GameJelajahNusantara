@@ -184,14 +184,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 26.5
+  m_fontSizeBase: 26.5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -253,8 +253,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 6, y: 5}
-  m_SizeDelta: {x: 447, y: 63.8085}
+  m_AnchoredPosition: {x: 0.2957, y: -19.983}
+  m_SizeDelta: {x: 538.5409, y: 79.2079}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &466476234
 GameObject:
@@ -541,8 +541,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 691, y: 3.584}
-  m_SizeDelta: {x: 150.0181, y: 245.356}
+  m_AnchoredPosition: {x: 626.471, y: 52.706}
+  m_SizeDelta: {x: 119.401, y: 225.337}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &763779920
 GameObject:
@@ -746,8 +746,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -280, y: 262}
-  m_SizeDelta: {x: 59.9503, y: 15.4739}
+  m_AnchoredPosition: {x: -207.36429, y: 41.71176}
+  m_SizeDelta: {x: 123.2217, y: 21.3324}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1376629205
 CanvasRenderer:
@@ -786,8 +786,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4279901243
+  m_fontColor: {r: 0.23137257, g: 0.10980393, b: 0.10196079, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -804,8 +804,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 35
+  m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -907,7 +907,7 @@ MonoBehaviour:
     namaKarakter: Aki Rana
     isiDialog: '"Dia adalah Kabut Memori dia tidak muncul begitu saja, Jang."'
     spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
-    spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
+    spriteKanan: {fileID: -8959435104959665722, guid: 11df9a044b2d0f34bb91f66df5f35a48, type: 3}
   - siapaYangNgobrol: 0
     namaKarakter: Aki Rana
     isiDialog: '"Kabut ini tumbuh dari ingatan yang hilang. Semakin banyak orang
@@ -916,36 +916,36 @@ MonoBehaviour:
 
 '
     spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
-    spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
+    spriteKanan: {fileID: -8959435104959665722, guid: 11df9a044b2d0f34bb91f66df5f35a48, type: 3}
   - siapaYangNgobrol: 1
     namaKarakter: Ujang
     isiDialog: '"Lalu bagaimana nasib festival budaya kita kek? sepuluh hari dari
       sekarang festival harus dilaksanakan, tetapi semua alatmusik dimuseum hilang
       akibat kabut memori!"'
     spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
-    spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
+    spriteKanan: {fileID: -8959435104959665722, guid: 11df9a044b2d0f34bb91f66df5f35a48, type: 3}
   - siapaYangNgobrol: 0
     namaKarakter: Aki Rana
     isiDialog: '" Betul Jang, Aki titipkan festival museum kita kepadamu."'
     spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
-    spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
+    spriteKanan: {fileID: -8959435104959665722, guid: 11df9a044b2d0f34bb91f66df5f35a48, type: 3}
   - siapaYangNgobrol: 0
     namaKarakter: Aki Rana
     isiDialog: '"Menjelajah lah kamu, pergi ke daerah asal alat-alat musik. Kita
       harus mengembalikan apa yang mulai dilupakan, Jang. '
     spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
-    spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
+    spriteKanan: {fileID: -8959435104959665722, guid: 11df9a044b2d0f34bb91f66df5f35a48, type: 3}
   - siapaYangNgobrol: 0
     namaKarakter: Aki Rana
-    isiDialog: Itulah satu-satunya cara untuk melawan kabut ini
+    isiDialog: '"Itulah satu-satunya cara untuk melawan kabut ini"'
     spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
-    spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
+    spriteKanan: {fileID: -8959435104959665722, guid: 11df9a044b2d0f34bb91f66df5f35a48, type: 3}
   - siapaYangNgobrol: 1
     namaKarakter: Ujang
     isiDialog: '"Baik Ki, Akan ku kumpulkan pemahaman yang telah dilupakan dan buat
       kembali alat musiknya agar kebudayaan Nusantara tetap lestari"'
     spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
-    spriteKanan: {fileID: 4320464371695338419, guid: d9ac9f6234f813447a80efb551efd43d, type: 3}
+    spriteKanan: {fileID: -8959435104959665722, guid: 11df9a044b2d0f34bb91f66df5f35a48, type: 3}
   kecepatanKetik: 0.03
   onDialogSelesai:
     m_PersistentCalls:
@@ -1083,8 +1083,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 285, y: 233}
-  m_SizeDelta: {x: 57.6005, y: 14.4002}
+  m_AnchoredPosition: {x: 207.2935, y: 38.78251}
+  m_SizeDelta: {x: 115.0135, y: 27.1909}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1833073264
 MonoBehaviour:
@@ -1115,8 +1115,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4279901243
+  m_fontColor: {r: 0.23137257, g: 0.10980393, b: 0.10196079, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1133,8 +1133,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 35
+  m_fontSizeBase: 35
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

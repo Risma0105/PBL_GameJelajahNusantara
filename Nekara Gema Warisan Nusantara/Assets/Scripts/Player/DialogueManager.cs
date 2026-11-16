@@ -26,11 +26,11 @@ public struct DialogItem
 public class DialogueManager : MonoBehaviour
 {
     [Header("UI Komponen Nama & Dialog")]
-    public TextMeshProUGUI textNamaKiri;   // Tarik teks nama bagian kiri ke sini
-    public TextMeshProUGUI textNamaKanan;  // Tarik teks nama bagian kanan ke sini
-    public TextMeshProUGUI textIsiDialog;  // Tarik teks isi dialog ke sini
-    public Image imageKiri;                // Tarik UI Image karakter kiri
-    public Image imageKanan;               // Tarik UI Image karakter kanan
+    public TextMeshProUGUI textNamaKiri;   
+    public TextMeshProUGUI textNamaKanan;  
+    public TextMeshProUGUI textIsiDialog;  
+    public Image imageKiri;                
+    public Image imageKanan;               
 
     [Header("Daftar Percakapan (Atur di Inspector)")]
     public List<DialogItem> daftarPercakapan = new List<DialogItem>();
@@ -61,9 +61,20 @@ public class DialogueManager : MonoBehaviour
         {
             if (sedangMengetik)
             {
-                // Klik 1: Hentikan animasi ketik, tampilkan teks secara penuh
+                // Klik 1: Hentikan animasi ketik, tampilkan seluruh teks secara penuh seketika
                 StopAllCoroutines();
-                textIsiDialog.text = kalimatSaatIni;
+                textIsiDialog.maxVisibleCharacters = kalimatSaatIni.Length;
+
+                // Pastikan alignment tetap Top-Left atau Top-Right saat di-skip
+                DialogItem item = daftarPercakapan[indexDialog];
+                if (textIsiDialog != null)
+                {
+                    if (item.siapaYangNgobrol == DialogItem.PosisiSpeaker.Kiri)
+                        textIsiDialog.alignment = TextAlignmentOptions.TopLeft;
+                    else
+                        textIsiDialog.alignment = TextAlignmentOptions.TopRight;
+                }
+
                 sedangMengetik = false;
                 bolehLanjut = true;
             }
@@ -81,7 +92,7 @@ public class DialogueManager : MonoBehaviour
         DialogItem item = daftarPercakapan[indexDialog];
         kalimatSaatIni = item.isiDialog;
 
-        // Atur Posisi Nama, Tampilan, dan Alignment Teks Berdasarkan Siapa yang Ngobrol
+        // Atur Posisi Nama & Alignment Teks (Top-Left untuk Kiri, Top-Right untuk Kanan)
         if (item.siapaYangNgobrol == DialogItem.PosisiSpeaker.Kiri)
         {
             if (textNamaKiri != null) 
@@ -94,10 +105,9 @@ public class DialogueManager : MonoBehaviour
                 textNamaKanan.gameObject.SetActive(false); 
             }
 
-            // Teks dialog ikut rata kiri saat karakter kiri berbicara
             if (textIsiDialog != null)
             {
-                textIsiDialog.alignment = TextAlignmentOptions.Left;
+                textIsiDialog.alignment = TextAlignmentOptions.TopLeft;
             }
         }
         else
@@ -112,10 +122,9 @@ public class DialogueManager : MonoBehaviour
                 textNamaKiri.gameObject.SetActive(false); 
             }
 
-            // Teks dialog ikut rata kanan saat karakter kanan berbicara (bisa diubah ke Left jika ingin tetap rata kiri)
             if (textIsiDialog != null)
             {
-                textIsiDialog.alignment = TextAlignmentOptions.Right;
+                textIsiDialog.alignment = TextAlignmentOptions.TopRight;
             }
         }
 
@@ -125,6 +134,10 @@ public class DialogueManager : MonoBehaviour
             imageKiri.gameObject.SetActive(true);
             imageKiri.sprite = item.spriteKiri;
         }
+        else if (imageKiri != null)
+        {
+            imageKiri.gameObject.SetActive(false);
+        }
 
         // Atur Gambar Sisi Kanan
         if (imageKanan != null && item.spriteKanan != null)
@@ -132,19 +145,30 @@ public class DialogueManager : MonoBehaviour
             imageKanan.gameObject.SetActive(true);
             imageKanan.sprite = item.spriteKanan;
         }
+        else if (imageKanan != null)
+        {
+            imageKanan.gameObject.SetActive(false);
+        }
 
-        StartCoroutine(KetikTeks(kalimatSaatIni));
+        // Masukkan teks penuh ke TextMeshPro, lalu jalankan animasi ketik
+        if (textIsiDialog != null)
+        {
+            textIsiDialog.text = kalimatSaatIni;
+            StartCoroutine(KetikTeks());
+        }
     }
 
-    IEnumerator KetikTeks(string kalimat)
+    IEnumerator KetikTeks()
     {
-        textIsiDialog.text = "";
         sedangMengetik = true;
         bolehLanjut = false;
 
-        foreach (char huruf in kalimat.ToCharArray())
+        int totalKarakter = kalimatSaatIni.Length;
+        textIsiDialog.maxVisibleCharacters = 0; 
+
+        for (int i = 0; i <= totalKarakter; i++)
         {
-            textIsiDialog.text += huruf;
+            textIsiDialog.maxVisibleCharacters = i;
             yield return new WaitForSeconds(kecepatanKetik);
         }
 
