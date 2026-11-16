@@ -823,7 +823,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -59.600082, y: 26.699951}
+  m_AnchoredPosition: {x: -59.600098, y: 26.699951}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &537498647
@@ -2285,8 +2285,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4378472694112663506, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -4.212983
+      objectReference: {fileID: 0}
+    - target: {fileID: 4378472694112663506, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -3
+      value: -5.3635254
       objectReference: {fileID: 0}
     - target: {fileID: 4802682771478035760, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
       propertyPath: m_OverridePixelPerfect
@@ -2372,6 +2376,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5539033344125130565, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8145351298000282461, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+      propertyPath: daftarBudaya.Array.data[0].daftarBahan
+      value: 'Daftar Bahan:
+
+        Bambu Apus
+
+        Bambu Hitam
+
+        Tali
+        Rotan'
+      objectReference: {fileID: 0}
+    - target: {fileID: 8145351298000282461, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+      propertyPath: daftarBudaya.Array.data[0].deskripsiSingkat
+      value: 'Angklung adalah alat musik tradisional yang berasal dari Jawa Barat.
+
+        Angklung
+        terbuat dari bambu.
+
+        Cara memainkan angklung adalah dengan digoyangkan,
+        sehingga bambu menghasilkan bunyi.
+
+'
+      objectReference: {fileID: 0}
     - target: {fileID: 8492820516696802199, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
       propertyPath: m_Name
       value: UI_Game 1
@@ -2385,6 +2416,7 @@ PrefabInstance:
     - {fileID: 796267825888067149, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
     - {fileID: 8381522783548069470, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
     - {fileID: 8476760482703286409, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+    - {fileID: 6056288141779004360, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
