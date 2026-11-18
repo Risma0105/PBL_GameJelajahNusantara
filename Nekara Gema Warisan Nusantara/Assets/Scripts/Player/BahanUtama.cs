@@ -9,20 +9,34 @@ public class BahanUtama : MonoBehaviour
 
     [Header("Prefab Hasil Panen (Item Bahan Pengganti)")]
     public GameObject prefabItemBahan;
-    
+
     [Header("Pesan Petunjuk Awal")]
     public string pesanPetunjuk = "Klik untuk menebang pohon";
 
     private bool playerDiDekat = false;
 
-    // 1. Deteksi saat Player masuk ke area lingkaran/collider pohon
+    // Kunci unik per scene + nama objek (nama pohon harus unik di scene)
+    private string KunciTebang
+    {
+        get { return "Tebang_" + gameObject.scene.name + "_" + gameObject.name; }
+    }
+
+    void Start()
+    {
+        // Pohon yang sudah pernah ditebang tidak muncul lagi
+        if (PlayerPrefs.GetInt(KunciTebang, 0) == 1)
+        {
+            sudahDitebang = true;
+            gameObject.SetActive(false);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player") && !sudahDitebang)
         {
             playerDiDekat = true;
-            
-            // Tampilkan pesan petunjuk lewat UIManager
+
             if (UIManager.Instance != null)
             {
                 UIManager.Instance.TampilkanPesan(pesanPetunjuk);
@@ -30,7 +44,6 @@ public class BahanUtama : MonoBehaviour
         }
     }
 
-    // 2. Deteksi saat Player menjauh dari area pohon -> Kembali ke teks statis!
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -38,7 +51,6 @@ public class BahanUtama : MonoBehaviour
             playerDiDekat = false;
             if (!sudahDitebang)
             {
-                // Suruh UIManager kembali menampilkan teks statis saat keliling map
                 if (UIManager.Instance != null)
                 {
                     UIManager.Instance.TampilkanDefault();
@@ -49,7 +61,6 @@ public class BahanUtama : MonoBehaviour
 
     void OnMouseDown()
     {
-        // Menebang hanya bisa dilakukan jika Player sedang berada di dekat pohon
         if (!sudahDitebang && playerDiDekat)
         {
             TebasPohon();
@@ -60,10 +71,9 @@ public class BahanUtama : MonoBehaviour
     {
         tebasanSaatIni++;
         string pesanProgres = "Memotong pohon... Progress: " + tebasanSaatIni + "/" + jumlahTebasanDibutuhkan;
-        
+
         Debug.Log(pesanProgres);
 
-        // Tampilkan progres tebasan lewat UIManager
         if (UIManager.Instance != null)
         {
             UIManager.Instance.TampilkanPesan(pesanProgres);
@@ -78,8 +88,12 @@ public class BahanUtama : MonoBehaviour
     void SelesaikanPenebangan()
     {
         sudahDitebang = true;
+
+        // Catat pohon ini sudah ditebang supaya tidak muncul lagi setelah Resume
+        PlayerPrefs.SetInt(KunciTebang, 1);
+        PlayerPrefs.Save();
+
         string pesanSelesai = "Pohon ditebang habis dan berubah menjadi bahan!";
-        
         Debug.Log(pesanSelesai);
 
         if (UIManager.Instance != null)
@@ -89,14 +103,10 @@ public class BahanUtama : MonoBehaviour
 
         if (prefabItemBahan != null)
         {
-            // Atur posisi muncul sedikit di bawah pusat pohon (akar pohon)
-            // Ubah angka -1.2f jika ingin posisinya disesuaikan lagi
             Vector3 posisiSpawn = transform.position + new Vector3(0f, -1.2f, 0f);
-            
-            // Buat item di posisi bawah pohon
+
             GameObject itemBaru = Instantiate(prefabItemBahan, posisiSpawn, Quaternion.identity);
-            
-            // Masukkan otomatis ke dalam wadah KumpulanBahan di Hierarchy agar rapi
+
             GameObject kumpulanBahanObj = GameObject.Find("KumpulanBahan");
             if (kumpulanBahanObj != null)
             {
@@ -108,7 +118,6 @@ public class BahanUtama : MonoBehaviour
             Debug.LogError("PERINGATAN: Prefab Item Bahan belum dimasukkan di Inspector pada objek " + gameObject.name);
         }
 
-        // Karena objek hancur, kembalikan UI Guide ke teks statis default
         if (UIManager.Instance != null)
         {
             UIManager.Instance.TampilkanDefault();

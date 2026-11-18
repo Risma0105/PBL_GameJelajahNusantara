@@ -12,12 +12,12 @@ public class MainMenuManager : MonoBehaviour
 
     [Header("Loading Component")]
     public Slider sliderLoading;
-    public float durasiLoading = 2.5f; 
+    public float durasiLoading = 2.5f;
 
     [Header("Sprite Tombol (UI Image)")]
-    public Image tombolPlayImage;      
-    public Sprite spriteMulai;         
-    public Sprite spriteResume;        
+    public Image tombolPlayImage;
+    public Sprite spriteMulai;
+    public Sprite spriteResume;
 
     private static bool sudahPernahLoadingAwal = false;
 
@@ -27,11 +27,11 @@ public class MainMenuManager : MonoBehaviour
 
         if (!sudahPernahLoadingAwal)
         {
-            sudahPernahLoadingAwal = true; 
+            sudahPernahLoadingAwal = true;
 
             if (panelLoading != null) panelLoading.SetActive(true);
             if (panelMainMenu != null) panelMainMenu.SetActive(false);
-            if (uiGameObj != null) uiGameObj.SetActive(false); // Sembunyikan UI game saat loading awal
+            if (uiGameObj != null) uiGameObj.SetActive(false);
 
             StartCoroutine(JalankanLoadingAwal());
         }
@@ -39,7 +39,7 @@ public class MainMenuManager : MonoBehaviour
         {
             if (panelLoading != null) panelLoading.SetActive(false);
             if (panelMainMenu != null) panelMainMenu.SetActive(true);
-            if (uiGameObj != null) uiGameObj.SetActive(true); // Munculkan UI game jika sudah melewati loading
+            if (uiGameObj != null) uiGameObj.SetActive(true);
         }
     }
 
@@ -52,14 +52,14 @@ public class MainMenuManager : MonoBehaviour
             timer += Time.deltaTime;
             if (sliderLoading != null)
             {
-                sliderLoading.value = timer / durasiLoading; 
+                sliderLoading.value = timer / durasiLoading;
             }
             yield return null;
         }
 
         if (panelLoading != null) panelLoading.SetActive(false);
         if (panelMainMenu != null) panelMainMenu.SetActive(true);
-        if (uiGameObj != null) uiGameObj.SetActive(true); // Aktifkan UI game setelah bar loading selesai
+        if (uiGameObj != null) uiGameObj.SetActive(true);
     }
 
     void PerbaruiSpriteTombol()
@@ -70,11 +70,11 @@ public class MainMenuManager : MonoBehaviour
 
             if (sudahPernahMain && spriteResume != null)
             {
-                tombolPlayImage.sprite = spriteResume; 
+                tombolPlayImage.sprite = spriteResume;
             }
             else if (!sudahPernahMain && spriteMulai != null)
             {
-                tombolPlayImage.sprite = spriteMulai;   
+                tombolPlayImage.sprite = spriteMulai;
             }
         }
     }
@@ -88,8 +88,7 @@ public class MainMenuManager : MonoBehaviour
         {
             // --- JIKA RESUME: Ambil nama scene terakhir yang terekam ---
             string sceneTerakhir = PlayerPrefs.GetString("SceneTerakhir", "08_Prolog");
-            
-            // Validasi agar tidak meload scene Main Menu lagi
+
             if (sceneTerakhir == "00_MainMenu" || string.IsNullOrEmpty(sceneTerakhir))
             {
                 sceneTerakhir = "08_Prolog";
@@ -101,6 +100,7 @@ public class MainMenuManager : MonoBehaviour
         else
         {
             // --- JIKA START BARU ---
+            PlayerPrefs.DeleteAll();   // hapus data lama (bahan terambil, dll)
             PlayerPrefs.SetInt("GameSudahDimulai", 1);
             PlayerPrefs.SetString("SceneTerakhir", "08_Prolog");
             PlayerPrefs.Save();
