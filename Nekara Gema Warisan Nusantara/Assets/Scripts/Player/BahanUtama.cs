@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[RequireComponent(typeof(ProximityPrompt))]
 public class BahanUtama : MonoBehaviour
 {
     [Header("Pengaturan Tebang Pohon")]
@@ -9,111 +10,49 @@ public class BahanUtama : MonoBehaviour
 
     [Header("Prefab Hasil Panen (Item Bahan Pengganti)")]
     public GameObject prefabItemBahan;
-    
-    [Header("Pesan Petunjuk Awal")]
-    public string pesanPetunjuk = "Klik untuk menebang pohon";
 
-    private bool playerDiDekat = false;
+    private ProximityPrompt prompt;
 
-    // 1. Deteksi saat Player masuk ke area lingkaran/collider pohon
-    private void OnTriggerEnter2D(Collider2D collision)
+    void Awake()
     {
-        if (collision.CompareTag("Player") && !sudahDitebang)
-        {
-            playerDiDekat = true;
-            
-            // Tampilkan pesan petunjuk lewat UIManager
-            if (UIManager.Instance != null)
-            {
-                UIManager.Instance.TampilkanPesan(pesanPetunjuk);
-            }
-        }
+        prompt = GetComponent<ProximityPrompt>();
     }
 
-    // 2. Deteksi saat Player menjauh dari area pohon -> Kembali ke teks statis!
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.CompareTag("Player"))
-        {
-            playerDiDekat = false;
-            if (!sudahDitebang)
-            {
-                // Suruh UIManager kembali menampilkan teks statis saat keliling map
-                if (UIManager.Instance != null)
-                {
-                    UIManager.Instance.TampilkanDefault();
-                }
-            }
-        }
-    }
-
-    void OnMouseDown()
-    {
-        // Menebang hanya bisa dilakukan jika Player sedang berada di dekat pohon
-        if (!sudahDitebang && playerDiDekat)
-        {
-            TebasPohon();
-        }
-    }
+    void OnEnable()  { prompt.onTriggered.AddListener(TebasPohon); }
+    void OnDisable() { prompt.onTriggered.RemoveListener(TebasPohon); }
 
     void TebasPohon()
     {
-        tebasanSaatIni++;
-        string pesanProgres = "Memotong pohon... Progress: " + tebasanSaatIni + "/" + jumlahTebasanDibutuhkan;
-        
-        Debug.Log(pesanProgres);
+        if (sudahDitebang) return;
 
-        // Tampilkan progres tebasan lewat UIManager
-        if (UIManager.Instance != null)
-        {
-            UIManager.Instance.TampilkanPesan(pesanProgres);
-        }
+        tebasanSaatIni++;
+        Debug.Log("Memotong pohon... Progress: " + tebasanSaatIni + "/" + jumlahTebasanDibutuhkan);
+
+        prompt.SetActionText("Tebang (" + tebasanSaatIni + "/" + jumlahTebasanDibutuhkan + ")");
 
         if (tebasanSaatIni >= jumlahTebasanDibutuhkan)
-        {
             SelesaikanPenebangan();
-        }
     }
 
     void SelesaikanPenebangan()
     {
         sudahDitebang = true;
-        string pesanSelesai = "Pohon ditebang habis dan berubah menjadi bahan!";
-        
-        Debug.Log(pesanSelesai);
-
-        if (UIManager.Instance != null)
-        {
-            UIManager.Instance.TampilkanPesan(pesanSelesai);
-        }
 
         if (prefabItemBahan != null)
         {
-            // Atur posisi muncul sedikit di bawah pusat pohon (akar pohon)
-            // Ubah angka -1.2f jika ingin posisinya disesuaikan lagi
+            // Posisi muncul sedikit di bawah pusat pohon (akar). Ubah -1.2f kalau perlu.
             Vector3 posisiSpawn = transform.position + new Vector3(0f, -1.2f, 0f);
-            
-            // Buat item di posisi bawah pohon
             GameObject itemBaru = Instantiate(prefabItemBahan, posisiSpawn, Quaternion.identity);
-            
-            // Masukkan otomatis ke dalam wadah KumpulanBahan di Hierarchy agar rapi
+
             GameObject kumpulanBahanObj = GameObject.Find("KumpulanBahan");
             if (kumpulanBahanObj != null)
-            {
                 itemBaru.transform.SetParent(kumpulanBahanObj.transform);
-            }
         }
         else
         {
             Debug.LogError("PERINGATAN: Prefab Item Bahan belum dimasukkan di Inspector pada objek " + gameObject.name);
         }
 
-        // Karena objek hancur, kembalikan UI Guide ke teks statis default
-        if (UIManager.Instance != null)
-        {
-            UIManager.Instance.TampilkanDefault();
-        }
-
-        Destroy(gameObject);
+        Destroy(gameObject); // prompt ikut hilang karena Canvas-nya anak objek ini
     }
 }

@@ -1,7 +1,6 @@
-
 using UnityEngine;
-using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(ProximityPrompt))]
 public class CollectibleItem : MonoBehaviour
 {
     [Header("Nama Item yang Dimasukkan ke Inventori")]
@@ -10,26 +9,26 @@ public class CollectibleItem : MonoBehaviour
     [Header("Referensi NPC Crafting")]
     public NPCCrafting npcCrafting;
 
-    private bool playerDekat = false;
     private bool sudahDiambil = false;
+    private ProximityPrompt prompt;
 
-    private PlayerInventory inventoryPlayer;
-
-    void Update()
+    void Awake()
     {
-        if (playerDekat &&
-            !sudahDiambil &&
-            Mouse.current != null &&
-            Mouse.current.leftButton.wasPressedThisFrame)
-        {
-            AmbilItem();
-        }
+        prompt = GetComponent<ProximityPrompt>();
     }
+
+    void OnEnable()  { prompt.onTriggered.AddListener(AmbilItem); }
+    void OnDisable() { prompt.onTriggered.RemoveListener(AmbilItem); }
 
     void AmbilItem()
     {
-        if (inventoryPlayer == null || sudahDiambil)
-            return;
+        if (sudahDiambil) return;
+
+        PlayerInventory inventoryPlayer = prompt.Player != null
+            ? prompt.Player.GetComponent<PlayerInventory>()
+            : null;
+
+        if (inventoryPlayer == null) return;
 
         // Masukkan alat musik ke inventory
         inventoryPlayer.AddItem(namaItem);
@@ -53,25 +52,5 @@ public class CollectibleItem : MonoBehaviour
         Debug.Log(namaItem + " berhasil diambil dan masuk inventory!");
 
         Destroy(gameObject);
-    }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerDekat = true;
-            inventoryPlayer = other.GetComponent<PlayerInventory>();
-
-            Debug.Log("Tekan klik kiri untuk mengambil " + namaItem);
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            playerDekat = false;
-            inventoryPlayer = null;
-        }
     }
 }
