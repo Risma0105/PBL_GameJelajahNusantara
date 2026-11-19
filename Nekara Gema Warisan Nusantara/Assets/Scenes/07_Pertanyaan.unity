@@ -9326,41 +9326,41 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MemoryFogQuiz
   daftarPertanyaan:
-  - soal: Samudra terluas di permukaan bumi adalah...
+  - soal: 'Angklung Berasal dari ... '
     pilihanJawaban:
     - Jakarta
-    - Madura
+    - Sumatera Utara
     - Surabaya
-    - Rumah Risma
+    - Jawa Barat
     indexJawabanBenar: 3
-  - soal: Lapisan atmosfer bumi yang paling dekat dengan permukaan tanah disebut...
+  - soal: Bahan utama pembuatan Angklung adalah ...
     pilihanJawaban:
-    - Stratosfer
-    - risma
-    - hume
-    - rote
-    indexJawabanBenar: 3
-  - soal: Siapa penemu lampu pijar praktis yang dapat menyala lama?
-    pilihanJawaban:
-    - ya kali bukan risma
-    - pasti risma
-    - kayanya risma
-    - RISMA
-    indexJawabanBenar: 3
-  - soal: Pulau terbesar di dunia yang bukan benua adalah...
-    pilihanJawaban:
-    - 
-    - 
-    - 
-    - 
+    - Ijuk
+    - Bambu
+    - Tanah Liat
+    - Jati
     indexJawabanBenar: 1
-  - soal: apakah
+  - soal: Alat musik tiup yang berasal dari Nusa Tenggara Barat adalah ...
     pilihanJawaban:
-    - 
-    - 
-    - 
-    - 
+    - Sarone
+    - Gesok
+    - Tifa
+    - Angklung
+    indexJawabanBenar: 0
+  - soal: 'Cara memainkan alat musik gesok ialah ... '
+    pilihanJawaban:
+    - ditiup
+    - digesek
+    - digetarkan
+    - dipukul
     indexJawabanBenar: 1
+  - soal: 'Apakah alat musik dari __ yang dimainkan dengan cara ditiup adalah ... '
+    pilihanJawaban:
+    - Angklung
+    - Gesok
+    - Sarone
+    - Kendang
+    indexJawabanBenar: 2
   teksSoal: {fileID: 181581020}
   tombolPilihan:
   - {fileID: 1994967524}
