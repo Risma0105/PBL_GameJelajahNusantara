@@ -5,9 +5,10 @@ using UnityEngine;
 // PopUpAnimasi
 //
 // Pasang di objek panel yang di-SetActive(true) saat popup muncul
-// (mis. Panel_BadgeUnlock). Tiap panel aktif, 'target' (box) akan:
+// (mis. Panel_BadgeUnlock atau Panel prompt). Tiap panel aktif, 'target' (box) akan:
 //   MUNCUL : membesar dengan efek membal + fade in + naik sedikit
 //   TUTUP  : mengecil + fade out, lalu panel dimatikan (panggil Tutup() dari tombol X)
+//   BUKA   : dipanggil kalau panel mau dimunculkan lagi (batalkan animasi tutup kalau masih jalan)
 //
 // Syarat: semua elemen popup (ikon, teks, tombol X) harus jadi ANAK 'target',
 // supaya ikut membesar-mengecil bersama box.
@@ -113,6 +114,30 @@ public class PopUpAnimasi : MonoBehaviour
         grup.alpha = Mathf.Clamp01(t * 2f);   // fade in selesai di separuh durasi
         grup.interactable = false;            // tombol belum bisa diklik selama animasi
         grup.blocksRaycasts = false;
+    }
+
+
+    // =====================================
+    // BUKA (dipanggil dari script lain, mis. ProximityPrompt)
+    // =====================================
+
+    public void Buka()
+    {
+        GameObject p = panelYangDitutup != null ? panelYangDitutup : gameObject;
+
+        if (!p.activeSelf)
+        {
+            p.SetActive(true);   // OnEnable otomatis memutar animasi muncul
+            return;
+        }
+
+        if (sedangTutup)         // batalkan animasi tutup, muncul lagi
+        {
+            sedangTutup = false;
+            if (jalan != null) StopCoroutine(jalan);
+            TerapkanMuncul(0f);
+            jalan = StartCoroutine(Muncul());
+        }
     }
 
 

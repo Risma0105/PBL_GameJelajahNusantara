@@ -44,6 +44,7 @@ public class ProximityPrompt : MonoBehaviour
 
     private bool sedangTampil = false;
     private bool terdekatSebelumnya = false;
+    private PopUpAnimasi popup;   // komponen animasi di Panel (opsional)
 
     void Awake()
     {
@@ -51,10 +52,16 @@ public class ProximityPrompt : MonoBehaviour
         RefreshUI();
 
         if (panel == null)
+        {
             Debug.LogWarning("[Prompt] Panel KOSONG di objek: " + gameObject.name, this);
+        }
+        else
+        {
+            popup = panel.GetComponent<PopUpAnimasi>();
+            panel.SetActive(false);   // langsung sembunyi tanpa animasi
+        }
 
-        sedangTampil = true;
-        SetVisible(false);
+        sedangTampil = false;
     }
 
     void OnDisable()
@@ -194,6 +201,17 @@ public class ProximityPrompt : MonoBehaviour
     {
         if (sedangTampil == visible) return;
         sedangTampil = visible;
-        if (panel != null) panel.SetActive(visible);
+        if (panel == null) return;
+
+        if (visible)
+        {
+            if (popup != null) popup.Buka();
+            else panel.SetActive(true);
+        }
+        else
+        {
+            if (popup != null && panel.activeInHierarchy) popup.Tutup();
+            else panel.SetActive(false);
+        }
     }
 }
