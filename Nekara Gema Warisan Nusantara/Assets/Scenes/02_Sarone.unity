@@ -16259,6 +16259,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1385379554}
   m_SourcePrefab: {fileID: 100100000, guid: a5df650d090d5194fb54ef589010217e, type: 3}
+--- !u!114 &352503341 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5608469429227805354, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+  m_PrefabInstance: {fileID: 2060520226}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1001 &356728682
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21211,6 +21222,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2c640aa6d1ea8f419107da49ddac19a, type: 3}
+--- !u!114 &628378447 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4858522356804673501, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+  m_PrefabInstance: {fileID: 2060520226}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
 --- !u!1001 &628788478
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41941,11 +41963,11 @@ PrefabInstance:
     - target: {fileID: 4598596859884147898, guid: fb27f5d9b5eb64245a67323a8f996126, type: 3}
       propertyPath: 'slotIcons.Array.data[0]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 352503341}
     - target: {fileID: 4598596859884147898, guid: fb27f5d9b5eb64245a67323a8f996126, type: 3}
       propertyPath: 'slotIcons.Array.data[1]'
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 628378447}
     - target: {fileID: 4598596859884147898, guid: fb27f5d9b5eb64245a67323a8f996126, type: 3}
       propertyPath: 'itemPrefabs.Array.data[0]'
       value: 
