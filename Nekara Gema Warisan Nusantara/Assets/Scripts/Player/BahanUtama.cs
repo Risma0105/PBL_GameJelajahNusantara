@@ -40,8 +40,8 @@ public class BahanUtama : MonoBehaviour
 
         if (prefabItemBahan != null)
         {
-            // Posisi muncul sedikit di bawah pusat pohon (akar). Ubah -1.2f kalau perlu.
-            Vector3 posisiSpawn = transform.position + new Vector3(0f, -1.2f, 0f);
+           
+            Vector3 posisiSpawn = prefabItemBahan.transform.position;
             GameObject itemBaru = Instantiate(prefabItemBahan, posisiSpawn, Quaternion.identity);
 
             GameObject kumpulanBahanObj = GameObject.Find("KumpulanBahan");
