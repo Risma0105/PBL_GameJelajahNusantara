@@ -17,6 +17,7 @@ using TMPro;
 //    kecuali Main Menu & Prolog. Berhenti saat game di-pause.
 //  - Kalau alat belum ditaruh di display saat jatah habis -> gagal,
 //    balik ke museum awal dan jatah diulang.
+//  - Pintu alat musik terkunci sampai urutannya tiba (lihat BolehMasuk).
 // =====================================================================
 public class GameProgress : MonoBehaviour
 {
@@ -562,6 +563,26 @@ public class GameProgress : MonoBehaviour
 
         UpdateProgressBar();       // bar tetap di checkpoint yang baru dikunci, warna balik normal
         Debug.Log("🎉 Alat musik ditaruh di display! Progress sekat ini terkunci.");
+    }
+
+
+    // =====================================
+    // KUNCI PINTU (DIPAKAI PintuMuseum)
+    // =====================================
+
+    // Pintu terbuka kalau urutannya sudah tiba.
+    // Kalau pintu yang sudah selesai tidak boleh dimasuki lagi, ganti ">=" jadi "==".
+    public bool BolehMasuk(string namaAlat)
+    {
+        switch (namaAlat)
+        {
+            case "Angklung":    return checkpointSelesai >= 0;
+            case "GesoGeso":    return checkpointSelesai >= 1;
+            case "Sarone":      return checkpointSelesai >= 2;
+            case "AlatKeempat":
+            case "Suling":      return checkpointSelesai >= 3;
+        }
+        return false;
     }
 
 

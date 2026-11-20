@@ -18,7 +18,13 @@ public class MuseumDisplay : MonoBehaviour
     public TMP_Text teksPesan;
 
     [Header("Pengaturan Interaksi")]
-    public float jarakInteraksi = 2.0f;
+    public float jarakInteraksi = 3.0f;
+
+    [Header("Debug")]
+    [Tooltip("Cetak alasan kenapa input tidak berhasil di Console")]
+    public bool tampilkanLogDebug = true;
+
+    private static readonly Color warnaSiluet = new Color(0.4f, 0.4f, 0.4f, 1f);
 
     private Transform playerTransform;
     private PlayerInventory playerInventory;
@@ -46,10 +52,7 @@ public class MuseumDisplay : MonoBehaviour
                 objekVisualAlatMusikDiMuseum.transform.position = posisiTaruhDiMeja.position;
 
             objekVisualAlatMusikDiMuseum.SetActive(true);
-
-            SpriteRenderer sr = objekVisualAlatMusikDiMuseum.GetComponentInChildren<SpriteRenderer>(true);
-            if (sr != null)
-                sr.color = new Color(0.4f, 0.4f, 0.4f, 1f);
+            AturWarnaVisual(warnaSiluet);
         }
 
         if (panelPesan != null)
@@ -67,30 +70,81 @@ public class MuseumDisplay : MonoBehaviour
         }
     }
 
+    void Log(string pesan)
+    {
+        if (tampilkanLogDebug)
+            Debug.Log($"[MuseumDisplay:{namaAlatMusik}] {pesan}");
+    }
+
+    // Ubah warna SEMUA sprite di objek visual (termasuk anak-anaknya)
+    void AturWarnaVisual(Color warna)
+    {
+        if (objekVisualAlatMusikDiMuseum == null)
+            return;
+
+        SpriteRenderer[] semuaSprite =
+            objekVisualAlatMusikDiMuseum.GetComponentsInChildren<SpriteRenderer>(true);
+
+        foreach (SpriteRenderer sr in semuaSprite)
+            sr.color = warna;
+    }
+
     void Update()
     {
-        if (sudahDipajang)
+        // Input: klik kiri, klik kanan, atau tombol E
+        bool klikKiri = Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame;
+        bool klikKanan = Mouse.current != null && Mouse.current.rightButton.wasPressedThisFrame;
+        bool tekanE = Keyboard.current != null && Keyboard.current.eKey.wasPressedThisFrame;
+
+        if (!klikKiri && !klikKanan && !tekanE)
             return;
+
+        if (sudahDipajang)
+        {
+            Log("Sudah dipajang (tersimpan di PlayerPrefs), input diabaikan. " +
+                "Klik kanan komponen > 'Reset Display Ini' untuk mengulang.");
+            return;
+        }
 
         if (playerTransform == null || playerInventory == null)
             CariPlayer();
 
-        if (playerTransform == null || playerInventory == null)
+        if (playerTransform == null)
+        {
+            Debug.LogWarning($"[MuseumDisplay:{namaAlatMusik}] Objek ber-tag 'Player' tidak ditemukan!");
             return;
+        }
 
-        bool klik = Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame;
-        if (!klik)
+        if (playerInventory == null)
+        {
+            Debug.LogWarning($"[MuseumDisplay:{namaAlatMusik}] Komponen PlayerInventory tidak ada di objek Player!");
             return;
+        }
 
-        // Abaikan klik yang mengenai tombol/panel UI (Pause, Culture Book, dll)
-        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+        // UI hanya menahan klik mouse, tombol E tidak
+        bool klikMouse = klikKiri || klikKanan;
+        if (klikMouse && EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+        {
+            Log("Klik tertahan UI (cek Raycast Target pada panel/Image). Coba tekan E.");
             return;
+        }
 
-        float jarak = Vector2.Distance(transform.position, playerTransform.position);
-        Debug.Log($"[{namaAlatMusik}] klik: jarak={jarak} batas={jarakInteraksi} punya={playerInventory.PunyaItem(namaAlatMusik)}");
+        // Jarak dihitung dari objek alat musik di meja (kalau ada)
+        Vector3 titikAcuan = objekVisualAlatMusikDiMuseum != null
+            ? objekVisualAlatMusikDiMuseum.transform.position
+            : transform.position;
 
-        if (jarak <= jarakInteraksi)
-            CobaTaruhAlatMusikDariInventaris();
+        float jarak = Vector2.Distance(titikAcuan, playerTransform.position);
+        bool punya = playerInventory.PunyaItem(namaAlatMusik);
+        Log($"Input: jarak={jarak:F2} batas={jarakInteraksi} punya={punya}");
+
+        if (jarak > jarakInteraksi)
+        {
+            Log("Player terlalu jauh. Dekati meja atau naikkan jarakInteraksi.");
+            return;
+        }
+
+        CobaTaruhAlatMusikDariInventaris();
     }
 
     void CobaTaruhAlatMusikDariInventaris()
@@ -122,7 +176,7 @@ public class MuseumDisplay : MonoBehaviour
         playerInventory.SimpanInventaris();
         playerInventory.RefreshInventoryUI();
 
-        // 4. Tampilkan alat di meja
+        // 4. Tampilkan alat di meja (warna asli)
         TampilkanAlatMusikDiMeja();
 
         // 5. Kunci progress bar & lanjut ke sekat berikutnya
@@ -130,6 +184,10 @@ public class MuseumDisplay : MonoBehaviour
         {
             GameProgress.Instance.CollectInstrument(namaAlatMusik);
             GameProgress.Instance.BerhasilTaruhDisplay(namaAlatMusik);
+        }
+        else
+        {
+            Debug.LogWarning("GameProgress.Instance null, progress tidak naik dan pintu berikutnya tidak terbuka!");
         }
 
         TampilkanPesan("✨ Berhasil! " + namaAlatMusik + " berhasil dipajang di museum!");
@@ -150,10 +208,7 @@ public class MuseumDisplay : MonoBehaviour
             objekVisualAlatMusikDiMuseum.transform.position = posisiTaruhDiMeja.position;
 
         objekVisualAlatMusikDiMuseum.SetActive(true);
-
-        SpriteRenderer sr = objekVisualAlatMusikDiMuseum.GetComponentInChildren<SpriteRenderer>(true);
-        if (sr != null)
-            sr.color = Color.white;
+        AturWarnaVisual(Color.white);
     }
 
     void TampilkanPesan(string pesan)
@@ -163,5 +218,19 @@ public class MuseumDisplay : MonoBehaviour
 
         if (panelPesan != null)
             panelPesan.SetActive(true);
+    }
+
+    // Untuk testing: klik kanan komponen MuseumDisplay di Inspector > "Reset Display Ini"
+    [ContextMenu("Reset Display Ini")]
+    void ResetDisplay()
+    {
+        PlayerPrefs.DeleteKey(KeyDisplay);
+        PlayerPrefs.Save();
+        sudahDipajang = false;
+
+        if (objekVisualAlatMusikDiMuseum != null)
+            AturWarnaVisual(warnaSiluet);
+
+        Debug.Log($"[MuseumDisplay:{namaAlatMusik}] Status pajangan direset.");
     }
 }

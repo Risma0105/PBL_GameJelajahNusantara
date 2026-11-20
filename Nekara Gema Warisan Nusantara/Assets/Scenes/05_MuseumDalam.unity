@@ -617,6 +617,7 @@ MonoBehaviour:
   panelPesan: {fileID: 0}
   teksPesan: {fileID: 0}
   jarakInteraksi: 2
+  tampilkanLogDebug: 1
 --- !u!61 &137954617
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4341,6 +4342,7 @@ GameObject:
   m_Component:
   - component: {fileID: 641147768}
   - component: {fileID: 641147769}
+  - component: {fileID: 641147770}
   m_Layer: 0
   m_Name: Angklung
   m_TagString: Untagged
@@ -4422,6 +4424,25 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &641147770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 641147767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57107f5b852d0224eb0b60c345f3f653, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MuseumDisplay
+  namaAlatMusik: Angklung
+  objekVisualAlatMusikDiMuseum: {fileID: 641147767}
+  posisiTaruhDiMeja: {fileID: 0}
+  panelPesan: {fileID: 0}
+  teksPesan: {fileID: 0}
+  jarakInteraksi: 3
+  tampilkanLogDebug: 1
 --- !u!1001 &642314563
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11276,6 +11297,7 @@ MonoBehaviour:
   panelPesan: {fileID: 0}
   teksPesan: {fileID: 0}
   jarakInteraksi: 2
+  tampilkanLogDebug: 1
 --- !u!61 &1774717420
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -15672,7 +15694,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: dekorasi-museum-tambahan_5 (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2376218241612911229, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
