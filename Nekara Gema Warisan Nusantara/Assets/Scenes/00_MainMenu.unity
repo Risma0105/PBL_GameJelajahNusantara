@@ -774,17 +774,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &536387149 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5895539939839852751, guid: 603aa4dc48a401b4b8554ad5a86318e2, type: 3}
-  m_PrefabInstance: {fileID: 1185809326012449921}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b96dbebd2918c9647824ad6002641f5d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MainMenuManager
 --- !u!1 &537498645
 GameObject:
   m_ObjectHideFlags: 0
@@ -2053,7 +2042,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2858,6 +2847,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8492820516696802199, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
   m_PrefabInstance: {fileID: 1330096255}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1729724550 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5895539939839852751, guid: 603aa4dc48a401b4b8554ad5a86318e2, type: 3}
+  m_PrefabInstance: {fileID: 1185809326012449921}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b96dbebd2918c9647824ad6002641f5d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MainMenuManager
 --- !u!1001 &1813901914
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2876,7 +2876,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
       propertyPath: daftarSFX.Array.size
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
       propertyPath: daftarBGM.Array.data[0].clipAudio
@@ -2997,6 +2997,14 @@ PrefabInstance:
     - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
       propertyPath: daftarSFX.Array.data[5].namaSuara
       value: pahat
+      objectReference: {fileID: 0}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarSFX.Array.data[6].clipAudio
+      value: 
+      objectReference: {fileID: 8300000, guid: 69972930ac7bc554a90f3f94d79d2377, type: 3}
+    - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
+      propertyPath: daftarSFX.Array.data[6].namaSuara
+      value: collect
       objectReference: {fileID: 0}
     - target: {fileID: 2107574597663090928, guid: 86e372fb879397447a82e12d712e2418, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3273,6 +3281,7 @@ GameObject:
   - component: {fileID: 2010425666}
   - component: {fileID: 2010425664}
   - component: {fileID: 2010425665}
+  - component: {fileID: 2010425668}
   m_Layer: 5
   m_Name: Play
   m_TagString: Untagged
@@ -3354,7 +3363,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 536387149}
+      - m_Target: {fileID: 1729724550}
         m_TargetAssemblyTypeName: MainMenuManager, Assembly-CSharp
         m_MethodName: TombolPlay
         m_Mode: 1
@@ -3394,6 +3403,19 @@ RectTransform:
   m_AnchoredPosition: {x: 741.3885, y: -446.9687}
   m_SizeDelta: {x: 367.15, y: 123.67}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2010425668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2010425663}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21471dc71bca24049b08e1c43d4c34ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectClickSFX
+  namaSFX: ButtonClick
 --- !u!1 &2030660190
 GameObject:
   m_ObjectHideFlags: 0

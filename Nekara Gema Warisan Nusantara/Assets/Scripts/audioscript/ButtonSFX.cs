@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ObjectClickSFX : MonoBehaviour
 {
-    public string namaSFX = "ButtonClick";
+    public string namaSFX = "";
 
     private void OnMouseDown()
     {
