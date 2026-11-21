@@ -10532,6 +10532,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 684419535267658478, guid: bd4bc561d3201714bb126ee612ac0b3d, type: 3}
+      propertyPath: m_SortingOrder
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 6274278068962258236, guid: bd4bc561d3201714bb126ee612ac0b3d, type: 3}
       propertyPath: m_Name
       value: gapura-portal-map-filled_0 (1)
@@ -14249,6 +14253,10 @@ PrefabInstance:
     - target: {fileID: 684419535267658478, guid: bd4bc561d3201714bb126ee612ac0b3d, type: 3}
       propertyPath: m_Color.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 684419535267658478, guid: bd4bc561d3201714bb126ee612ac0b3d, type: 3}
+      propertyPath: m_SortingOrder
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 6274278068962258236, guid: bd4bc561d3201714bb126ee612ac0b3d, type: 3}
       propertyPath: m_Name
@@ -29743,7 +29751,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 684419535267658478, guid: bd4bc561d3201714bb126ee612ac0b3d, type: 3}
       propertyPath: m_SortingOrder
-      value: 15
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 6274278068962258236, guid: bd4bc561d3201714bb126ee612ac0b3d, type: 3}
       propertyPath: m_Name
