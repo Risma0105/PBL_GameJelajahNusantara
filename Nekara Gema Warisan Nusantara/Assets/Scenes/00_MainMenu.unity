@@ -4000,7 +4000,7 @@ PrefabInstance:
     - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
       propertyPath: daftarBGM.Array.data[2].clipAudio
       value: 
-      objectReference: {fileID: 8300000, guid: db0e7fab29d370f44960b826457e23a4, type: 3}
+      objectReference: {fileID: 8300000, guid: 867bbea4e99d72c49bbd076aefba4366, type: 3}
     - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
       propertyPath: daftarBGM.Array.data[2].namaSuara
       value: 02_Sarone
@@ -4040,7 +4040,7 @@ PrefabInstance:
     - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
       propertyPath: daftarBGM.Array.data[7].clipAudio
       value: 
-      objectReference: {fileID: 8300000, guid: 90f798e018615ae43818d9b6524db3c5, type: 3}
+      objectReference: {fileID: 8300000, guid: 158ebed4e426d904f91e76f6226b8323, type: 3}
     - target: {fileID: 371906915505456152, guid: 86e372fb879397447a82e12d712e2418, type: 3}
       propertyPath: daftarBGM.Array.data[7].namaSuara
       value: 07_Pertanyaan
