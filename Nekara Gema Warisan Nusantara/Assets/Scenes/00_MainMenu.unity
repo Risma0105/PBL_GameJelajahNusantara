@@ -626,6 +626,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 311311316}
   m_CullTransparentMesh: 1
+--- !u!1 &330557797
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 330557799}
+  - component: {fileID: 330557798}
+  m_Layer: 0
+  m_Name: GameProgress
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &330557798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330557797}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8b1367d97872154ba1e4588f28cd367, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameProgress
+  progressBar: {fileID: 0}
+  progressText: {fileID: 0}
+  fillBarImage: {fileID: 0}
+  namaSlider: ProgressBar
+  namaTeks: ProgressText
+  sceneAlatMusik:
+  - 01_Angklung
+  - 03_GesoGeso
+  - 02_Sarone
+  - 07_Pertanyaan
+  namaSceneMuseumAwal: 05_MuseumDalam
+  sceneTanpaTimer:
+  - 00_MainMenu
+  - 08_Prolog
+  jumlahHariPerSekat: 3
+  akhirDiTengahMalam: 1
+  durasiCadanganDetik: 600
+  posisiCheckpoint:
+  - 0.26
+  - 0.51
+  - 0.77
+  - 0.9
+  warnaNormal: {r: 0, g: 1, b: 0, a: 1}
+  warnaPeringatan: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  warnaBahaya: {r: 1, g: 0, b: 0, a: 1}
+  batasKuning: 0.3
+  batasMerah: 0.15
+  kecepatanKedip: 4
+  jedaSebelumGagal: 1.5
+  durasiAnimasiBar: 1.5
+  tesCheckpoint: 0
+--- !u!4 &330557799
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330557797}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -155.2778, y: -83.23126, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &401883312
 GameObject:
   m_ObjectHideFlags: 0
@@ -4843,3 +4918,4 @@ SceneRoots:
   - {fileID: 1813901914}
   - {fileID: 878431805}
   - {fileID: 1185809326012449921}
+  - {fileID: 330557799}
