@@ -26956,7 +26956,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &947215067
 Transform:
   m_ObjectHideFlags: 0
@@ -47003,6 +47003,7 @@ GameObject:
   - component: {fileID: 1545758629}
   - component: {fileID: 1545758632}
   - component: {fileID: 1545758633}
+  - component: {fileID: 1545758634}
   m_Layer: 0
   m_Name: BambuKecil
   m_TagString: Untagged
@@ -47178,6 +47179,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   tampilkanLog: 1
+--- !u!114 &1545758634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1545758628}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21471dc71bca24049b08e1c43d4c34ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectClickSFX
+  namaSFX: 
 --- !u!1001 &1555934435
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48412,6 +48426,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7996853411416232026, guid: b31ef3067d8a8ca45abc402fc9c230a1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1606152759}
+    - targetCorrespondingSourceObject: {fileID: 7996853411416232026, guid: b31ef3067d8a8ca45abc402fc9c230a1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1606152760}
   m_SourcePrefab: {fileID: 100100000, guid: b31ef3067d8a8ca45abc402fc9c230a1, type: 3}
 --- !u!4 &1606152752 stripped
 Transform:
@@ -48645,6 +48662,19 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &1606152760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1606152753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21471dc71bca24049b08e1c43d4c34ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectClickSFX
+  namaSFX: pahat
 --- !u!1001 &1607161560
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -54960,6 +54990,7 @@ GameObject:
   - component: {fileID: 1920818755}
   - component: {fileID: 1920818758}
   - component: {fileID: 1920818759}
+  - component: {fileID: 1920818760}
   m_Layer: 0
   m_Name: DaunLontar
   m_TagString: Untagged
@@ -55135,6 +55166,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   tampilkanLog: 1
+--- !u!114 &1920818760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920818754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21471dc71bca24049b08e1c43d4c34ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectClickSFX
+  namaSFX: collect
 --- !u!1001 &1922278690
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -58568,7 +58612,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21471dc71bca24049b08e1c43d4c34ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectClickSFX
-  namaSFX: pahat
+  namaSFX: collect
 --- !u!1001 &2122552694
 PrefabInstance:
   m_ObjectHideFlags: 0
