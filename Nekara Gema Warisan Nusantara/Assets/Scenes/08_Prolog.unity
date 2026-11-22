@@ -507,7 +507,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
+  m_Sprite: {fileID: 4675359565495773137, guid: 78a67f04170946f489b071b26491a40c, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1
@@ -541,8 +541,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 626.471, y: 52.706}
-  m_SizeDelta: {x: 119.401, y: 225.337}
+  m_AnchoredPosition: {x: 563.7373, y: 68.322266}
+  m_SizeDelta: {x: 107.2277, y: 201.6666}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &763779920
 GameObject:
@@ -884,13 +884,13 @@ MonoBehaviour:
   textNamaKiri: {fileID: 1376629206}
   textNamaKanan: {fileID: 1833073264}
   textIsiDialog: {fileID: 267968055}
-  imageKiri: {fileID: 758515413}
-  imageKanan: {fileID: 1897271793}
+  imageKiri: {fileID: 0}
+  imageKanan: {fileID: 0}
   daftarPercakapan:
   - siapaYangNgobrol: 1
     namaKarakter: Ujang
     isiDialog: '"Kek, kabut itu muncul lagi?"'
-    spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
+    spriteKiri: {fileID: 4675359565495773137, guid: 78a67f04170946f489b071b26491a40c, type: 3}
     spriteKanan: {fileID: -8959435104959665722, guid: 11df9a044b2d0f34bb91f66df5f35a48, type: 3}
   - siapaYangNgobrol: 0
     namaKarakter: Aki Rana
@@ -1220,8 +1220,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -660.1224, y: 30.547852}
-  m_SizeDelta: {x: 65.625, y: 143.75}
+  m_AnchoredPosition: {x: -633, y: 68.322}
+  m_SizeDelta: {x: 52.058, y: 53.1323}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1897271793
 MonoBehaviour:
@@ -1243,7 +1243,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -8959435104959665722, guid: 11df9a044b2d0f34bb91f66df5f35a48, type: 3}
+  m_Sprite: {fileID: 7453781041439915889, guid: 5ea16c00a30af0844adfab1d30462922, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

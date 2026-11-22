@@ -47,8 +47,11 @@ public class NPCCrafting : MonoBehaviour
     [Tooltip("Tarik komponen NPCDialog di NPC ini. Di NPCDialog, centang 'Dikendalikan Script Lain' dan isi referensi bubble-nya di sana.")]
     public NPCDialog npcDialog;
 
-    [Header("Dialog Sebelum Crafting")]
+    [Header("Dialog Bahan Lengkap (sebelum crafting)")]
     public NPCDialog.DialogData[] daftarPercakapan;
+
+    [Header("Dialog Bahan TIDAK Lengkap")]
+    public NPCDialog.DialogData[] daftarPercakapanBahanKurang;
 
     [Header("Dialog Setelah Crafting")]
     public NPCDialog.DialogData[] daftarPercakapanSetelah;
@@ -142,7 +145,11 @@ public class NPCCrafting : MonoBehaviour
         }
         else
         {
-            MulaiDialog(daftarPercakapan, SelesaiDialogAwal);
+            // Cek bahan DULU, baru pilih dialog yang sesuai
+            if (CekBahanLengkap())
+                MulaiDialog(daftarPercakapan, SelesaiDialogAwal);
+            else
+                MulaiDialog(daftarPercakapanBahanKurang, SelesaiDialogBahanKurang);
         }
     }
 
@@ -159,7 +166,24 @@ public class NPCCrafting : MonoBehaviour
     // Dipanggil setelah dialog SEBELUM crafting selesai
     void SelesaiDialogAwal()
     {
-        CekDanMulaiCrafting();
+        // Bahan sudah dicek sebelum dialog, jadi langsung mulai crafting.
+        // Guard: player bisa saja sudah menjauh saat dialog berlangsung.
+        if (inventoryPlayer == null)
+            return;
+
+        StartCoroutine(ProsesCraftingCoroutine());
+    }
+
+    // Dipanggil setelah dialog BAHAN TIDAK LENGKAP selesai
+    void SelesaiDialogBahanKurang()
+    {
+        string pesanBelumLengkap = "Bahan untuk membuat " + namaAlatMusik + " belum lengkap!";
+        Debug.Log(pesanBelumLengkap);
+
+        if (UIManager.Instance != null)
+        {
+            UIManager.Instance.TampilkanPesan(pesanBelumLengkap);
+        }
     }
 
     // Dipanggil setelah dialog SETELAH crafting selesai
@@ -189,36 +213,18 @@ public class NPCCrafting : MonoBehaviour
     // CEK BAHAN INVENTORY
     // =====================================
 
-    void CekDanMulaiCrafting()
+    bool CekBahanLengkap()
     {
         if (inventoryPlayer == null)
-            return;
-
-        bool semuaLengkap = true;
+            return false;
 
         foreach (string bahan in bahanDibutuhkan)
         {
             if (!inventoryPlayer.PunyaItem(bahan))
-            {
-                semuaLengkap = false;
-                break;
-            }
+                return false;
         }
 
-        if (semuaLengkap)
-        {
-            StartCoroutine(ProsesCraftingCoroutine());
-        }
-        else
-        {
-            string pesanBelumLengkap = "Bahan untuk membuat " + namaAlatMusik + " belum lengkap!";
-            Debug.Log(pesanBelumLengkap);
-
-            if (UIManager.Instance != null)
-            {
-                UIManager.Instance.TampilkanPesan(pesanBelumLengkap);
-            }
-        }
+        return true;
     }
 
     // =====================================
@@ -387,13 +393,18 @@ public class NPCCrafting : MonoBehaviour
             Debug.Log("📖 Informasi tahap crafting " + namaAlatMusik + " terbuka di Culture Book!");
         }
 
-        // 8. Tunggu player tekan E untuk dialog penutup
+        // 8. Crafting selesai -> langsung lanjut ke dialog penutup (tanpa tekan E)
         sedangCrafting = false;
+
+        // Tetap true sampai dialog penutup tuntas (di-reset di SelesaiDialogSetelah).
+        // Jadi kalau dialog terputus (player menjauh), E akan mengulang dialog penutup.
         craftingSelesaiMenungguDialog = true;
 
-        if (UIManager.Instance != null)
+        // Hanya auto-mulai kalau player masih di dekat NPC.
+        // Kalau player sedang menjauh, dialog menunggu sampai dia kembali dan tekan E.
+        if (playerDekat && npcDialog != null)
         {
-            UIManager.Instance.TampilkanPesan("Tekan 'E' untuk bicara dengan NPC");
+            MulaiDialog(daftarPercakapanSetelah, SelesaiDialogSetelah);
         }
     }
 
