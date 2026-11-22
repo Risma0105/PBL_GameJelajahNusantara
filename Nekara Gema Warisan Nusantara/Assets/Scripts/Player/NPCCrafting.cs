@@ -16,6 +16,22 @@ public class NPCCrafting : MonoBehaviour
     public GameObject prefabAlatMusikJadi;
     public Transform spawnPoint;
 
+    [Header("Alat Musik yang Dibawa NPC (visual saja)")]
+    [Tooltip("SpriteRenderer child dari SpriteNPC, diposisikan di depan badan NPC. Tanpa collider. Kalau Sprite-nya kosong, otomatis diambil dari prefab hasil.")]
+    public SpriteRenderer spriteAlatDibawa;
+
+    [Header("Efek Kilau di Alat yang Dibawa")]
+    public bool kilauAktif = true;
+    [Tooltip("Jumlah bintang kilau yang berkedip di sekitar alat musik.")]
+    public int jumlahKilau = 6;
+    [Tooltip("Pengali ukuran bintang. 1 = bintang selebar 7 pixel game.")]
+    public float ukuranKilau = 1f;
+    [Tooltip("Kecepatan kedip. Makin besar makin cepat.")]
+    public float kecepatanKilau = 1.4f;
+    public Color warnaKilau = new Color(1f, 0.95f, 0.6f, 1f);
+    [Tooltip("Seberapa jauh kilau menyebar dari tepi sprite alat (1 = tepat di area sprite, 1.5 = agak keluar).")]
+    public float sebaranKilau = 1.3f;
+
     [Header("Pengaturan Ruangan")]
     public GameObject kumpulanBahan;
 
@@ -56,6 +72,14 @@ public class NPCCrafting : MonoBehaviour
     [Header("Dialog Setelah Crafting")]
     public NPCDialog.DialogData[] daftarPercakapanSetelah;
 
+    [Header("Setelah Alat Musik Diterima")]
+    [Tooltip("Centang = NPC tetap bisa diajak bicara (dialog pendek di bawah). Kosong = NPC tidak bisa diajak bicara lagi dan prompt-nya disembunyikan.")]
+    public bool bisaDiajakBicaraSetelahSelesai = true;
+    [Tooltip("Dialog singkat kalau player bicara lagi setelah alat musik diterima. Isi dengan terima kasih + petunjuk ke museum.")]
+    public NPCDialog.DialogData[] daftarPercakapanSelesai;
+    [Tooltip("Objek ProximityPrompt/ikon 'E' milik NPC ini (misal PromptCanvas). Disembunyikan kalau 'Bisa Diajak Bicara Setelah Selesai' dimatikan.")]
+    public GameObject promptNPC;
+
     [Header("Panel Badge / UI Tambahan")]
     public GameObject panelBadgeUnlock;
 
@@ -72,6 +96,15 @@ public class NPCCrafting : MonoBehaviour
 
     private PlayerInventory inventoryPlayer;
     private PlayerInventory inventoryDipakai;
+
+    // ---------- state kilau ----------
+    private Coroutine kilauCoroutine;
+    private List<GameObject> kilauObjek = new List<GameObject>();
+    private List<SpriteRenderer> kilauRenderer = new List<SpriteRenderer>();
+    private float[] kilauFase;
+    private float[] kilauKecepatan;
+    private Vector2[] kilauOffset;
+    private Sprite spriteBintang;
 
     // =====================================
     // START
@@ -99,6 +132,8 @@ public class NPCCrafting : MonoBehaviour
         if (spriteNPC != null && spriteDepan != null)
             spriteNPC.sprite = spriteDepan;
 
+        SiapkanAlatDibawa();
+
         // Cek apakah alat musik sudah selesai sebelumnya
         if (GameManager.Instance != null &&
             GameManager.Instance.CekSudahSelesai(namaAlatMusik))
@@ -108,8 +143,43 @@ public class NPCCrafting : MonoBehaviour
             if (kumpulanBahan != null)
                 kumpulanBahan.SetActive(false);
 
+            TerapkanPromptSetelahSelesai();
+
             Debug.Log(namaAlatMusik + " sudah selesai sebelumnya.");
         }
+    }
+
+    // Kalau NPC tidak boleh diajak bicara lagi setelah selesai, sembunyikan ikon "E"-nya
+    void TerapkanPromptSetelahSelesai()
+    {
+        if (promptNPC != null && !bisaDiajakBicaraSetelahSelesai)
+            promptNPC.SetActive(false);
+    }
+
+    void OnDestroy()
+    {
+        foreach (GameObject g in kilauObjek)
+        {
+            if (g != null) Destroy(g);
+        }
+        kilauObjek.Clear();
+        kilauRenderer.Clear();
+    }
+
+    // Sembunyikan alat yang dibawa NPC; ambil sprite dari prefab kalau belum diisi
+    void SiapkanAlatDibawa()
+    {
+        if (spriteAlatDibawa == null)
+            return;
+
+        if (spriteAlatDibawa.sprite == null && prefabAlatMusikJadi != null)
+        {
+            SpriteRenderer srPrefab = prefabAlatMusikJadi.GetComponentInChildren<SpriteRenderer>();
+            if (srPrefab != null)
+                spriteAlatDibawa.sprite = srPrefab.sprite;
+        }
+
+        spriteAlatDibawa.gameObject.SetActive(false);
     }
 
     // =====================================
@@ -118,14 +188,28 @@ public class NPCCrafting : MonoBehaviour
 
     void Update()
     {
-        if (!playerDekat ||
-            sudahDirakit ||
-            sedangCrafting ||
-            hasilSudahMuncul ||
-            panelBadgeTerbuka)
+        if (!playerDekat || sedangCrafting || panelBadgeTerbuka)
             return;
 
         if (!Input.GetKeyDown(KeyCode.E))
+            return;
+
+        // Alat musik sudah diterima: NPC cuma ngobrol singkat
+        if (sudahDirakit)
+        {
+            if (!bisaDiajakBicaraSetelahSelesai || npcDialog == null)
+                return;
+
+            if (npcDialog.SedangBerdialog)
+                npcDialog.TekanLanjut();
+            else
+                MulaiDialog(daftarPercakapanSelesai, () => { }); // callback kosong supaya NPCDialog tidak menjalankan aksi bawaannya
+
+            return;
+        }
+
+        // Alat musik sudah muncul tapi belum diambil: tunggu player mengambilnya
+        if (hasilSudahMuncul)
             return;
 
         if (npcDialog == null)
@@ -190,6 +274,12 @@ public class NPCCrafting : MonoBehaviour
     void SelesaiDialogSetelah()
     {
         craftingSelesaiMenungguDialog = false;
+
+        // NPC "menyerahkan" alat: sprite yang dibawa & kilaunya hilang,
+        // lalu alat musik yang bisa diklik muncul lewat SpawnAlatMusik()
+        HentikanKilau();
+        if (spriteAlatDibawa != null)
+            spriteAlatDibawa.gameObject.SetActive(false);
 
         SpawnAlatMusik();
 
@@ -366,7 +456,7 @@ public class NPCCrafting : MonoBehaviour
             inventoryDipakai.RefreshInventoryUI();
         }
 
-        // 6. NPC muncul lagi di depan rumah, menghadap depan
+        // 6. NPC muncul lagi di depan rumah, menghadap depan, sambil membawa alat musik
         if (spriteNPC != null)
         {
             if (titikKeluar != null)
@@ -374,6 +464,17 @@ public class NPCCrafting : MonoBehaviour
 
             if (spriteDepan != null)
                 spriteNPC.sprite = spriteDepan;
+
+            // Alat yang dibawa: mulai transparan, lalu fade in bareng NPC
+            if (spriteAlatDibawa != null)
+            {
+                Color ca = spriteAlatDibawa.color;
+                ca.a = 0f;
+                spriteAlatDibawa.color = ca;
+                spriteAlatDibawa.gameObject.SetActive(true);
+
+                MulaiKilau();
+            }
 
             if (efekPoof != null)
             {
@@ -383,7 +484,7 @@ public class NPCCrafting : MonoBehaviour
                 efekPoof.Play();
             }
 
-            yield return StartCoroutine(FadeSprite(spriteNPC, 0f, 1f, durasiFade));
+            yield return StartCoroutine(FadeSprite(spriteNPC, 0f, 1f, durasiFade, spriteAlatDibawa));
         }
 
         // 7. Otomatis buka info tahap crafting di Culture Book
@@ -408,21 +509,198 @@ public class NPCCrafting : MonoBehaviour
         }
     }
 
-    IEnumerator FadeSprite(SpriteRenderer sr, float dari, float ke, float durasi)
+    // Fade satu sprite, plus sprite kedua (opsional) secara bersamaan
+    IEnumerator FadeSprite(SpriteRenderer sr, float dari, float ke, float durasi, SpriteRenderer sr2 = null)
     {
         float t = 0f;
         Color c = sr.color;
+        Color c2 = sr2 != null ? sr2.color : Color.white;
 
         while (t < durasi)
         {
             t += Time.deltaTime;
-            c.a = Mathf.Lerp(dari, ke, t / durasi);
+            float a = Mathf.Lerp(dari, ke, t / durasi);
+
+            c.a = a;
             sr.color = c;
+
+            if (sr2 != null)
+            {
+                c2.a = a;
+                sr2.color = c2;
+            }
+
             yield return null;
         }
 
         c.a = ke;
         sr.color = c;
+
+        if (sr2 != null)
+        {
+            c2.a = ke;
+            sr2.color = c2;
+        }
+    }
+
+    // =====================================
+    // EFEK KILAU (bintang pixel berkedip di sekitar alat musik)
+    // =====================================
+
+    void MulaiKilau()
+    {
+        if (!kilauAktif || spriteAlatDibawa == null || jumlahKilau <= 0)
+            return;
+
+        BuatObjekKilau();
+
+        if (kilauCoroutine != null)
+            StopCoroutine(kilauCoroutine);
+
+        kilauCoroutine = StartCoroutine(AnimasiKilau());
+    }
+
+    void HentikanKilau()
+    {
+        if (kilauCoroutine != null)
+        {
+            StopCoroutine(kilauCoroutine);
+            kilauCoroutine = null;
+        }
+
+        foreach (GameObject g in kilauObjek)
+        {
+            if (g != null) g.SetActive(false);
+        }
+    }
+
+    void BuatObjekKilau()
+    {
+        // Sudah pernah dibuat: cukup nyalakan lagi
+        if (kilauObjek.Count == jumlahKilau)
+        {
+            foreach (GameObject g in kilauObjek)
+            {
+                if (g != null) g.SetActive(true);
+            }
+            AcakKilau();
+            return;
+        }
+
+        // Bersihkan sisa lama kalau jumlahnya berubah
+        foreach (GameObject g in kilauObjek)
+        {
+            if (g != null) Destroy(g);
+        }
+        kilauObjek.Clear();
+        kilauRenderer.Clear();
+
+        if (spriteBintang == null)
+        {
+            float ppu = (spriteAlatDibawa.sprite != null) ? spriteAlatDibawa.sprite.pixelsPerUnit : 16f;
+            spriteBintang = BuatSpriteBintang(ppu);
+        }
+
+        for (int i = 0; i < jumlahKilau; i++)
+        {
+            GameObject g = new GameObject("Kilau_" + i);
+            SpriteRenderer sr = g.AddComponent<SpriteRenderer>();
+            sr.sprite = spriteBintang;
+            sr.sortingLayerID = spriteAlatDibawa.sortingLayerID;
+            sr.sortingOrder = spriteAlatDibawa.sortingOrder + 1;
+            g.transform.localScale = Vector3.one * ukuranKilau;
+
+            kilauObjek.Add(g);
+            kilauRenderer.Add(sr);
+        }
+
+        kilauFase = new float[jumlahKilau];
+        kilauKecepatan = new float[jumlahKilau];
+        kilauOffset = new Vector2[jumlahKilau];
+        AcakKilau();
+    }
+
+    void AcakKilau()
+    {
+        for (int i = 0; i < jumlahKilau; i++)
+        {
+            kilauFase[i] = Random.value;                                   // fase awal acak
+            kilauKecepatan[i] = kecepatanKilau * Random.Range(0.7f, 1.3f); // kecepatan tiap bintang beda
+            kilauOffset[i] = new Vector2(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f));
+        }
+    }
+
+    IEnumerator AnimasiKilau()
+    {
+        while (true)
+        {
+            if (spriteAlatDibawa == null || !spriteAlatDibawa.gameObject.activeInHierarchy)
+            {
+                yield return null;
+                continue;
+            }
+
+            Bounds b = spriteAlatDibawa.bounds;
+            float alphaInduk = spriteAlatDibawa.color.a; // kilau ikut fade in bareng alat
+
+            for (int i = 0; i < kilauObjek.Count; i++)
+            {
+                kilauFase[i] += Time.deltaTime * kilauKecepatan[i];
+
+                // Satu siklus kedip selesai -> pindah ke posisi acak baru
+                if (kilauFase[i] >= 1f)
+                {
+                    kilauFase[i] -= 1f;
+                    kilauOffset[i] = new Vector2(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f));
+                }
+
+                float t = Mathf.Sin(kilauFase[i] * Mathf.PI); // 0 -> 1 -> 0
+
+                Vector3 posisi = b.center + new Vector3(
+                    kilauOffset[i].x * b.size.x * sebaranKilau,
+                    kilauOffset[i].y * b.size.y * sebaranKilau,
+                    0f);
+
+                kilauObjek[i].transform.position = posisi;
+
+                Color c = warnaKilau;
+                c.a = warnaKilau.a * t * alphaInduk;
+                kilauRenderer[i].color = c;
+            }
+
+            yield return null;
+        }
+    }
+
+    // Bintang pixel 7x7 (tanda plus + diagonal tipis), dibuat lewat kode
+    Sprite BuatSpriteBintang(float ppu)
+    {
+        int n = 7;
+        Texture2D tex = new Texture2D(n, n, TextureFormat.RGBA32, false);
+        tex.filterMode = FilterMode.Point;
+        tex.wrapMode = TextureWrapMode.Clamp;
+
+        Color[] px = new Color[n * n];
+        for (int i = 0; i < px.Length; i++) px[i] = new Color(1f, 1f, 1f, 0f);
+
+        // Garis tengah (plus)
+        for (int i = 1; i <= 5; i++)
+        {
+            px[3 * n + i] = Color.white; // horizontal
+            px[i * n + 3] = Color.white; // vertikal
+        }
+
+        // Diagonal tipis di sekitar pusat
+        Color redup = new Color(1f, 1f, 1f, 0.6f);
+        px[2 * n + 2] = redup;
+        px[4 * n + 4] = redup;
+        px[2 * n + 4] = redup;
+        px[4 * n + 2] = redup;
+
+        tex.SetPixels(px);
+        tex.Apply();
+
+        return Sprite.Create(tex, new Rect(0, 0, n, n), new Vector2(0.5f, 0.5f), ppu);
     }
 
     // =====================================
@@ -525,6 +803,8 @@ public class NPCCrafting : MonoBehaviour
         if (kumpulanBahan != null)
             kumpulanBahan.SetActive(false);
 
+        TerapkanPromptSetelahSelesai();
+
         string pesanAmbil = "Alat musik " + namaAlatMusik + " berhasil diambil! Checkpoint selesai.";
         Debug.Log(pesanAmbil);
 
@@ -540,7 +820,7 @@ public class NPCCrafting : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && !sudahDirakit)
+        if (other.CompareTag("Player") && (!sudahDirakit || bisaDiajakBicaraSetelahSelesai))
         {
             playerDekat = true;
             inventoryPlayer = other.GetComponent<PlayerInventory>();
@@ -549,7 +829,7 @@ public class NPCCrafting : MonoBehaviour
             if (sedangCrafting)
                 return;
 
-            string pesanPanduan = craftingSelesaiMenungguDialog
+            string pesanPanduan = (sudahDirakit || craftingSelesaiMenungguDialog)
                 ? "Tekan 'E' untuk bicara dengan NPC"
                 : "Tekan 'E' untuk merakit " + namaAlatMusik;
 

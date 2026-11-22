@@ -617,6 +617,13 @@ MonoBehaviour:
   panelPesan: {fileID: 0}
   teksPesan: {fileID: 0}
   jarakInteraksi: 2
+  durasiMuncul: 0.6
+  jedaSebelumBar: 0.5
+  jedaSebelumBadge: 0.4
+  sfxBerhasil: {fileID: 0}
+  onLevelSelesai:
+    m_PersistentCalls:
+      m_Calls: []
   tampilkanLogDebug: 1
 --- !u!61 &137954617
 BoxCollider2D:
@@ -4442,6 +4449,13 @@ MonoBehaviour:
   panelPesan: {fileID: 0}
   teksPesan: {fileID: 0}
   jarakInteraksi: 3
+  durasiMuncul: 0.6
+  jedaSebelumBar: 0.5
+  jedaSebelumBadge: 0.4
+  sfxBerhasil: {fileID: 0}
+  onLevelSelesai:
+    m_PersistentCalls:
+      m_Calls: []
   tampilkanLogDebug: 1
 --- !u!1001 &642314563
 PrefabInstance:
@@ -11297,6 +11311,13 @@ MonoBehaviour:
   panelPesan: {fileID: 0}
   teksPesan: {fileID: 0}
   jarakInteraksi: 2
+  durasiMuncul: 0.6
+  jedaSebelumBar: 0.5
+  jedaSebelumBadge: 0.4
+  sfxBerhasil: {fileID: 0}
+  onLevelSelesai:
+    m_PersistentCalls:
+      m_Calls: []
   tampilkanLogDebug: 1
 --- !u!61 &1774717420
 BoxCollider2D:

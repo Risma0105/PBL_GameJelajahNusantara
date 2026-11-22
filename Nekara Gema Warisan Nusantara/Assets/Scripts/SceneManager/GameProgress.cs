@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -18,6 +19,8 @@ using TMPro;
 //  - Kalau alat belum ditaruh di display saat jatah habis -> gagal,
 //    balik ke museum awal dan jatah diulang.
 //  - Pintu alat musik terkunci sampai urutannya tiba (lihat BolehMasuk).
+//  - Saat alat ditaruh di display, bar merayap halus ke garis checkpoint
+//    (timer & jam dibekukan selama animasi), lalu sekat berikutnya dimulai.
 // =====================================================================
 public class GameProgress : MonoBehaviour
 {
@@ -87,6 +90,14 @@ public class GameProgress : MonoBehaviour
     [Tooltip("Bar ditahan penuh + teks 'Waktu Habis!' sebelum balik ke museum")]
     public float jedaSebelumGagal = 1.5f;
 
+    [Header("Animasi Saat Alat Ditaruh di Display")]
+    [Tooltip("Lama bar merayap naik ke garis checkpoint setelah alat ditaruh di display.")]
+    public float durasiAnimasiBar = 1.5f;
+
+    [Header("Debug / Tes")]
+    [Tooltip("Checkpoint yang dituju oleh menu 'TEST: Set Checkpoint' (0 = belum ada alat, 1 = Angklung selesai, dst).")]
+    [Range(0, 3)] public int tesCheckpoint = 0;
+
     // Status alat musik
     public static bool hasAngklung = false;
     public static bool hasGesoGeso = false;
@@ -99,6 +110,7 @@ public class GameProgress : MonoBehaviour
     private bool timerAktif = false;
     private bool sekatSudahMulai = false;
     private bool sedangGagal = false;
+    private bool sedangAnimasiCheckpoint = false;
     private bool pakaiFillAmount = false;
     private float waktuCadangan = 0f;
     private float jadwalBindUlang = 0f;
@@ -424,6 +436,14 @@ public class GameProgress : MonoBehaviour
 
         GameManager gm = GameManager.Instance;
 
+        // Animasi checkpoint: jam & timer dibekukan, bar digerakkan oleh coroutine
+        if (sedangAnimasiCheckpoint)
+        {
+            if (gm != null)
+                gm.AturWaktuJalan(false);
+            return;
+        }
+
         // Jam game hanya jalan saat timer sekat aktif -> selalu sinkron dengan bar
         if (gm != null)
             gm.AturWaktuJalan(timerAktif || checkpointSelesai >= 4);
@@ -526,27 +546,63 @@ public class GameProgress : MonoBehaviour
     // BERHASIL TARUH DISPLAY DI MUSEUM
     // =====================================
 
-    // namaAlat opsional: kalau diisi, dicek harus sesuai urutan sekat
-    public void BerhasilTaruhDisplay(string namaAlat = null)
+    // Cek dulu apakah alat ini boleh ditaruh sekarang (urutan sesuai, tidak sedang gagal/animasi).
+    // Dipanggil ManagerDisplay SEBELUM alat dikeluarkan dari inventory.
+    public bool BisaTaruhDisplay(string namaAlat = null)
     {
-        if (checkpointSelesai >= 4 || sedangGagal)
-            return;
+        if (checkpointSelesai >= 4 || sedangGagal || sedangAnimasiCheckpoint)
+            return false;
+
+        if (string.IsNullOrEmpty(namaAlat))
+            return true;
 
         string[] urutan = { "Angklung", "GesoGeso", "Sarone", "AlatKeempat" };
-        if (!string.IsNullOrEmpty(namaAlat))
-        {
-            bool sesuai = namaAlat == urutan[checkpointSelesai]
-                          || (checkpointSelesai == 3 && namaAlat == "Suling");
 
-            if (!sesuai)
-            {
-                Debug.LogWarning("Urutan display salah, bar tidak naik.");
-                return;
-            }
+        return namaAlat == urutan[checkpointSelesai]
+               || (checkpointSelesai == 3 && namaAlat == "Suling");
+    }
+
+    // Bar merayap halus ke garis checkpoint, lalu sekat berikutnya dimulai.
+    // 'setelahBarSelesai' dipanggil begitu bar sudah sampai (dipakai untuk memunculkan UI badge).
+    public void BerhasilTaruhDisplay(string namaAlat = null, System.Action setelahBarSelesai = null)
+    {
+        if (!BisaTaruhDisplay(namaAlat))
+        {
+            Debug.LogWarning("Display tidak bisa dikunci: urutan salah, sudah selesai, atau animasi sedang berjalan.");
+            return;
+        }
+
+        StartCoroutine(AnimasiKunciCheckpoint(setelahBarSelesai));
+    }
+
+    IEnumerator AnimasiKunciCheckpoint(System.Action setelahBarSelesai)
+    {
+        sedangAnimasiCheckpoint = true;
+
+        float dari = progressBar != null ? progressBar.normalizedValue : PosisiAwalSekat();
+        float ke = PosisiAkhirSekat();
+        int nomorCheckpoint = checkpointSelesai + 1;
+
+        // Selama animasi: warna normal & teks pencapaian
+        if (fillBarImage != null)
+            fillBarImage.color = warnaNormal;
+
+        if (progressText != null)
+            progressText.text = "Checkpoint " + nomorCheckpoint + " tercapai!";
+
+        float durasi = Mathf.Max(0.01f, durasiAnimasiBar);
+        float t = 0f;
+
+        while (t < durasi)
+        {
+            t += Time.deltaTime;
+            float k = Mathf.SmoothStep(0f, 1f, t / durasi);
+            SetNilaiBar(Mathf.Lerp(dari, ke, k));
+            yield return null;
         }
 
         // Kunci bar tepat di garis checkpoint sekat ini
-        SetNilaiBar(PosisiAkhirSekat());
+        SetNilaiBar(ke);
 
         // Lanjut ke sekat berikutnya, jatah hari baru mulai dari nol
         checkpointSelesai++;
@@ -558,11 +614,17 @@ public class GameProgress : MonoBehaviour
             timerAktif = false;
             UpdateProgressBar();   // bar penuh + "Selesai!"
             Debug.Log("🏆 SEMUA ALAT MUSIK SELESAI DITARUH DI DISPLAY!");
-            return;
+        }
+        else
+        {
+            UpdateProgressBar();   // bar tetap di checkpoint yang baru dikunci, warna balik normal
+            Debug.Log("🎉 Alat musik ditaruh di display! Progress sekat ini terkunci.");
         }
 
-        UpdateProgressBar();       // bar tetap di checkpoint yang baru dikunci, warna balik normal
-        Debug.Log("🎉 Alat musik ditaruh di display! Progress sekat ini terkunci.");
+        sedangAnimasiCheckpoint = false;
+
+        if (setelahBarSelesai != null)
+            setelahBarSelesai.Invoke();
     }
 
 
@@ -649,5 +711,24 @@ public class GameProgress : MonoBehaviour
     public void MulaiProgressOtomatis(float durasi)
     {
         MulaiTimerBar();
+    }
+
+
+    // =====================================
+    // MENU TES (klik titik tiga di header komponen, saat Play Mode)
+    // =====================================
+
+    // Loncat ke checkpoint tertentu tanpa menyelesaikan level sebelumnya.
+    // Isi 'Tes Checkpoint' di Inspector dulu: 1 = Angklung selesai, 2 = GesoGeso selesai, dst.
+    [ContextMenu("TEST: Set Checkpoint = Tes Checkpoint")]
+    void TesSetCheckpoint()
+    {
+        checkpointSelesai = Mathf.Clamp(tesCheckpoint, 0, 3);
+        sekatSudahMulai = false;
+        sedangAnimasiCheckpoint = false;
+        sedangGagal = false;
+
+        UpdateProgressBar();
+        Debug.Log("[GameProgress] Checkpoint tes diset ke " + checkpointSelesai);
     }
 }
