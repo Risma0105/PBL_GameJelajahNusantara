@@ -11,6 +11,10 @@ public class NPCDialog : MonoBehaviour
     public TMP_Text teksPlayer;         // Tarik Text_Player
     public TMP_Text teksNPC;            // Tarik Text_NPC
 
+    [Header("Fokus Kamera Dialog")]
+    [Tooltip("Opsional: titik yang difokuskan kamera. Kosong = posisi NPC ini.")]
+    public Transform titikFokus;
+
     [Header("Mode Dipakai Script Lain")]
     [Tooltip("Centang kalau dialog ini dijalankan script lain (misal NPCCrafting). Input E dan trigger bawaan dimatikan.")]
     public bool dikendalikanScriptLain = false;
@@ -104,6 +108,10 @@ public class NPCDialog : MonoBehaviour
         sedangBerdialog = true;
         indeksDialog = 0;
 
+        // Kamera geser, HUD fade out, vignette fade in
+        if (DialogueFocusController.Instance != null)
+            DialogueFocusController.Instance.Mulai(titikFokus != null ? titikFokus : transform);
+
         if (UIManager.Instance != null)
         {
             UIManager.Instance.TampilkanPesan("");
@@ -127,6 +135,10 @@ public class NPCDialog : MonoBehaviour
         sedangBerdialog = false;
         aksiSelesai = null;
         TutupSemuaBubble();
+
+        // Kembalikan kamera & HUD ke normal
+        if (DialogueFocusController.Instance != null)
+            DialogueFocusController.Instance.Selesai();
     }
 
     // =====================================
@@ -343,6 +355,10 @@ public class NPCDialog : MonoBehaviour
     {
         sedangBerdialog = false;
         TutupSemuaBubble();
+
+        // Kembalikan kamera & HUD ke normal
+        if (DialogueFocusController.Instance != null)
+            DialogueFocusController.Instance.Selesai();
 
         // Kalau dialog dijalankan script lain, serahkan kelanjutannya ke callback
         if (aksiSelesai != null)
