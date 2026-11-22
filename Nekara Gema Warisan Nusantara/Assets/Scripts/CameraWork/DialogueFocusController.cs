@@ -2,8 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Ngatur "mode fokus dialog": kamera geser, HUD fade out, vignette fade in.
-/// Taruh di satu GameObject di scene (misal "GameManager").
+/// Ngatur "mode fokus dialog": kamera geser, HUD fade out, vignette fade in,
+/// dan instruksi "Tekan E" muncul.
+/// Taruh di satu GameObject di scene (misal "DialogueFocus").
 /// </summary>
 public class DialogueFocusController : MonoBehaviour
 {
@@ -21,6 +22,12 @@ public class DialogueFocusController : MonoBehaviour
     public Color vignetteWarna = Color.black;
     [Range(0f, 1f)] public float vignetteKegelapan = 0.7f;
     [Range(0f, 1f)] public float vignetteMulaiDari = 0.35f; // makin kecil, area gelap makin luas
+
+    [Header("Instruksi")]
+    [Tooltip("CanvasGroup berisi teks/ikon 'Tekan E'. Taruh di Canvas_Vignette, BUKAN di dalam HUD.")]
+    public CanvasGroup instruksiGroup;
+    public bool instruksiBerkedip = true;
+    public float kecepatanKedip = 3f;
 
     [Header("Fade")]
     public float durasiFade = 0.3f;
@@ -40,6 +47,8 @@ public class DialogueFocusController : MonoBehaviour
 
             vignetteImage.raycastTarget = false;
         }
+
+        if (instruksiGroup != null) instruksiGroup.alpha = 0f;
 
         Terapkan(0f);
     }
@@ -64,6 +73,16 @@ public class DialogueFocusController : MonoBehaviour
         {
             progres = Mathf.MoveTowards(progres, tujuan, Time.unscaledDeltaTime / Mathf.Max(0.01f, durasiFade));
             Terapkan(progres);
+        }
+
+        // Instruksi "Tekan E": fade bareng vignette, plus berkedip pelan saat dialog aktif
+        if (instruksiGroup != null)
+        {
+            float halus = Mathf.SmoothStep(0f, 1f, progres);
+            float kedip = (instruksiBerkedip && SedangDialog)
+                ? 0.65f + 0.35f * Mathf.Sin(Time.unscaledTime * kecepatanKedip)
+                : 1f;
+            instruksiGroup.alpha = halus * kedip;
         }
     }
 
