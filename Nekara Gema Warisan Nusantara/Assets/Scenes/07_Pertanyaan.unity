@@ -254,13 +254,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57107f5b852d0224eb0b60c345f3f653, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MuseumDisplay
-  namaAlatMusik: Angklung
-  objekVisualAlatMusikDiMuseum: {fileID: 0}
-  posisiTaruhDiMeja: {fileID: 0}
-  panelPesan: {fileID: 0}
-  teksPesan: {fileID: 0}
-  jarakInteraksi: 2
-  tampilkanLogDebug: 1
+  itemId: 
+  silhouetteColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+  displayedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &39738189
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10663,13 +10659,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57107f5b852d0224eb0b60c345f3f653, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MuseumDisplay
-  namaAlatMusik: Sarone
-  objekVisualAlatMusikDiMuseum: {fileID: 0}
-  posisiTaruhDiMeja: {fileID: 0}
-  panelPesan: {fileID: 0}
-  teksPesan: {fileID: 0}
-  jarakInteraksi: 2
-  tampilkanLogDebug: 1
+  itemId: 
+  silhouetteColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+  displayedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &1017606531
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17451,13 +17443,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57107f5b852d0224eb0b60c345f3f653, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MuseumDisplay
-  namaAlatMusik: Geso
-  objekVisualAlatMusikDiMuseum: {fileID: 0}
-  posisiTaruhDiMeja: {fileID: 0}
-  panelPesan: {fileID: 0}
-  teksPesan: {fileID: 0}
-  jarakInteraksi: 2
-  tampilkanLogDebug: 1
+  itemId: 
+  silhouetteColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
+  displayedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1 &2128808554
 GameObject:
   m_ObjectHideFlags: 0
@@ -17817,6 +17805,6 @@ SceneRoots:
   - {fileID: 1457048529}
   - {fileID: 2086967702}
   - {fileID: 199586860}
-  - {fileID: 835269143}
   - {fileID: 561923288}
+  - {fileID: 835269143}
   - {fileID: 190312560}
