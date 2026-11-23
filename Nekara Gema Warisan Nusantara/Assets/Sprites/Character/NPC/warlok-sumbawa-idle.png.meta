@@ -136,12 +136,12 @@ TextureImporter:
       name: warlok-sumbawa-idle_0
       rect:
         serializedVersion: 2
-        x: 25
-        y: 10
-        width: 20
-        height: 47
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 26
+        y: 11
+        width: 18
+        height: 45
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -158,12 +158,12 @@ TextureImporter:
       name: warlok-sumbawa-idle_1
       rect:
         serializedVersion: 2
-        x: 93
-        y: 10
-        width: 20
-        height: 47
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 94
+        y: 11
+        width: 18
+        height: 45
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -180,12 +180,12 @@ TextureImporter:
       name: warlok-sumbawa-idle_2
       rect:
         serializedVersion: 2
-        x: 161
-        y: 10
-        width: 20
-        height: 47
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 162
+        y: 11
+        width: 18
+        height: 45
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -202,12 +202,12 @@ TextureImporter:
       name: warlok-sumbawa-idle_3
       rect:
         serializedVersion: 2
-        x: 228
-        y: 10
-        width: 21
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 229
+        y: 11
+        width: 19
+        height: 46
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -224,12 +224,12 @@ TextureImporter:
       name: warlok-sumbawa-idle_4
       rect:
         serializedVersion: 2
-        x: 296
-        y: 10
-        width: 21
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 297
+        y: 11
+        width: 19
+        height: 46
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -246,12 +246,12 @@ TextureImporter:
       name: warlok-sumbawa-idle_5
       rect:
         serializedVersion: 2
-        x: 364
-        y: 10
-        width: 21
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 365
+        y: 11
+        width: 19
+        height: 46
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -268,12 +268,12 @@ TextureImporter:
       name: warlok-sumbawa-idle_6
       rect:
         serializedVersion: 2
-        x: 432
-        y: 10
-        width: 21
-        height: 49
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 433
+        y: 11
+        width: 19
+        height: 47
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -290,12 +290,12 @@ TextureImporter:
       name: warlok-sumbawa-idle_7
       rect:
         serializedVersion: 2
-        x: 500
-        y: 10
-        width: 21
-        height: 49
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 501
+        y: 11
+        width: 19
+        height: 47
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -312,12 +312,12 @@ TextureImporter:
       name: warlok-sumbawa-idle_8
       rect:
         serializedVersion: 2
-        x: 568
-        y: 10
-        width: 21
-        height: 49
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 569
+        y: 11
+        width: 19
+        height: 47
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -334,12 +334,12 @@ TextureImporter:
       name: warlok-sumbawa-idle_9
       rect:
         serializedVersion: 2
-        x: 637
-        y: 10
-        width: 20
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 638
+        y: 11
+        width: 18
+        height: 46
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -356,12 +356,12 @@ TextureImporter:
       name: warlok-sumbawa-idle_10
       rect:
         serializedVersion: 2
-        x: 705
-        y: 10
-        width: 20
-        height: 47
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 706
+        y: 11
+        width: 18
+        height: 45
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -378,12 +378,12 @@ TextureImporter:
       name: warlok-sumbawa-idle_11
       rect:
         serializedVersion: 2
-        x: 773
-        y: 10
-        width: 20
-        height: 47
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 774
+        y: 11
+        width: 18
+        height: 45
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -400,7 +400,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: a452604400169444ca18c18c21dee76f
     internalID: 0
     vertices: []
     indices: 
@@ -408,7 +408,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       warlok-sumbawa-idle_0: -3746704511975995016
       warlok-sumbawa-idle_1: -3933291978787627759
