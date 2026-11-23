@@ -358,6 +358,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4701858147562918623, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4701858147562918623, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4701858147562918623, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4701858147562918623, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
       propertyPath: m_SortingOrder
       value: 19
       objectReference: {fileID: 0}
@@ -1448,8 +1460,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4278190080
-  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1535,8 +1547,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.2957, y: -19.983}
-  m_SizeDelta: {x: 538.5409, y: 79.2079}
+  m_AnchoredPosition: {x: -0.0023918, y: -7}
+  m_SizeDelta: {x: 633.86, y: 79.2079}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &268758131
 PrefabInstance:
@@ -4429,7 +4441,7 @@ RectTransform:
   m_GameObject: {fileID: 466476234}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2.5202, y: 2.5202, z: 2.5202}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 267968057}
@@ -4439,8 +4451,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 960, y: 262}
-  m_SizeDelta: {x: 101.6029, y: 103.6817}
+  m_AnchoredPosition: {x: 927, y: 262}
+  m_SizeDelta: {x: 700, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &466476236
 MonoBehaviour:
@@ -4867,6 +4879,7 @@ GameObject:
   - component: {fileID: 621646791}
   - component: {fileID: 621646790}
   - component: {fileID: 621646792}
+  - component: {fileID: 621646793}
   m_Layer: 0
   m_Name: PrologManager
   m_TagString: Untagged
@@ -4916,6 +4929,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SceneTransition
   imageFade: {fileID: 2092805864}
   kecepatanFade: 1
+--- !u!114 &621646793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 621646789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3635eaaf213120545a1885c4094f2990, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PrologueDialogSystem
+  textNama: {fileID: 1376629206}
+  textIsiDialog: {fileID: 267968055}
+  imageKiri: {fileID: 1897271793}
+  imageKanan: {fileID: 758515413}
+  fxKiri: {fileID: 0}
+  fxKanan: {fileID: 0}
+  namaKarakterKiri: Aki
+  namaKarakterKanan: Ujang
+  barisDialogList: []
+  kecepatanKetik: 0.03
+  namaSceneTujuan: SceneMuseum_Dalam
+  onDialogSelesai:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &627961770
 GameObject:
   m_ObjectHideFlags: 0
@@ -5032,144 +5071,6 @@ Transform:
   - {fileID: 1751789732}
   m_Father: {fileID: 1553937320}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &738137120
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1553937320}
-    m_Modifications:
-    - target: {fileID: 3543438798109847439, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 6.64
-      objectReference: {fileID: 0}
-    - target: {fileID: 3543438798109847439, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 3.97
-      objectReference: {fileID: 0}
-    - target: {fileID: 3543438798109847439, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3543438798109847439, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3543438798109847439, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3543438798109847439, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3543438798109847439, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3543438798109847439, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3543438798109847439, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3543438798109847439, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4701858147562918623, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
-      propertyPath: m_SortingOrder
-      value: 19
-      objectReference: {fileID: 0}
-    - target: {fileID: 4900820532107019835, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
-      propertyPath: m_Name
-      value: dekorasi-museum-tambahan_5 (2)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4900820532107019835, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 738137124}
-    - targetCorrespondingSourceObject: {fileID: 4900820532107019835, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 738137123}
-  m_SourcePrefab: {fileID: 100100000, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
---- !u!4 &738137121 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3543438798109847439, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
-  m_PrefabInstance: {fileID: 738137120}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &738137122 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4900820532107019835, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
-  m_PrefabInstance: {fileID: 738137120}
-  m_PrefabAsset: {fileID: 0}
---- !u!61 &738137123
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 738137122}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.57}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 1}
-    newSize: {x: 2, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 2.58, y: 2.37}
-  m_EdgeRadius: 0
---- !u!114 &738137124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 738137122}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57107f5b852d0224eb0b60c345f3f653, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MuseumDisplay
-  itemId: 
-  silhouetteColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-  displayedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &746528133
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5436,8 +5337,9 @@ GameObject:
   - component: {fileID: 758515415}
   - component: {fileID: 758515414}
   - component: {fileID: 758515413}
+  - component: {fileID: 758515416}
   m_Layer: 5
-  m_Name: Aki_Kiri
+  m_Name: Ujang
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5490,16 +5392,36 @@ RectTransform:
   m_GameObject: {fileID: 758515412}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.8868537, y: 1.8868537, z: 1.8868537}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1633867657}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 563.7373, y: 2.0002441}
+  m_AnchoredPosition: {x: 563.7373, y: -103}
   m_SizeDelta: {x: 107.2277, y: 201.6666}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0}
+--- !u!114 &758515416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 758515412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e10b37c5cc370e14c9c0eae83b523fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PortraitSpeakFX
+  target: {fileID: 758515415}
+  tintGraphics:
+  - {fileID: 758515413}
+  speakScale: 1.25
+  duration: 0.25
+  bobAmount: 6
+  bobSpeed: 10
+  dimColor: {r: 0.6, g: 0.6, b: 0.6, a: 1}
 --- !u!1001 &758836138
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10130,6 +10052,18 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4701858147562918623, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4701858147562918623, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4701858147562918623, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4701858147562918623, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
       propertyPath: m_SortingOrder
       value: 19
       objectReference: {fileID: 0}
@@ -10385,8 +10319,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -207.36429, y: 41.71176}
-  m_SizeDelta: {x: 123.2217, y: 21.3324}
+  m_AnchoredPosition: {x: -243.76973, y: 48}
+  m_SizeDelta: {x: 146.3265, y: 21.3324}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1376629205
 CanvasRenderer:
@@ -10425,8 +10359,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4279901243
-  m_fontColor: {r: 0.23137257, g: 0.10980393, b: 0.10196079, a: 1}
+    rgba: 4289390830
+  m_fontColor: {r: 0.9333334, g: 0.909804, b: 0.6666667, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -11511,7 +11445,6 @@ Transform:
   - {fileID: 1769074293}
   - {fileID: 1352352339}
   - {fileID: 82420252}
-  - {fileID: 738137121}
   - {fileID: 1996088657}
   - {fileID: 1108530835}
   - {fileID: 1357904591}
@@ -11691,30 +11624,32 @@ MonoBehaviour:
   textNamaKiri: {fileID: 1376629206}
   textNamaKanan: {fileID: 1833073264}
   textIsiDialog: {fileID: 267968055}
-  imageKiri: {fileID: 0}
-  imageKanan: {fileID: 0}
+  imageKiri: {fileID: 1897271793}
+  imageKanan: {fileID: 758515413}
+  fxKiri: {fileID: 1897271795}
+  fxKanan: {fileID: 758515416}
   daftarPercakapan:
   - siapaYangNgobrol: 1
     namaKarakter: Ujang
     isiDialog: '"Kek, kabut itu muncul lagi?"'
-    spriteKiri: {fileID: 4675359565495773137, guid: 78a67f04170946f489b071b26491a40c, type: 3}
-    spriteKanan: {fileID: -8959435104959665722, guid: 11df9a044b2d0f34bb91f66df5f35a48, type: 3}
+    spriteKiri: {fileID: 1042042900, guid: 75df208a9738b074581b5a58187cc78a, type: 3}
+    spriteKanan: {fileID: 659756483, guid: 75df208a9738b074581b5a58187cc78a, type: 3}
   - siapaYangNgobrol: 0
     namaKarakter: Aki Rana
     isiDialog: '"Iya, Ujang. kali ini kabut itu semakin sulit dikendalikan. Dia telah
       menjelma jadi entitas"'
-    spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
-    spriteKanan: {fileID: -8959435104959665722, guid: 11df9a044b2d0f34bb91f66df5f35a48, type: 3}
+    spriteKiri: {fileID: 1042042900, guid: 75df208a9738b074581b5a58187cc78a, type: 3}
+    spriteKanan: {fileID: 659756483, guid: 75df208a9738b074581b5a58187cc78a, type: 3}
   - siapaYangNgobrol: 1
     namaKarakter: 'Ujang '
     isiDialog: "\"Siapa dia? kenapa dia datang, Ki?\u201D"
-    spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
-    spriteKanan: {fileID: -8959435104959665722, guid: 11df9a044b2d0f34bb91f66df5f35a48, type: 3}
+    spriteKiri: {fileID: 1042042900, guid: 75df208a9738b074581b5a58187cc78a, type: 3}
+    spriteKanan: {fileID: 659756483, guid: 75df208a9738b074581b5a58187cc78a, type: 3}
   - siapaYangNgobrol: 0
     namaKarakter: Aki Rana
     isiDialog: '"Dia adalah Kabut Memori dia tidak muncul begitu saja, Jang."'
-    spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
-    spriteKanan: {fileID: -8959435104959665722, guid: 11df9a044b2d0f34bb91f66df5f35a48, type: 3}
+    spriteKiri: {fileID: 1042042900, guid: 75df208a9738b074581b5a58187cc78a, type: 3}
+    spriteKanan: {fileID: 659756483, guid: 75df208a9738b074581b5a58187cc78a, type: 3}
   - siapaYangNgobrol: 0
     namaKarakter: Aki Rana
     isiDialog: '"Kabut ini tumbuh dari ingatan yang hilang. Semakin banyak orang
@@ -11722,37 +11657,37 @@ MonoBehaviour:
       menjadi entitas tersendiri."
 
 '
-    spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
-    spriteKanan: {fileID: -8959435104959665722, guid: 11df9a044b2d0f34bb91f66df5f35a48, type: 3}
+    spriteKiri: {fileID: 1042042900, guid: 75df208a9738b074581b5a58187cc78a, type: 3}
+    spriteKanan: {fileID: 659756483, guid: 75df208a9738b074581b5a58187cc78a, type: 3}
   - siapaYangNgobrol: 1
     namaKarakter: Ujang
     isiDialog: '"Lalu bagaimana nasib festival budaya kita kek? sepuluh hari dari
       sekarang festival harus dilaksanakan, tetapi semua alatmusik dimuseum hilang
       akibat kabut memori!"'
-    spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
-    spriteKanan: {fileID: -8959435104959665722, guid: 11df9a044b2d0f34bb91f66df5f35a48, type: 3}
+    spriteKiri: {fileID: 1042042900, guid: 75df208a9738b074581b5a58187cc78a, type: 3}
+    spriteKanan: {fileID: 659756483, guid: 75df208a9738b074581b5a58187cc78a, type: 3}
   - siapaYangNgobrol: 0
     namaKarakter: Aki Rana
     isiDialog: '" Betul Jang, Aki titipkan festival museum kita kepadamu."'
-    spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
-    spriteKanan: {fileID: -8959435104959665722, guid: 11df9a044b2d0f34bb91f66df5f35a48, type: 3}
+    spriteKiri: {fileID: 1042042900, guid: 75df208a9738b074581b5a58187cc78a, type: 3}
+    spriteKanan: {fileID: 659756483, guid: 75df208a9738b074581b5a58187cc78a, type: 3}
   - siapaYangNgobrol: 0
     namaKarakter: Aki Rana
     isiDialog: '"Menjelajah lah kamu, pergi ke daerah asal alat-alat musik. Kita
       harus mengembalikan apa yang mulai dilupakan, Jang. '
-    spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
-    spriteKanan: {fileID: -8959435104959665722, guid: 11df9a044b2d0f34bb91f66df5f35a48, type: 3}
+    spriteKiri: {fileID: 1042042900, guid: 75df208a9738b074581b5a58187cc78a, type: 3}
+    spriteKanan: {fileID: 659756483, guid: 75df208a9738b074581b5a58187cc78a, type: 3}
   - siapaYangNgobrol: 0
     namaKarakter: Aki Rana
     isiDialog: '"Itulah satu-satunya cara untuk melawan kabut ini"'
-    spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
-    spriteKanan: {fileID: -8959435104959665722, guid: 11df9a044b2d0f34bb91f66df5f35a48, type: 3}
+    spriteKiri: {fileID: 1042042900, guid: 75df208a9738b074581b5a58187cc78a, type: 3}
+    spriteKanan: {fileID: 659756483, guid: 75df208a9738b074581b5a58187cc78a, type: 3}
   - siapaYangNgobrol: 1
     namaKarakter: Ujang
     isiDialog: '"Baik Ki, Akan ku kumpulkan pemahaman yang telah dilupakan dan buat
       kembali alat musiknya agar kebudayaan Nusantara tetap lestari"'
-    spriteKiri: {fileID: -3302526383074772007, guid: 177cbb8f8e85fc640b248a5526e4762c, type: 3}
-    spriteKanan: {fileID: -8959435104959665722, guid: 11df9a044b2d0f34bb91f66df5f35a48, type: 3}
+    spriteKiri: {fileID: 1042042900, guid: 75df208a9738b074581b5a58187cc78a, type: 3}
+    spriteKanan: {fileID: 659756483, guid: 75df208a9738b074581b5a58187cc78a, type: 3}
   kecepatanKetik: 0.03
   onDialogSelesai:
     m_PersistentCalls:
@@ -12665,8 +12600,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 207.2935, y: 38.78251}
-  m_SizeDelta: {x: 115.0135, y: 27.1909}
+  m_AnchoredPosition: {x: 248.63885, y: 45.070747}
+  m_SizeDelta: {x: 136.5792, y: 27.1909}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1833073264
 MonoBehaviour:
@@ -12697,8 +12632,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4279901243
-  m_fontColor: {r: 0.23137257, g: 0.10980393, b: 0.10196079, a: 1}
+    rgba: 4289390830
+  m_fontColor: {r: 0.9333334, g: 0.909804, b: 0.6666667, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -13217,8 +13152,9 @@ GameObject:
   - component: {fileID: 1897271792}
   - component: {fileID: 1897271794}
   - component: {fileID: 1897271793}
+  - component: {fileID: 1897271795}
   m_Layer: 5
-  m_Name: Ujang
+  m_Name: Aki
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13233,16 +13169,16 @@ RectTransform:
   m_GameObject: {fileID: 1897271791}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.7623, y: 3.7623, z: 3.7623}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1633867657}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -633, y: 2}
+  m_AnchoredPosition: {x: -633, y: -104.26459}
   m_SizeDelta: {x: 52.058, y: 53.1323}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1897271793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13281,6 +13217,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1897271791}
   m_CullTransparentMesh: 1
+--- !u!114 &1897271795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1897271791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e10b37c5cc370e14c9c0eae83b523fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PortraitSpeakFX
+  target: {fileID: 1897271792}
+  tintGraphics:
+  - {fileID: 1897271793}
+  speakScale: 1.25
+  duration: 0.25
+  bobAmount: 6
+  bobSpeed: 10
+  dimColor: {r: 0.6, g: 0.6, b: 0.6, a: 1}
 --- !u!1001 &1934376272
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13899,7 +13855,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3543438798109847439, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.194
+      value: 3.58
       objectReference: {fileID: 0}
     - target: {fileID: 3543438798109847439, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -13936,7 +13892,7 @@ PrefabInstance:
     - target: {fileID: 4701858147562918623, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 1337442944, guid: a2578cf2d664569479596fbf8b9908af, type: 3}
+      objectReference: {fileID: 7724294375259035650, guid: 6b3a0783a88c88440a4aa229ee40de58, type: 3}
     - target: {fileID: 4900820532107019835, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
       propertyPath: m_Name
       value: dekorasi-museum-tambahan_5 (13)
@@ -13997,7 +13953,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 1}
+    oldSize: {x: 2, y: 1.4375}
     newSize: {x: 2, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -14642,7 +14598,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8937078001900289177, guid: 4575cf3c36446084a92b0dad795b49ba, type: 3}
       propertyPath: m_SortingOrder
-      value: 3
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

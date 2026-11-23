@@ -32,6 +32,12 @@ public class DialogueManager : MonoBehaviour
     public Image imageKiri;                
     public Image imageKanan;               
 
+    [Header("Efek Portrait (PortraitSpeakFX)")]
+    [Tooltip("Portrait yang posisinya di KIRI layar")]
+    public PortraitSpeakFX fxKiri;
+    [Tooltip("Portrait yang posisinya di KANAN layar")]
+    public PortraitSpeakFX fxKanan;
+
     [Header("Daftar Percakapan (Atur di Inspector)")]
     public List<DialogItem> daftarPercakapan = new List<DialogItem>();
 
@@ -45,6 +51,14 @@ public class DialogueManager : MonoBehaviour
     private string kalimatSaatIni = "";
     private bool sedangMengetik = false;
     private bool bolehLanjut = false;
+    private PortraitSpeakFX pembicaraAktif;
+
+    void Awake()
+    {
+        // kalau fx belum di-drag, coba ambil dari imageKiri / imageKanan
+        if (!fxKiri && imageKiri) fxKiri = imageKiri.GetComponent<PortraitSpeakFX>();
+        if (!fxKanan && imageKanan) fxKanan = imageKanan.GetComponent<PortraitSpeakFX>();
+    }
 
     void Start()
     {
@@ -63,7 +77,7 @@ public class DialogueManager : MonoBehaviour
             {
                 // Klik 1: Hentikan animasi ketik, tampilkan seluruh teks secara penuh seketika
                 StopAllCoroutines();
-                textIsiDialog.maxVisibleCharacters = kalimatSaatIni.Length;
+                textIsiDialog.maxVisibleCharacters = int.MaxValue;
 
                 // Pastikan alignment tetap Top-Left atau Top-Right saat di-skip
                 DialogItem item = daftarPercakapan[indexDialog];
@@ -77,6 +91,7 @@ public class DialogueManager : MonoBehaviour
 
                 sedangMengetik = false;
                 bolehLanjut = true;
+                if (pembicaraAktif) pembicaraAktif.SetTalking(false);
             }
             else if (bolehLanjut)
             {
@@ -92,8 +107,10 @@ public class DialogueManager : MonoBehaviour
         DialogItem item = daftarPercakapan[indexDialog];
         kalimatSaatIni = item.isiDialog;
 
+        bool kiriBicara = item.siapaYangNgobrol == DialogItem.PosisiSpeaker.Kiri;
+
         // Atur Posisi Nama & Alignment Teks (Top-Left untuk Kiri, Top-Right untuk Kanan)
-        if (item.siapaYangNgobrol == DialogItem.PosisiSpeaker.Kiri)
+        if (kiriBicara)
         {
             if (textNamaKiri != null) 
             { 
@@ -150,6 +167,11 @@ public class DialogueManager : MonoBehaviour
             imageKanan.gameObject.SetActive(false);
         }
 
+        // Sorot portrait yang lagi bicara (yang diem jadi redup)
+        if (fxKiri) fxKiri.SetSpeaking(kiriBicara);
+        if (fxKanan) fxKanan.SetSpeaking(!kiriBicara);
+        pembicaraAktif = kiriBicara ? fxKiri : fxKanan;
+
         // Masukkan teks penuh ke TextMeshPro, lalu jalankan animasi ketik
         if (textIsiDialog != null)
         {
@@ -162,9 +184,12 @@ public class DialogueManager : MonoBehaviour
     {
         sedangMengetik = true;
         bolehLanjut = false;
+        if (pembicaraAktif) pembicaraAktif.SetTalking(true);
 
-        int totalKarakter = kalimatSaatIni.Length;
+        // hitung karakter yang benar-benar tampil (tag rich text nggak ikut dihitung)
         textIsiDialog.maxVisibleCharacters = 0; 
+        textIsiDialog.ForceMeshUpdate();
+        int totalKarakter = textIsiDialog.textInfo.characterCount;
 
         for (int i = 0; i <= totalKarakter; i++)
         {
@@ -174,6 +199,7 @@ public class DialogueManager : MonoBehaviour
 
         sedangMengetik = false;
         bolehLanjut = true;
+        if (pembicaraAktif) pembicaraAktif.SetTalking(false);
     }
 
     public void LanjutDialog()
@@ -187,6 +213,8 @@ public class DialogueManager : MonoBehaviour
         else
         {
             Debug.Log("Dialog Selesai!");
+            if (fxKiri) fxKiri.SetSpeaking(false);
+            if (fxKanan) fxKanan.SetSpeaking(false);
             onDialogSelesai.Invoke();
         }
     }
