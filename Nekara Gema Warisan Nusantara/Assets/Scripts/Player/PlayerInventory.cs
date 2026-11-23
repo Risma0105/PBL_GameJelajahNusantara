@@ -9,9 +9,9 @@ public class PlayerInventory : MonoBehaviour
 
     [Header("Pengaturan UI Slot Inventory (4 Slot)")]
     public Image[] slotIcons;           // Tarik Slot_1 sampai Slot_4 dari Panel_Inventory
-    public GameObject[] itemPrefabs;   // Tarik prefab item dari Kumpulan Bahan ke sini
+    public GameObject[] itemPrefabs;    // Tarik prefab item dari Kumpulan Bahan ke sini
 
-   // Variabel statis untuk mengecek apakah game baru saja dinyalakan dari tombol Play Unity
+    // Variabel statis untuk mengecek apakah game baru saja dinyalakan dari tombol Play Unity
     private static bool sudahDiresetDiAwal = false;
 
     void Start()
@@ -30,6 +30,7 @@ public class PlayerInventory : MonoBehaviour
             MuatInventaris();
         }
     }
+
     public void AddItem(string itemName)
     {
         // Cek agar item yang sama tidak ditambahkan berkali-kali secara dobel
@@ -43,6 +44,22 @@ public class PlayerInventory : MonoBehaviour
         else
         {
             Debug.Log($"⚠️ [INVENTORI]: {itemName} sudah ada di dalam tas!");
+        }
+    }
+
+    // BARU: dipakai museum untuk mengambil item dari tas
+    public void RemoveItem(string itemName)
+    {
+        for (int i = 0; i < daftarItem.Count; i++)
+        {
+            if (daftarItem[i].Trim().ToLower() == itemName.Trim().ToLower())
+            {
+                daftarItem.RemoveAt(i);
+                Debug.Log($"🎒 [INVENTORI]: {itemName} dikeluarkan dari tas.");
+                SimpanInventaris();
+                UpdateInventoryUI();
+                return;
+            }
         }
     }
 
@@ -65,10 +82,10 @@ public class PlayerInventory : MonoBehaviour
                 if (itemSprite != null)
                 {
                     slotIcons[i].sprite = itemSprite;
-                    
+
                     // Munculkan gambar item dengan warna penuh (Alpha = 1)
                     Color warnaSlot = slotIcons[i].color;
-                    warnaSlot.a = 1f; 
+                    warnaSlot.a = 1f;
                     slotIcons[i].color = warnaSlot;
                 }
             }
@@ -76,10 +93,10 @@ public class PlayerInventory : MonoBehaviour
             {
                 // Kosongkan slot jika belum ada item
                 slotIcons[i].sprite = null;
-                
+
                 // Bikin transparan (Alpha = 0) supaya background/desain slot aslinya kelihatan!
                 Color warnaSlot = slotIcons[i].color;
-                warnaSlot.a = 0f; 
+                warnaSlot.a = 0f;
                 slotIcons[i].color = warnaSlot;
             }
         }
@@ -129,10 +146,11 @@ public class PlayerInventory : MonoBehaviour
         if (PlayerPrefs.HasKey("SavedInventory"))
         {
             string gabunganItem = PlayerPrefs.GetString("SavedInventory");
+            daftarItem.Clear(); // Bersihkan daftar lama agar tidak muncul bahan mentah sisa
+
             if (!string.IsNullOrEmpty(gabunganItem))
             {
                 string[] itemArray = gabunganItem.Split(',');
-                daftarItem.Clear(); // Bersihkan daftar lama agar tidak muncul bahan mentah sisa
                 foreach (string item in itemArray)
                 {
                     if (!string.IsNullOrEmpty(item) && !daftarItem.Contains(item))
@@ -140,8 +158,8 @@ public class PlayerInventory : MonoBehaviour
                         daftarItem.Add(item);
                     }
                 }
-                UpdateInventoryUI();
             }
+            UpdateInventoryUI();
         }
     }
 }
