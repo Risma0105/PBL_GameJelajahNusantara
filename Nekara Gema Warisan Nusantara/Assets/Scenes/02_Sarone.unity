@@ -54124,7 +54124,7 @@ MonoBehaviour:
   bannerMap: {fileID: -735295396821741945, guid: 48e288abd9f0ac54dbd59b0b2ffd9b28, type: 3}
   imageBanner: {fileID: 1838160719}
   layarHitam: {fileID: 1838160718}
-  durasiTampil: 1.5
+  durasiTampil: 1
   durasiFade: 0.4
   durasiBannerSetelahHitam: 1
   bekukanWaktu: 1

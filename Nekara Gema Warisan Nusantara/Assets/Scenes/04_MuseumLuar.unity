@@ -3083,6 +3083,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 861022416381230249, guid: 9bc53dff0c12aa94c99b5dc998f39641, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2036994126797043883, guid: 9bc53dff0c12aa94c99b5dc998f39641, type: 3}
       propertyPath: m_Name
       value: TransisiCanvas
@@ -11156,11 +11160,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3247161298259118196, guid: 2d9cfc3333e7c33498713a4cc678cb69, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.78
+      value: -13.88
       objectReference: {fileID: 0}
     - target: {fileID: 3247161298259118196, guid: 2d9cfc3333e7c33498713a4cc678cb69, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.3429997
+      value: -1.99
       objectReference: {fileID: 0}
     - target: {fileID: 3247161298259118196, guid: 2d9cfc3333e7c33498713a4cc678cb69, type: 3}
       propertyPath: m_LocalPosition.z
@@ -14299,9 +14303,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PintuPindahScene
   namaSceneTujuan: 02_Sarone
-  bannerNamaMap: {fileID: -735295396821741945, guid: 48e288abd9f0ac54dbd59b0b2ffd9b28, type: 3}
-  titikMasuk: {fileID: 1036889038}
-  idSpawnDiTujuan: 
   namaSFXPintu: portal
 --- !u!1001 &1174832462
 PrefabInstance:
@@ -14788,9 +14789,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PintuPindahScene
   namaSceneTujuan: 03_GesoGeso
-  bannerNamaMap: {fileID: -3819355634520196969, guid: 48e288abd9f0ac54dbd59b0b2ffd9b28, type: 3}
-  titikMasuk: {fileID: 1384253614}
-  idSpawnDiTujuan: 
   namaSFXPintu: portal
 --- !u!1001 &1206790533
 PrefabInstance:
@@ -16880,11 +16878,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3247161298259118196, guid: 2d9cfc3333e7c33498713a4cc678cb69, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.78
+      value: -13.88
       objectReference: {fileID: 0}
     - target: {fileID: 3247161298259118196, guid: 2d9cfc3333e7c33498713a4cc678cb69, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.85
+      value: -0.49700058
       objectReference: {fileID: 0}
     - target: {fileID: 3247161298259118196, guid: 2d9cfc3333e7c33498713a4cc678cb69, type: 3}
       propertyPath: m_LocalPosition.z
@@ -20763,9 +20761,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PintuPindahScene
   namaSceneTujuan: 05_MuseumDalam
-  bannerNamaMap: {fileID: 0}
-  titikMasuk: {fileID: 0}
-  idSpawnDiTujuan: 
   namaSFXPintu: DoorOpen
 --- !u!1001 &1728248562
 PrefabInstance:
@@ -30086,9 +30081,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PintuPindahScene
   namaSceneTujuan: 01_Angklung
-  bannerNamaMap: {fileID: -6652642430973914400, guid: 48e288abd9f0ac54dbd59b0b2ffd9b28, type: 3}
-  titikMasuk: {fileID: 1785208889}
-  idSpawnDiTujuan: 
   namaSFXPintu: portal
 --- !u!1001 &8018308077227317822
 PrefabInstance:
