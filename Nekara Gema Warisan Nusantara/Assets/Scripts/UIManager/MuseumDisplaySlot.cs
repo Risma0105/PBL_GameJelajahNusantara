@@ -48,17 +48,41 @@ public class MuseumDisplaySlot : MonoBehaviour
             }
         }
 
-        if (inventory.PunyaItem(itemId))
-        {
-            inventory.RemoveItem(itemId);
-            MuseumData.SetDisplayed(itemId, true);
-            Refresh();
-            Debug.Log($"🏛️ [MUSEUM]: {itemId} berhasil dipajang!");
-        }
-        else
+        if (!inventory.PunyaItem(itemId))
         {
             Debug.Log($"🏛️ [MUSEUM]: Kamu belum punya {itemId}.");
             // TODO: tampilkan pesan di UI
+            return;
+        }
+
+        // Cek urutan & status animasi SEBELUM alat dikeluarkan dari inventory
+        string namaAlat = NamaAlatUntukProgress();
+        if (GameProgress.Instance != null && !GameProgress.Instance.BisaTaruhDisplay(namaAlat))
+        {
+            Debug.Log($"🏛️ [MUSEUM]: {itemId} belum bisa dipajang sekarang (urutan salah / animasi berjalan).");
+            return;
+        }
+
+        inventory.RemoveItem(itemId);
+        MuseumData.SetDisplayed(itemId, true);
+        Refresh();
+
+        if (GameProgress.Instance != null)
+            GameProgress.Instance.BerhasilTaruhDisplay(namaAlat);
+
+        Debug.Log($"🏛️ [MUSEUM]: {itemId} berhasil dipajang!");
+    }
+
+    // Ubah itemId (huruf kecil) jadi nama yang dipakai GameProgress
+    string NamaAlatUntukProgress()
+    {
+        switch (itemId.ToLower())
+        {
+            case "angklung": return "Angklung";
+            case "gesogeso": return "GesoGeso";
+            case "sarone":   return "Sarone";
+            case "suling":   return "Suling";
+            default:         return itemId;
         }
     }
 }
