@@ -30,7 +30,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.28775936, w: 0.95770276}
   m_LocalPosition: {x: -0.40551, y: -2.41, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -186,3 +186,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CollectibleItem
   namaItem: Sarone
   npcCrafting: {fileID: 3147245458688682410, guid: 2ec3f0ab71305e14f87c3f22bb0f80ca, type: 3}
+  bisaDiklik: 1
+  jarakAmbilMaks: 4
+  efekHover: 1
+  skalaHover: 1.1
+  hanyaBlokirTombolUI: 1
+  debugKlik: 1
