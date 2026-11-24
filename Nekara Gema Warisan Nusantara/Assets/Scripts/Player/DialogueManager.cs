@@ -9,7 +9,7 @@ using UnityEngine.Events;
 public struct DialogItem
 {
     public enum PosisiSpeaker { Kiri, Kanan }
-    
+
     [Header("Siapa yang Berbicara?")]
     public PosisiSpeaker siapaYangNgobrol;
 
@@ -26,17 +26,21 @@ public struct DialogItem
 public class DialogueManager : MonoBehaviour
 {
     [Header("UI Komponen Nama & Dialog")]
-    public TextMeshProUGUI textNamaKiri;   
-    public TextMeshProUGUI textNamaKanan;  
-    public TextMeshProUGUI textIsiDialog;  
-    public Image imageKiri;                
-    public Image imageKanan;               
+    public TextMeshProUGUI textNamaKiri;
+    public TextMeshProUGUI textNamaKanan;
+    public TextMeshProUGUI textIsiDialog;
+    public Image imageKiri;
+    public Image imageKanan;
 
     [Header("Efek Portrait (PortraitSpeakFX)")]
     [Tooltip("Portrait yang posisinya di KIRI layar")]
     public PortraitSpeakFX fxKiri;
     [Tooltip("Portrait yang posisinya di KANAN layar")]
     public PortraitSpeakFX fxKanan;
+
+    [Header("Fokus UI (vignette + instruksi klik)")]
+    [Tooltip("Drag objek yang punya script PrologFokusUI (PrologManager). Kosongin kalau scene ini nggak butuh.")]
+    public PrologFokusUI fokusUI;
 
     [Header("Daftar Percakapan (Atur di Inspector)")]
     public List<DialogItem> daftarPercakapan = new List<DialogItem>();
@@ -62,6 +66,9 @@ public class DialogueManager : MonoBehaviour
 
     void Start()
     {
+        // nyalain vignette dari awal dialog
+        if (fokusUI) fokusUI.SetVignette(true);
+
         if (daftarPercakapan.Count > 0)
         {
             MulaiDialogBaru();
@@ -92,6 +99,7 @@ public class DialogueManager : MonoBehaviour
                 sedangMengetik = false;
                 bolehLanjut = true;
                 if (pembicaraAktif) pembicaraAktif.SetTalking(false);
+                if (fokusUI) fokusUI.SetInstruksi(true); // munculin ikon klik
             }
             else if (bolehLanjut)
             {
@@ -104,6 +112,9 @@ public class DialogueManager : MonoBehaviour
 
     void MulaiDialogBaru()
     {
+        // sembunyiin ikon klik selama teks lagi diketik
+        if (fokusUI) fokusUI.SetInstruksi(false);
+
         DialogItem item = daftarPercakapan[indexDialog];
         kalimatSaatIni = item.isiDialog;
 
@@ -112,14 +123,14 @@ public class DialogueManager : MonoBehaviour
         // Atur Posisi Nama & Alignment Teks (Top-Left untuk Kiri, Top-Right untuk Kanan)
         if (kiriBicara)
         {
-            if (textNamaKiri != null) 
-            { 
-                textNamaKiri.gameObject.SetActive(true); 
-                textNamaKiri.text = item.namaKarakter; 
+            if (textNamaKiri != null)
+            {
+                textNamaKiri.gameObject.SetActive(true);
+                textNamaKiri.text = item.namaKarakter;
             }
-            if (textNamaKanan != null) 
-            { 
-                textNamaKanan.gameObject.SetActive(false); 
+            if (textNamaKanan != null)
+            {
+                textNamaKanan.gameObject.SetActive(false);
             }
 
             if (textIsiDialog != null)
@@ -129,14 +140,14 @@ public class DialogueManager : MonoBehaviour
         }
         else
         {
-            if (textNamaKanan != null) 
-            { 
-                textNamaKanan.gameObject.SetActive(true); 
-                textNamaKanan.text = item.namaKarakter; 
+            if (textNamaKanan != null)
+            {
+                textNamaKanan.gameObject.SetActive(true);
+                textNamaKanan.text = item.namaKarakter;
             }
-            if (textNamaKiri != null) 
-            { 
-                textNamaKiri.gameObject.SetActive(false); 
+            if (textNamaKiri != null)
+            {
+                textNamaKiri.gameObject.SetActive(false);
             }
 
             if (textIsiDialog != null)
@@ -187,7 +198,7 @@ public class DialogueManager : MonoBehaviour
         if (pembicaraAktif) pembicaraAktif.SetTalking(true);
 
         // hitung karakter yang benar-benar tampil (tag rich text nggak ikut dihitung)
-        textIsiDialog.maxVisibleCharacters = 0; 
+        textIsiDialog.maxVisibleCharacters = 0;
         textIsiDialog.ForceMeshUpdate();
         int totalKarakter = textIsiDialog.textInfo.characterCount;
 
@@ -200,6 +211,7 @@ public class DialogueManager : MonoBehaviour
         sedangMengetik = false;
         bolehLanjut = true;
         if (pembicaraAktif) pembicaraAktif.SetTalking(false);
+        if (fokusUI) fokusUI.SetInstruksi(true); // munculin ikon klik
     }
 
     public void LanjutDialog()
@@ -215,6 +227,11 @@ public class DialogueManager : MonoBehaviour
             Debug.Log("Dialog Selesai!");
             if (fxKiri) fxKiri.SetSpeaking(false);
             if (fxKanan) fxKanan.SetSpeaking(false);
+            if (fokusUI)
+            {
+                fokusUI.SetInstruksi(false);
+                fokusUI.SetVignette(false);
+            }
             onDialogSelesai.Invoke();
         }
     }

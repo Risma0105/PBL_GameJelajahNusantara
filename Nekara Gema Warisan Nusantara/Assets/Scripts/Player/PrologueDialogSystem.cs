@@ -43,6 +43,9 @@ public class PrologueDialogSystem : MonoBehaviour
     [Tooltip("Kosongin = otomatis diambil dari imageKanan")]
     public PortraitSpeakFX fxKanan;
 
+    [Header("Fokus UI (vignette + instruksi klik)")]
+    public PrologFokusUI fokusUI;
+
     [Header("Deteksi Pembicara Otomatis")]
     public string namaKarakterKiri = "Aki";
     public string namaKarakterKanan = "Ujang";
@@ -72,6 +75,8 @@ public class PrologueDialogSystem : MonoBehaviour
 
     void Start()
     {
+        if (fokusUI) fokusUI.SetVignette(true);
+
         if (barisDialogList.Count > 0)
         {
             TampilkanDialog(indexAktif);
@@ -100,6 +105,8 @@ public class PrologueDialogSystem : MonoBehaviour
 
     void TampilkanDialog(int index)
     {
+        if (fokusUI) fokusUI.SetInstruksi(false);
+
         DialogLine line = barisDialogList[index];
 
         textNama.text = line.namaKarakter;
@@ -183,6 +190,7 @@ public class PrologueDialogSystem : MonoBehaviour
     {
         sedangMengetik = false;
         if (pembicaraAktif) pembicaraAktif.SetTalking(false);
+        if (fokusUI) fokusUI.SetInstruksi(true); // munculin sprite klik kiri yang berkedip
     }
 
     void LanjutKeBerikutnya()
@@ -197,6 +205,11 @@ public class PrologueDialogSystem : MonoBehaviour
             dialogSelesai = true;
             if (fxKiri) fxKiri.SetSpeaking(false);
             if (fxKanan) fxKanan.SetSpeaking(false);
+            if (fokusUI)
+            {
+                fokusUI.SetInstruksi(false);
+                fokusUI.SetVignette(false);
+            }
             onDialogSelesai?.Invoke();
         }
     }
