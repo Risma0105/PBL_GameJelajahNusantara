@@ -11,8 +11,8 @@ public class MemoryFogQuiz : MonoBehaviour
     {
         [TextArea(2, 3)]
         public string soal;
-        public string[] pilihanJawaban; 
-        public int indexJawabanBenar;   
+        public string[] pilihanJawaban;
+        public int indexJawabanBenar;
     }
 
     [Header("Data Pertanyaan")]
@@ -21,26 +21,26 @@ public class MemoryFogQuiz : MonoBehaviour
 
     [Header("UI Referensi Teks & Tombol")]
     public TextMeshProUGUI teksSoal;
-    public Button[] tombolPilihan; 
-    public TextMeshProUGUI teksTimer; 
+    public Button[] tombolPilihan;
+    public TextMeshProUGUI teksTimer;
 
     [Header("UI Bar HP (Sesuai Desain)")]
     public Slider sliderHpBoss;      // Bilah HP merah di atas (Kabut Memori)
     public Slider sliderHpPlayer;    // Bilah HP hijau di bawah (Bramanta)
-    public TextMeshProUGUI teksNamaPlayer; 
+    public TextMeshProUGUI teksNamaPlayer;
 
     [Header("Referensi Musuh & Ekspresi UI Image")]
-    public GameObject objekKabut;       
-    public Image imageMusuh;            
-    public Sprite spriteMusuhHappy;     
-    public Sprite spriteMusuhSakit;     
-    
+    public GameObject objekKabut;
+    public Image imageMusuh;
+    public Sprite spriteMusuhHappy;
+    public Sprite spriteMusuhSakit;
+
     [Header("Visual Efek Alat Musik (Otomatis Muncul)")]
     public Image imageIkonAlatMusik;    // Tarik UI Image tempat ikon alat musik muncul di kabut
     public Sprite[] spriteAlatMusik;    // Masukkan sprite (Angklung, Sarone, Gesok) di sini
 
     [Header("Pengaturan Waktu & HP")]
-    public float batasWaktuJawab = 45f; 
+    public float batasWaktuJawab = 45f;
     private float timerSoal = 0f;
     private bool sedangMenjawab = false;
 
@@ -49,11 +49,27 @@ public class MemoryFogQuiz : MonoBehaviour
     public int maxHpPlayer = 100;
     private int currentHpPlayer;
 
+    [Header("Penalti & Bonus HP Player")]
+    [Tooltip("HP player berkurang segini kalau jawaban salah")]
+    public int penaltiSalah = 25;
+    [Tooltip("HP player berkurang segini kalau waktu habis")]
+    public int penaltiWaktuHabis = 30;
+    [Tooltip("Jawab BENAR dalam waktu <= batas ini (detik) = bonus cepat")]
+    public float batasWaktuCepat = 5f;
+    [Tooltip("Jawab BENAR dalam waktu <= batas ini (detik) = bonus sedang")]
+    public float batasWaktuSedang = 10f;
+    [Tooltip("HP yang DIPULIHKAN kalau benar & cepat")]
+    public int bonusHpCepat = 10;
+    [Tooltip("HP yang DIPULIHKAN kalau benar & sedang")]
+    public int bonusHpSedang = 5;
+    [Tooltip("HP yang DIPULIHKAN kalau benar tapi lambat")]
+    public int bonusHpLambat = 0;
+
     [Header("Pengaturan Warna Tombol")]
     public Color warnaNormal = Color.white;
     public Color warnaBenar = Color.green;
     public Color warnaSalah = Color.red;
-    public float durasiFeedback = 1f;   
+    public float durasiFeedback = 1f;
 
     [Header("Sprite Tombol (Opsional, menggantikan warna)")]
     public Sprite spriteNormal;
@@ -93,9 +109,9 @@ public class MemoryFogQuiz : MonoBehaviour
 
     [Header("Hasil Akhir Kuis")]
     [Tooltip("Nama scene PERSIS seperti di Build Profiles, contoh: 06_Pagelaran...")]
-    public string namaSceneMenang = "";     // dituju kalau BENAR lebih banyak
+    public string namaSceneMenang = "";     // dituju kalau menang
     [Tooltip("Nama scene PERSIS seperti di Build Profiles, contoh: 05_MuseumDalam")]
-    public string namaSceneKalah = "";      // dituju kalau SALAH lebih banyak
+    public string namaSceneKalah = "";      // dituju kalau kalah
     [Tooltip("Hanya dipakai kalau cutscene tidak diisi")]
     public float jedaSebelumPindahScene = 2f;
     [Tooltip("Matikan kalau MuseumManager.MenangKarnaval() sudah memindahkan scene sendiri")]
@@ -108,23 +124,28 @@ public class MemoryFogQuiz : MonoBehaviour
     private Coroutine alurSoal;
     private bool sedangKetik = false;
     private bool lewatiKetik = false;
+    private bool kuisSelesai = false;
 
     // Ukuran asli (scale) tiap objek, dicatat di awal supaya animasi pop tidak mengubah ukuran
     private Vector3[] skalaAsliTombol;
     private Vector3 skalaAsliKotakSoal = Vector3.one;
 
+    // Referensi Player disimpan di awal (objek nonaktif tidak bisa dicari lagi dengan Find)
+    private PlayerMovement playerMove;
+    private GameObject playerObj;
+
     void Start()
     {
         if (MuseumManager.Instance != null)
         {
-            bool semuaSelesai = MuseumManager.Instance.sudahCraftingAngklung && 
-                                MuseumManager.Instance.sudahCraftingGesoGeso && 
+            bool semuaSelesai = MuseumManager.Instance.sudahCraftingAngklung &&
+                                MuseumManager.Instance.sudahCraftingGesoGeso &&
                                 MuseumManager.Instance.sudahCraftingSarone;
 
             if (!semuaSelesai)
             {
                 gameObject.SetActive(false);
-                return; 
+                return;
             }
         }
 
@@ -132,6 +153,12 @@ public class MemoryFogQuiz : MonoBehaviour
         currentHpPlayer = maxHpPlayer;
         jumlahBenar = 0;
         jumlahSalah = 0;
+        kuisSelesai = false;
+
+        // Simpan referensi Player SEBELUM dinonaktifkan
+        playerMove = Object.FindFirstObjectByType<PlayerMovement>();
+        playerObj = GameObject.FindWithTag("Player");
+        if (playerObj == null && playerMove != null) playerObj = playerMove.gameObject;
 
         // Layar cutscene disembunyikan sampai kuis selesai
         if (layarCutscene != null) layarCutscene.gameObject.SetActive(false);
@@ -149,9 +176,8 @@ public class MemoryFogQuiz : MonoBehaviour
             tombolPilihan[i].transition = Selectable.Transition.None;
             tombolPilihan[i].onClick.AddListener(() => CekJawaban(indexTombol));
         }
-        
+
         UpdateUIStatus();
-        TampilkanSoal();
         AturKarakterDanGerakan(false, false);
 
         if (imageMusuh != null && spriteMusuhHappy != null)
@@ -161,6 +187,8 @@ public class MemoryFogQuiz : MonoBehaviour
 
         // Sembunyikan ikon alat musik di awal
         if (imageIkonAlatMusik != null) imageIkonAlatMusik.gameObject.SetActive(false);
+
+        TampilkanSoal();
     }
 
     void Update()
@@ -188,13 +216,12 @@ public class MemoryFogQuiz : MonoBehaviour
         }
     }
 
+    // statusJalan = PlayerMovement aktif, statusTampil = objek Player aktif
     void AturKarakterDanGerakan(bool statusJalan, bool statusTampil)
     {
-        PlayerMovement playerMove = Object.FindFirstObjectByType<PlayerMovement>();
-        if (playerMove != null) playerMove.enabled = statusJalan;
-
-        GameObject playerObj = GameObject.FindWithTag("Player");
+        // Aktifkan objek dulu, baru atur movement (kalau dimatikan, urutan ini juga aman)
         if (playerObj != null) playerObj.SetActive(statusTampil);
+        if (playerMove != null) playerMove.enabled = statusJalan;
     }
 
     void TampilkanSoal()
@@ -202,7 +229,11 @@ public class MemoryFogQuiz : MonoBehaviour
         timerSoal = 0f;
         sedangMenjawab = false; // timer baru jalan setelah semua kotak jawaban muncul
 
-        if (daftarPertanyaan.Length == 0) return;
+        if (daftarPertanyaan.Length == 0)
+        {
+            Debug.LogWarning("Daftar pertanyaan kosong di Inspector (Memory Fog Quiz > Data Pertanyaan).");
+            return;
+        }
         if (indexSoalAktif >= daftarPertanyaan.Length) indexSoalAktif = 0;
 
         if (alurSoal != null) StopCoroutine(alurSoal);
@@ -289,64 +320,61 @@ public class MemoryFogQuiz : MonoBehaviour
         sedangMenjawab = true;
     }
 
-    // Ukur soal dari hasil render asli, lalu sesuaikan kotak Soal
-        // Ukur soal (dengan semua huruf dihitung), lalu sesuaikan kotak Soal
-string BungkusManual(string isi, float lebarMaks)
-{
-    teksSoal.textWrappingMode = TextWrappingModes.NoWrap;
-    string[] kata = isi.Replace("\n", " ").Split(' ');
-    string baris = "";
-    string hasil = "";
-
-    foreach (string k in kata)
+    // Pecah teks jadi beberapa baris sesuai lebar maksimal
+    string BungkusManual(string isi, float lebarMaks)
     {
-        string coba = baris.Length == 0 ? k : baris + " " + k;
-        float w = teksSoal.GetPreferredValues(coba).x;
-        if (w > lebarMaks && baris.Length > 0)
+        teksSoal.textWrappingMode = TextWrappingModes.NoWrap;
+        string[] kata = isi.Replace("\n", " ").Split(' ');
+        string baris = "";
+        string hasil = "";
+
+        foreach (string k in kata)
         {
-            hasil += baris + "\n";
-            baris = k;
+            string coba = baris.Length == 0 ? k : baris + " " + k;
+            float w = teksSoal.GetPreferredValues(coba).x;
+            if (w > lebarMaks && baris.Length > 0)
+            {
+                hasil += baris + "\n";
+                baris = k;
+            }
+            else baris = coba;
         }
-        else baris = coba;
+        return hasil + baris;
     }
-    return hasil + baris;
-}
 
-void AturUkuranKotakSoal()
-{
-    RectTransform rtTeks = teksSoal.rectTransform;
-    if (teksSoal.transform.parent != kotakSoal) teksSoal.transform.SetParent(kotakSoal, false);
-    rtTeks.localScale = Vector3.one;
+    // Ukur soal (dengan semua huruf dihitung), lalu sesuaikan kotak Soal
+    void AturUkuranKotakSoal()
+    {
+        RectTransform rtTeks = teksSoal.rectTransform;
+        if (teksSoal.transform.parent != kotakSoal) teksSoal.transform.SetParent(kotakSoal, false);
+        rtTeks.localScale = Vector3.one;
 
-    int visibleLama = teksSoal.maxVisibleCharacters;
-    teksSoal.maxVisibleCharacters = 99999;
-    teksSoal.overflowMode = TextOverflowModes.Overflow;
-    teksSoal.alignment = TextAlignmentOptions.Center;
-    teksSoal.enableAutoSizing = false;
+        int visibleLama = teksSoal.maxVisibleCharacters;
+        teksSoal.maxVisibleCharacters = 99999;
+        teksSoal.overflowMode = TextOverflowModes.Overflow;
+        teksSoal.alignment = TextAlignmentOptions.Center;
+        teksSoal.enableAutoSizing = false;
 
-    teksSoal.text = BungkusManual(teksSoal.text, lebarMaksSoal);
+        teksSoal.text = BungkusManual(teksSoal.text, lebarMaksSoal);
 
-    Vector2 ukuran = teksSoal.GetPreferredValues(teksSoal.text);
-    float lebar = Mathf.Max(Mathf.Ceil(ukuran.x) + 4f, lebarMinSoal);
-    float tinggi = Mathf.Max(Mathf.Ceil(ukuran.y), tinggiMinSoal);
+        Vector2 ukuran = teksSoal.GetPreferredValues(teksSoal.text);
+        float lebar = Mathf.Max(Mathf.Ceil(ukuran.x) + 4f, lebarMinSoal);
+        float tinggi = Mathf.Max(Mathf.Ceil(ukuran.y), tinggiMinSoal);
 
-    kotakSoal.sizeDelta = new Vector2(lebar + paddingSoal.x, tinggi + paddingSoal.y);
+        kotakSoal.sizeDelta = new Vector2(lebar + paddingSoal.x, tinggi + paddingSoal.y);
 
-    rtTeks.anchorMin = Vector2.zero;
-    rtTeks.anchorMax = Vector2.one;
-    rtTeks.pivot = new Vector2(0.5f, 0.5f);
-    rtTeks.offsetMin = paddingSoal * 0.5f;
-    rtTeks.offsetMax = -paddingSoal * 0.5f;
+        rtTeks.anchorMin = Vector2.zero;
+        rtTeks.anchorMax = Vector2.one;
+        rtTeks.pivot = new Vector2(0.5f, 0.5f);
+        rtTeks.offsetMin = paddingSoal * 0.5f;
+        rtTeks.offsetMax = -paddingSoal * 0.5f;
 
-    Canvas.ForceUpdateCanvases();
-    teksSoal.ForceMeshUpdate(true, true);
+        Canvas.ForceUpdateCanvases();
+        teksSoal.ForceMeshUpdate(true, true);
 
-    Debug.Log($"[Kotak Soal] baris={teksSoal.textInfo.lineCount}, teks lebar={ukuran.x:F0}, " +
-              $"kotak={kotakSoal.sizeDelta}, ada newline={teksSoal.text.Contains("\n")}", teksSoal);
+        teksSoal.maxVisibleCharacters = visibleLama;
+    }
 
-    teksSoal.maxVisibleCharacters = visibleLama;
-}
-    
     // Pop dari 0 menuju ukuran asli objek (skalaAkhir), bukan selalu 1
     IEnumerator PopTombol(Transform t, Vector3 skalaAkhir)
     {
@@ -393,11 +421,11 @@ void AturUkuranKotakSoal()
     public void CekJawaban(int pilihanPemain)
     {
         if (!sedangMenjawab) return;
-        sedangMenjawab = false; 
+        sedangMenjawab = false;
 
-        float waktuPilihan = timerSoal; 
+        float waktuPilihan = timerSoal;
         Pertanyaan p = daftarPertanyaan[indexSoalAktif];
-        
+
         foreach (Button btn in tombolPilihan) btn.interactable = false;
 
         bool apakahBenar = (pilihanPemain == p.indexJawabanBenar);
@@ -405,12 +433,12 @@ void AturUkuranKotakSoal()
         if (apakahBenar)
         {
             jumlahBenar++;
-            HitungPenaltiAtauRewardWaktu(waktuPilihan);
+            HitungBonusWaktu(waktuPilihan);
 
             TerapkanVisualTombol(pilihanPemain, spriteBenar, warnaBenar);
-            currentHpBoss--; // Kurangi HP Boss di atas
+            currentHpBoss = Mathf.Max(0, currentHpBoss - 1); // Kurangi HP Boss di atas
 
-            // MUNCULKAN ALAT MUSIK OTOMATIS SAAT JAWAB BENAR
+            // Munculkan alat musik otomatis saat jawab benar
             MunculkanEfekAlatMusik();
 
             if (imageMusuh != null && spriteMusuhSakit != null)
@@ -421,9 +449,9 @@ void AturUkuranKotakSoal()
         else
         {
             jumlahSalah++;
-            currentHpPlayer -= 25; // Penalti salah
+            UbahHpPlayer(-penaltiSalah);
             TerapkanVisualTombol(pilihanPemain, spriteSalah, warnaSalah);
-            TerapkanVisualTombol(p.indexJawabanBenar, spriteBenar, warnaBenar); 
+            TerapkanVisualTombol(p.indexJawabanBenar, spriteBenar, warnaBenar);
 
             if (imageMusuh != null && spriteMusuhHappy != null)
                 imageMusuh.sprite = spriteMusuhHappy;
@@ -435,23 +463,36 @@ void AturUkuranKotakSoal()
         StartCoroutine(ResetEkspresiDanLanjutSoal());
     }
 
-    void HitungPenaltiAtauRewardWaktu(float waktu)
+    // Jawaban benar: makin cepat, makin besar HP player dipulihkan
+    void HitungBonusWaktu(float waktu)
     {
-        if (waktu <= 5f)
+        int bonus;
+        string tingkat;
+
+        if (waktu <= batasWaktuCepat)
         {
-            currentHpPlayer -= 25;
-            Debug.Log("🎵 Respon Cepat (<= 5s): [Gesok] | HP Player -25");
+            bonus = bonusHpCepat;
+            tingkat = "Cepat";
         }
-        else if (waktu > 5f && waktu <= 10f)
+        else if (waktu <= batasWaktuSedang)
         {
-            currentHpPlayer -= 15;
-            Debug.Log("🎵 Respon Sedang (5s - 10s): [Sarone] | HP Player -15");
+            bonus = bonusHpSedang;
+            tingkat = "Sedang";
         }
         else
         {
-            currentHpPlayer -= 10;
-            Debug.Log("🎵 Respon Lambat (> 10s): [Angklung] | HP Player -10");
+            bonus = bonusHpLambat;
+            tingkat = "Lambat";
         }
+
+        UbahHpPlayer(bonus);
+        Debug.Log($"⏱ Respon {tingkat} ({waktu:F1}s) | HP Player +{bonus}");
+    }
+
+    // Ubah HP player dan jaga tetap di rentang 0..max
+    void UbahHpPlayer(int delta)
+    {
+        currentHpPlayer = Mathf.Clamp(currentHpPlayer + delta, 0, maxHpPlayer);
     }
 
     void MunculkanEfekAlatMusik()
@@ -472,10 +513,17 @@ void AturUkuranKotakSoal()
     {
         sedangMenjawab = false;
         jumlahSalah++; // waktu habis dihitung salah
-        currentHpPlayer -= 30; 
+        UbahHpPlayer(-penaltiWaktuHabis);
         Debug.Log("⏳ Waktu Habis!");
-        
+
         foreach (Button btn in tombolPilihan) btn.interactable = false;
+
+        // Tunjukkan jawaban yang benar supaya pemain belajar
+        Pertanyaan p = daftarPertanyaan[indexSoalAktif];
+        TerapkanVisualTombol(p.indexJawabanBenar, spriteBenar, warnaBenar);
+
+        if (imageMusuh != null && spriteMusuhHappy != null)
+            imageMusuh.sprite = spriteMusuhHappy;
 
         UpdateUIStatus();
         StartCoroutine(ResetEkspresiDanLanjutSoal());
@@ -484,19 +532,33 @@ void AturUkuranKotakSoal()
     IEnumerator ResetEkspresiDanLanjutSoal()
     {
         yield return new WaitForSeconds(durasiFeedback);
-        
+
         // Sembunyikan lagi ikon alat musik untuk soal berikutnya
         if (imageIkonAlatMusik != null) imageIkonAlatMusik.gameObject.SetActive(false);
 
         if (imageMusuh != null && spriteMusuhHappy != null)
             imageMusuh.sprite = spriteMusuhHappy;
 
+        // HP player habis -> kalah langsung, tanpa menunggu soal habis
+        if (currentHpPlayer <= 0)
+        {
+            StartCoroutine(SelesaiKuis(false));
+            yield break;
+        }
+
+        // HP boss habis -> menang langsung
+        if (currentHpBoss <= 0)
+        {
+            StartCoroutine(SelesaiKuis(true));
+            yield break;
+        }
+
         indexSoalAktif++;
 
         if (indexSoalAktif >= daftarPertanyaan.Length)
         {
-            // Semua soal sudah dijawab -> tentukan menang / kalah
-            StartCoroutine(SelesaiKuis());
+            // Semua soal sudah dijawab -> menang kalau benar lebih banyak (seri dihitung kalah)
+            StartCoroutine(SelesaiKuis(jumlahBenar > jumlahSalah));
         }
         else
         {
@@ -504,10 +566,12 @@ void AturUkuranKotakSoal()
         }
     }
 
-    IEnumerator SelesaiKuis()
+    IEnumerator SelesaiKuis(bool menang)
     {
+        if (kuisSelesai) yield break; // cegah dipanggil dua kali
+        kuisSelesai = true;
+
         sedangMenjawab = false;
-        bool menang = jumlahBenar > jumlahSalah; // 5 soal = tidak mungkin seri
         int totalSoal = daftarPertanyaan.Length;
 
         Debug.Log(menang ? "🎉 Kabut Memori Musnah!" : "💀 Pemain Kalah!");
