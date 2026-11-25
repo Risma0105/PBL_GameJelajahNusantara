@@ -79,8 +79,8 @@ public class MuseumDisplaySlot : MonoBehaviour
         switch (itemId.ToLower())
         {
             case "angklung": return "Angklung";
-            case "gesogeso": return "GesoGeso";
             case "sarone":   return "Sarone";
+            case "gesogeso": return "GesoGeso";
             case "suling":   return "Suling";
             default:         return itemId;
         }

@@ -933,6 +933,7 @@ GameObject:
   m_Component:
   - component: {fileID: 204294025}
   - component: {fileID: 204294026}
+  - component: {fileID: 204294028}
   - component: {fileID: 204294027}
   m_Layer: 0
   m_Name: Sarone
@@ -1030,6 +1031,52 @@ MonoBehaviour:
   itemId: sarone
   silhouetteColor: {r: 0.25, g: 0.25, b: 0.25, a: 1}
   displayedColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!61 &204294028
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 204294024}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3, y: 3}
+    newSize: {x: 0.62, y: 0.9}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 3, y: 3}
+  m_EdgeRadius: 0
 --- !u!1 &221834553 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3180648176257999446, guid: 121a99730dc87384ea5df8dc0c71f63d, type: 3}
@@ -4468,7 +4515,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.9375, y: 2.8125}
+  m_Size: {x: 3, y: 3}
   m_EdgeRadius: 0
 --- !u!1001 &642314563
 PrefabInstance:
@@ -5333,6 +5380,7 @@ GameObject:
   m_Component:
   - component: {fileID: 768577431}
   - component: {fileID: 768577432}
+  - component: {fileID: 768577434}
   - component: {fileID: 768577433}
   m_Layer: 0
   m_Name: GesoGeso
@@ -5430,6 +5478,52 @@ MonoBehaviour:
   itemId: gesogeso
   silhouetteColor: {r: 0.25, g: 0.25, b: 0.25, a: 1}
   displayedColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!61 &768577434
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 768577430}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3, y: 3}
+    newSize: {x: 0.62, y: 0.9}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 3, y: 3}
+  m_EdgeRadius: 0
 --- !u!1001 &778049729
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6780,11 +6874,6 @@ Transform:
   - {fileID: 788770759}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1015795504 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4900820532107019835, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
-  m_PrefabInstance: {fileID: 2299183234134353468}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1022514716
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11466,67 +11555,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3543438798109847439, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
   m_PrefabInstance: {fileID: 2299183234134353468}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1774717419
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1015795504}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 57107f5b852d0224eb0b60c345f3f653, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MuseumDisplay
-  itemId: 
-  silhouetteColor: {r: 0.25, g: 0.25, b: 0.25, a: 1}
-  displayedColor: {r: 1, g: 1, b: 1, a: 1}
---- !u!61 &1774717420
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1015795504}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_CompositeOperation: 0
-  m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.57}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2, y: 1}
-    newSize: {x: 2, y: 2}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Size: {x: 2.58, y: 2.37}
-  m_EdgeRadius: 0
 --- !u!4 &1779871298 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 538404036847519634, guid: 64d77699d51ea924d978629f2dde3232, type: 3}
@@ -15413,12 +15441,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MuseumManager
   faseAktif: 0
-  sudahCraftingAngklung: 1
+  sudahCraftingAngklung: 0
   sudahCraftingGesoGeso: 0
   sudahCraftingSarone: 0
   objekKabutDanMusuh: {fileID: 0}
   panelQuizUI: {fileID: 0}
   objekNPCKarnavalRamai: {fileID: 0}
+  namaSceneMuseum: 05_MuseumDalam
+  namaObjekQuest: Quest
+  namaPanelQuiz: PanelQuiz
+  namaNPCKarnaval: NPCKarnavalRamai
 --- !u!4 &2048466883
 Transform:
   m_ObjectHideFlags: 0
@@ -16632,13 +16664,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4900820532107019835, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1774717419}
-    - targetCorrespondingSourceObject: {fileID: 4900820532107019835, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1774717420}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0d11a86d464e2604f958987c03aff7a4, type: 3}
 --- !u!1001 &2434731865110179422
 PrefabInstance:
