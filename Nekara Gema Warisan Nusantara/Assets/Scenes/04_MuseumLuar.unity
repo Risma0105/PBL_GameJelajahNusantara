@@ -3091,6 +3091,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TransisiCanvas
       objectReference: {fileID: 0}
+    - target: {fileID: 2036994126797043883, guid: 9bc53dff0c12aa94c99b5dc998f39641, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2817139386903819451, guid: 9bc53dff0c12aa94c99b5dc998f39641, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -28732,9 +28736,16 @@ MonoBehaviour:
   sudahCraftingAngklung: 0
   sudahCraftingGesoGeso: 0
   sudahCraftingSarone: 0
+  namaScenePertanyaan: 07_Pertanyaan
+  jedaSebelumTransisi: 1
+  durasiFade: 1
   objekKabutDanMusuh: {fileID: 0}
   panelQuizUI: {fileID: 0}
   objekNPCKarnavalRamai: {fileID: 0}
+  namaSceneMuseum: 05_MuseumDalam
+  namaObjekQuest: Quest
+  namaPanelQuiz: PanelQuiz
+  namaNPCKarnaval: NPCKarnavalRamai
 --- !u!4 &2071547713
 Transform:
   m_ObjectHideFlags: 0

@@ -1,5 +1,7 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MuseumManager : MonoBehaviour
 {
@@ -19,17 +21,23 @@ public class MuseumManager : MonoBehaviour
     public bool sudahCraftingGesoGeso = false;
     public bool sudahCraftingSarone = false;
 
+    [Header("Transisi ke Scene Pertanyaan")]
+    public string namaScenePertanyaan = "07_Pertanyaan";
+    public float jedaSebelumTransisi = 1.0f;
+    public float durasiFade = 1.0f;
+    private bool sudahMulaiTransisi = false;
+
     [Header("Referensi Objek di Scene Museum (dicari otomatis kalau kosong)")]
-    public GameObject objekKabutDanMusuh;    // Objek musuh & quest di Scene Museum
-    public GameObject panelQuizUI;           // Panel UI kuis
-    public GameObject objekNPCKarnavalRamai; // Kerumunan karnaval
+    public GameObject objekKabutDanMusuh;
+    public GameObject panelQuizUI;
+    public GameObject objekNPCKarnavalRamai;
 
     [Header("Nama Scene & Objek (untuk dicari otomatis)")]
     [Tooltip("Harus persis sama dengan nama scene museum di Build Settings (dan namaSceneMuseumAwal di GameProgress).")]
     public string namaSceneMuseum = "05_MuseumDalam";
     public string namaObjekQuest = "Quest";
-    public string namaPanelQuiz = "PanelQuiz";          // sesuaikan dengan nama di Hierarchy
-    public string namaNPCKarnaval = "NPCKarnavalRamai"; // sesuaikan dengan nama di Hierarchy
+    public string namaPanelQuiz = "PanelQuiz";
+    public string namaNPCKarnaval = "NPCKarnavalRamai";
 
     private float jadwalCek = 0f;
 
@@ -64,7 +72,6 @@ public class MuseumManager : MonoBehaviour
 
     void Update()
     {
-        // Hanya di scene museum, dan cukup dicek tiap 0.25 detik (tidak perlu tiap frame)
         if (SceneManager.GetActiveScene().name != namaSceneMuseum) return;
         if (Time.unscaledTime < jadwalCek) return;
 
@@ -74,13 +81,15 @@ public class MuseumManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Referensi lama milik scene sebelumnya sudah hancur -> kosongkan, cari ulang
         objekKabutDanMusuh = null;
         panelQuizUI = null;
         objekNPCKarnavalRamai = null;
 
         if (scene.name == namaSceneMuseum)
+        {
+            sudahMulaiTransisi = false;
             CekKondisiMuseum();
+        }
     }
 
     public void UbahFase(FaseMuseum faseBaru)
@@ -92,7 +101,6 @@ public class MuseumManager : MonoBehaviour
         }
     }
 
-    // Dipanggil dari NPC Crafting saat alat musik selesai dirakit (TIDAK ADA SceneManager.LoadScene lagi!)
     public void SelesaiCrafting(string namaAlatMusik)
     {
         if (namaAlatMusik == "Angklung") sudahCraftingAngklung = true;
@@ -102,12 +110,10 @@ public class MuseumManager : MonoBehaviour
 
     void CekKondisiMuseum()
     {
-        // Cari ulang objek scene kalau referensinya kosong (termasuk yang sedang nonaktif)
         if (objekKabutDanMusuh == null)    objekKabutDanMusuh    = CariObjek(namaObjekQuest);
         if (panelQuizUI == null)           panelQuizUI           = CariObjek(namaPanelQuiz);
         if (objekNPCKarnavalRamai == null) objekNPCKarnavalRamai = CariObjek(namaNPCKarnaval);
 
-        // Karnaval sudah menang: jangan ditimpa lagi oleh logika di bawah
         if (faseAktif == FaseMuseum.KarnavalRamai)
         {
             SetAktif(objekKabutDanMusuh, false);
@@ -116,12 +122,62 @@ public class MuseumManager : MonoBehaviour
             return;
         }
 
-        // SYARAT MUTLAK: KETIGANYA HARUS TRUE (LENGKAP) BARU MUNCUL
         bool semuaCraftingSelesai = sudahCraftingAngklung && sudahCraftingGesoGeso && sudahCraftingSarone;
 
         SetAktif(objekKabutDanMusuh, semuaCraftingSelesai);
         SetAktif(panelQuizUI, semuaCraftingSelesai);
         SetAktif(objekNPCKarnavalRamai, false);
+
+        if (semuaCraftingSelesai && !sudahMulaiTransisi)
+        {
+            sudahMulaiTransisi = true;
+            StartCoroutine(ProsesTransisiKePertanyaan());
+        }
+    }
+
+    private IEnumerator ProsesTransisiKePertanyaan()
+    {
+        if (jedaSebelumTransisi > 0f)
+            yield return new WaitForSeconds(jedaSebelumTransisi);
+
+        // Otomatis ambil TransisiCanvas & LayarHitam yang sudah ada di scene
+        GameObject transisiObj = CariObjek("TransisiCanvas");
+        Image layarHitam = null;
+
+        if (transisiObj != null)
+        {
+            transisiObj.SetActive(true);
+            Transform tfLayar = transisiObj.transform.Find("LayarHitam");
+            if (tfLayar != null)
+            {
+                tfLayar.gameObject.SetActive(true);
+                layarHitam = tfLayar.GetComponent<Image>();
+            }
+        }
+
+        // Gelapkan layar secara bertahap lewat LayarHitam
+        if (layarHitam != null)
+        {
+            layarHitam.raycastTarget = true;
+            Color c = layarHitam.color;
+            c.a = 0f;
+            layarHitam.color = c;
+
+            float waktu = 0f;
+            while (waktu < durasiFade)
+            {
+                waktu += Time.deltaTime;
+                c.a = Mathf.Clamp01(waktu / durasiFade);
+                layarHitam.color = c;
+                yield return null;
+            }
+
+            c.a = 1f;
+            layarHitam.color = c;
+        }
+
+        if (!string.IsNullOrEmpty(namaScenePertanyaan))
+            SceneManager.LoadScene(namaScenePertanyaan);
     }
 
     public void MenangKarnaval()
@@ -137,7 +193,6 @@ public class MuseumManager : MonoBehaviour
         SetAktif(objekNPCKarnavalRamai, true);
     }
 
-    // Bisa menemukan objek yang nonaktif (GameObject.Find tidak bisa)
     GameObject CariObjek(string nama)
     {
         if (string.IsNullOrEmpty(nama)) return null;
