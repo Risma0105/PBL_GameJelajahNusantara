@@ -2976,6 +2976,50 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 630463465367731626, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 630463465367731626, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 630463465367731626, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 794251467993352552, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 794251467993352552, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 794251467993352552, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 1847926211}
+    - target: {fileID: 794251467993352552, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 794251467993352552, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: PlaySFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 794251467993352552, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: AudioManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 794251467993352552, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
+      value: tutup
+      objectReference: {fileID: 0}
+    - target: {fileID: 794251467993352552, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1273081227086002386, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
       value: 5
@@ -3063,6 +3107,14 @@ PrefabInstance:
     - target: {fileID: 1481151309353639136, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067407556445234184, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067407556445234184, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2234004827869769985, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
       propertyPath: m_AnchorMax.x
@@ -3176,6 +3228,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 113
       objectReference: {fileID: 0}
+    - target: {fileID: 7393671004849502890, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7483956504862632549, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 2
@@ -3208,6 +3264,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 8099774726157271437, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8145351298000282461, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
       propertyPath: daftarBudaya.Array.data[0].daftarBahan
       value: 'Daftar Bahan:
@@ -3230,6 +3290,10 @@ PrefabInstance:
         sehingga bambu menghasilkan bunyi.
 
 '
+      objectReference: {fileID: 0}
+    - target: {fileID: 8322754847554100742, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8492820516696802199, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
       propertyPath: m_Name
