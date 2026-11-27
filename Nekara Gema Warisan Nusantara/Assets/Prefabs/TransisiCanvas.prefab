@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2602817839375932016}
   - component: {fileID: 5141252796413174299}
   - component: {fileID: 1908185474197105521}
+  - component: {fileID: 2841850737587246847}
   m_Layer: 5
   m_Name: Banner
   m_TagString: Untagged
@@ -34,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -10}
-  m_SizeDelta: {x: 700, y: 700}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5141252796413174299
 CanvasRenderer:
@@ -65,7 +66,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -6652642430973914400, guid: 48e288abd9f0ac54dbd59b0b2ffd9b28, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -75,6 +76,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &2841850737587246847
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 861022416381230249}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &2036994126797043883
 GameObject:
   m_ObjectHideFlags: 0
@@ -87,7 +100,7 @@ GameObject:
   - component: {fileID: 976523763932852234}
   - component: {fileID: 2010769347375727610}
   - component: {fileID: 324316860822713677}
-  - component: {fileID: 6870011824051580923}
+  - component: {fileID: 5962947206497952149}
   m_Layer: 5
   m_Name: TransisiCanvas
   m_TagString: Untagged
@@ -179,7 +192,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &6870011824051580923
+--- !u!114 &5962947206497952149
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -188,12 +201,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2036994126797043883}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 032358d7a6d39044685ce0740e53552f, type: 3}
+  m_Script: {fileID: 11500000, guid: df6380a8c6d76d14d98e1cb67f4d793d, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BannerNamaMap
-  bannerMap: {fileID: -6652642430973914400, guid: 48e288abd9f0ac54dbd59b0b2ffd9b28, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::SceneTransitionManager
+  imageFade: {fileID: 7212919365894592066}
+  kecepatanFade: 1.5
   imageBanner: {fileID: 1908185474197105521}
-  layarHitam: {fileID: 7212919365894592066}
+  skalaBanner: 4
+  durasiBanner: 2
 --- !u!1 &3175402057221892106
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,6 +220,7 @@ GameObject:
   - component: {fileID: 67854790681224016}
   - component: {fileID: 3508639840552656508}
   - component: {fileID: 7212919365894592066}
+  - component: {fileID: 3218963633316526793}
   m_Layer: 5
   m_Name: LayarHitam
   m_TagString: Untagged
@@ -269,3 +285,15 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &3218963633316526793
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3175402057221892106}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
