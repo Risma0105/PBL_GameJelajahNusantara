@@ -1515,6 +1515,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 692289230}
   m_CullTransparentMesh: 1
+--- !u!1 &795639759 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2230999377312510104, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+  m_PrefabInstance: {fileID: 1330096255}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &795639764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 795639759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21471dc71bca24049b08e1c43d4c34ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectClickSFX
+  namaSFX: tutup
 --- !u!114 &859571992 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4824579989290751897, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
@@ -1911,6 +1929,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 912734858}
   m_CullTransparentMesh: 1
+--- !u!1 &929983776 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1898066794223732667, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+  m_PrefabInstance: {fileID: 1330096255}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &929983782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929983776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21471dc71bca24049b08e1c43d4c34ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectClickSFX
+  namaSFX: Start
 --- !u!1 &941181987
 GameObject:
   m_ObjectHideFlags: 0
@@ -3342,7 +3378,13 @@ PrefabInstance:
     - {fileID: 8476760482703286409, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
     - {fileID: 6056288141779004360, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1898066794223732667, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 929983782}
+    - targetCorrespondingSourceObject: {fileID: 2230999377312510104, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 795639764}
   m_SourcePrefab: {fileID: 100100000, guid: bd966eb2317606e45a271f964d0b5be0, type: 3}
 --- !u!1 &1421785255
 GameObject:
