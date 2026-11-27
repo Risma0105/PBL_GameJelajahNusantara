@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6148980417158325107}
   - component: {fileID: 7202212828423359315}
   - component: {fileID: 7731331888085206722}
-  - component: {fileID: 2972084530411656941}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -149,6 +148,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  sceneIndoor:
+  - NAMA_SCENE_MUSEUM_DALAM
   teksHariDanWaktu: {fileID: 0}
 --- !u!114 &7731331888085206722
 MonoBehaviour:
@@ -164,44 +165,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PauseManager
   panelSettings: {fileID: 0}
   teksTombolPause: {fileID: 0}
---- !u!114 &2972084530411656941
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5151668189902357577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8b1367d97872154ba1e4588f28cd367, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GameProgress
-  progressBar: {fileID: 0}
-  progressText: {fileID: 0}
-  fillBarImage: {fileID: 0}
-  namaSlider: ProgressBar
-  namaTeks: ProgressText
-  sceneAlatMusik:
-  - 01_Angklung
-  - 02_Sarone
-  - 03_GesoGeso
-  - 07_Pertanyaan
-  namaSceneMuseumAwal: 00_MainMenu
-  sceneTanpaTimer:
-  - 00_MainMenu
-  - 08_Prolog
-  jumlahHariPerSekat: 3
-  akhirDiTengahMalam: 1
-  durasiCadanganDetik: 600
-  posisiCheckpoint:
-  - 0.26
-  - 0.51
-  - 0.77
-  - 0.9
-  warnaNormal: {r: 0, g: 1, b: 0, a: 1}
-  warnaPeringatan: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  warnaBahaya: {r: 1, g: 0, b: 0, a: 1}
-  batasKuning: 0.3
-  batasMerah: 0.15
-  kecepatanKedip: 4
-  jedaSebelumGagal: 1.5

@@ -20,7 +20,8 @@ using TMPro;
 //    balik ke museum awal dan jatah diulang.
 //  - Pintu alat musik terkunci sampai urutannya tiba (lihat BolehMasuk).
 //  - Saat alat ditaruh di display, bar merayap halus ke garis checkpoint
-//    (timer & jam dibekukan selama animasi), lalu sekat berikutnya dimulai.
+//    (timer & jam dibekukan selama animasi). SETELAH ITU timer & jam tetap
+//    BERHENTI sampai pemain masuk scene alat musik berikutnya.
 // =====================================================================
 public class GameProgress : MonoBehaviour
 {
@@ -39,8 +40,8 @@ public class GameProgress : MonoBehaviour
     public string[] sceneAlatMusik =
     {
         "01_Angklung",
-        "03_GesoGeso",
         "02_Sarone",
+        "03_GesoGeso",
         "07_Pertanyaan"
     };
 
@@ -100,8 +101,8 @@ public class GameProgress : MonoBehaviour
 
     // Status alat musik
     public static bool hasAngklung = false;
-    public static bool hasGesoGeso = false;
     public static bool hasSarone = false;
+    public static bool hasGesoGeso = false;
     public static bool hasAlatKeempat = false;
 
     // ----- state internal -----
@@ -522,8 +523,8 @@ public class GameProgress : MonoBehaviour
         switch (checkpointSelesai)
         {
             case 0: alatSesuai = namaAlat == "Angklung"; break;
-            case 1: alatSesuai = namaAlat == "GesoGeso"; break;
-            case 2: alatSesuai = namaAlat == "Sarone"; break;
+            case 1: alatSesuai = namaAlat == "Sarone"; break;
+            case 2: alatSesuai = namaAlat == "GesoGeso"; break;
             case 3: alatSesuai = namaAlat == "AlatKeempat" || namaAlat == "Suling"; break;
         }
 
@@ -534,8 +535,8 @@ public class GameProgress : MonoBehaviour
         }
 
         if (checkpointSelesai == 0) hasAngklung = true;
-        if (checkpointSelesai == 1) hasGesoGeso = true;
-        if (checkpointSelesai == 2) hasSarone = true;
+        if (checkpointSelesai == 1) hasSarone = true;
+        if (checkpointSelesai == 2) hasGesoGeso = true;
         if (checkpointSelesai == 3) hasAlatKeempat = true;
 
         Debug.Log(namaAlat + " berhasil diambil dari NPC! Bawa kembali dan taruh di display museum.");
@@ -556,13 +557,14 @@ public class GameProgress : MonoBehaviour
         if (string.IsNullOrEmpty(namaAlat))
             return true;
 
-        string[] urutan = { "Angklung", "GesoGeso", "Sarone", "AlatKeempat" };
+        string[] urutan = { "Angklung", "Sarone", "GesoGeso", "AlatKeempat" };
 
         return namaAlat == urutan[checkpointSelesai]
                || (checkpointSelesai == 3 && namaAlat == "Suling");
     }
 
-    // Bar merayap halus ke garis checkpoint, lalu sekat berikutnya dimulai.
+    // Bar merayap halus ke garis checkpoint. Setelah itu timer & jam BERHENTI
+    // sampai pemain masuk scene alat musik berikutnya.
     // 'setelahBarSelesai' dipanggil begitu bar sudah sampai (dipakai untuk memunculkan UI badge).
     public void BerhasilTaruhDisplay(string namaAlat = null, System.Action setelahBarSelesai = null)
     {
@@ -604,21 +606,21 @@ public class GameProgress : MonoBehaviour
         // Kunci bar tepat di garis checkpoint sekat ini
         SetNilaiBar(ke);
 
-        // Lanjut ke sekat berikutnya, jatah hari baru mulai dari nol
+        // Sekat ini selesai. Timer & jam BERHENTI sampai pemain masuk scene alat berikutnya.
         checkpointSelesai++;
-        MulaiHitungWaktuBaru();
+        timerAktif = false;
+        sekatSudahMulai = false;   // sekat berikutnya belum mulai -> jam baru di-reset saat masuk scenenya
 
         if (checkpointSelesai >= 4)
         {
             checkpointSelesai = 4;
-            timerAktif = false;
             UpdateProgressBar();   // bar penuh + "Selesai!"
             Debug.Log("🏆 SEMUA ALAT MUSIK SELESAI DITARUH DI DISPLAY!");
         }
         else
         {
-            UpdateProgressBar();   // bar tetap di checkpoint yang baru dikunci, warna balik normal
-            Debug.Log("🎉 Alat musik ditaruh di display! Progress sekat ini terkunci.");
+            UpdateProgressBar();   // bar diam di garis checkpoint yang baru dikunci
+            Debug.Log("🎉 Alat ditaruh di display! Timer berhenti sampai masuk scene alat berikutnya.");
         }
 
         sedangAnimasiCheckpoint = false;
@@ -639,8 +641,8 @@ public class GameProgress : MonoBehaviour
         switch (namaAlat)
         {
             case "Angklung":    return checkpointSelesai >= 0;
-            case "GesoGeso":    return checkpointSelesai >= 1;
-            case "Sarone":      return checkpointSelesai >= 2;
+            case "Sarone":      return checkpointSelesai >= 1;
+            case "GesoGeso":    return checkpointSelesai >= 2;
             case "AlatKeempat":
             case "Suling":      return checkpointSelesai >= 3;
         }

@@ -10,6 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 631937447019442395}
   - component: {fileID: 5245801432394754326}
+  - component: {fileID: -2571107925136339160}
+  - component: {fileID: 2515184030512178681}
+  - component: {fileID: -8696243866361290642}
   m_Layer: 0
   m_Name: Hasil_GesoGeso
   m_TagString: Untagged
@@ -91,3 +94,101 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &-2571107925136339160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5562398673871662023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55aa28825ac3ff74fadddded3e595791, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CollectibleItem
+  namaItem: GesoGeso
+  npcCrafting: {fileID: 3147245458688682410, guid: 2ec3f0ab71305e14f87c3f22bb0f80ca, type: 3}
+  bisaDiklik: 1
+  jarakAmbilMaks: 4
+  efekHover: 1
+  skalaHover: 1.1
+  hanyaBlokirTombolUI: 1
+  debugKlik: 1
+--- !u!61 &2515184030512178681
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5562398673871662023}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 3, y: 3}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 3, y: 3}
+  m_EdgeRadius: 0
+--- !u!114 &-8696243866361290642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5562398673871662023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eef6380fc5faa7a48be3e85a6393d251, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProximityPrompt
+  objectText: 
+  actionText: 
+  tipeInput: 1
+  interactKey: 19
+  ikonKlik: {fileID: 0}
+  ikonKeyboard: {fileID: 0}
+  ikonAksi: {fileID: 0}
+  panel: {fileID: 0}
+  keyIcon: {fileID: 0}
+  actionIcon: {fileID: 0}
+  keyLabel: {fileID: 0}
+  objectLabel: {fileID: 0}
+  actionLabel: {fileID: 0}
+  onTriggered:
+    m_PersistentCalls:
+      m_Calls: []
+  onPlayerKeluar:
+    m_PersistentCalls:
+      m_Calls: []
+  tampilkanLog: 1
