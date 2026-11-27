@@ -14735,6 +14735,10 @@ PrefabInstance:
       value: 85.9544
       objectReference: {fileID: 0}
     - target: {fileID: 3832541109096504918, guid: ff8061e6a6a3e5d408defc84090bcdb0, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3.9099
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832541109096504918, guid: ff8061e6a6a3e5d408defc84090bcdb0, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 9.8507
       objectReference: {fileID: 0}
@@ -14842,21 +14846,50 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -4818002527688323498, guid: c9593596e0994cd448fd9a1b67f781a9, type: 3}
+    - target: {fileID: 7887350882324759205, guid: ff8061e6a6a3e5d408defc84090bcdb0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8345972554264620094, guid: ff8061e6a6a3e5d408defc84090bcdb0, type: 3}
       propertyPath: m_text
       value: Selamat! Sarone kini ada di tanganmu. Bawa ke museum agar gemanya terus
         terjaga!
       objectReference: {fileID: 0}
+    - target: {fileID: 8577364603922460345, guid: ff8061e6a6a3e5d408defc84090bcdb0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8577364603922460345, guid: ff8061e6a6a3e5d408defc84090bcdb0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 202849557}
   m_SourcePrefab: {fileID: 100100000, guid: ff8061e6a6a3e5d408defc84090bcdb0, type: 3}
 --- !u!1 &202849555 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 867421659015841628, guid: ff8061e6a6a3e5d408defc84090bcdb0, type: 3}
   m_PrefabInstance: {fileID: 202849554}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &202849556 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8577364603922460345, guid: ff8061e6a6a3e5d408defc84090bcdb0, type: 3}
+  m_PrefabInstance: {fileID: 202849554}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &202849557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202849556}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21471dc71bca24049b08e1c43d4c34ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectClickSFX
+  namaSFX: tutup
 --- !u!1001 &215469571
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20335,6 +20368,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TitikMiniMap (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 3437692468387789097, guid: 5c0b505a1a27884488e77d3c49e8e176, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6466910074373991708, guid: 5c0b505a1a27884488e77d3c49e8e176, type: 3}
       propertyPath: m_Color.b
       value: 1
@@ -22373,6 +22410,7 @@ GameObject:
   m_Component:
   - component: {fileID: 682772628}
   - component: {fileID: 682772629}
+  - component: {fileID: 682772630}
   m_Layer: 0
   m_Name: AlatDibawa
   m_TagString: Untagged
@@ -22454,6 +22492,19 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
+--- !u!114 &682772630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 682772627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21471dc71bca24049b08e1c43d4c34ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ObjectClickSFX
+  namaSFX: collect
 --- !u!1001 &685302011
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24318,17 +24369,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 634875078}
     m_Modifications:
+    - target: {fileID: 1626178017684017981, guid: 3c93efa673c31af40b825b5ab6159425, type: 3}
+      propertyPath: m_SortingOrder
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 8866574781812439484, guid: 3c93efa673c31af40b825b5ab6159425, type: 3}
       propertyPath: m_Name
       value: dekorasi-sumbawa (50)_0 (1)
       objectReference: {fileID: 0}
     - target: {fileID: 9043201504813731195, guid: 3c93efa673c31af40b825b5ab6159425, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.67473
+      objectReference: {fileID: 0}
+    - target: {fileID: 9043201504813731195, guid: 3c93efa673c31af40b825b5ab6159425, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.67473
+      objectReference: {fileID: 0}
+    - target: {fileID: 9043201504813731195, guid: 3c93efa673c31af40b825b5ab6159425, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.67473
+      objectReference: {fileID: 0}
+    - target: {fileID: 9043201504813731195, guid: 3c93efa673c31af40b825b5ab6159425, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -14.5
+      value: -14.96
       objectReference: {fileID: 0}
     - target: {fileID: 9043201504813731195, guid: 3c93efa673c31af40b825b5ab6159425, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -17
+      value: -16.37
       objectReference: {fileID: 0}
     - target: {fileID: 9043201504813731195, guid: 3c93efa673c31af40b825b5ab6159425, type: 3}
       propertyPath: m_LocalPosition.z
@@ -46776,10 +46843,19 @@ MonoBehaviour:
   skalaAwal: 0.6
   waktuAntisipasi: 0.25
   daftarPercakapan:
-  - apakahPlayerYangNgomong: 1
-    isiPesan: halo..
   - apakahPlayerYangNgomong: 0
-    isiPesan: iyaa
+    isiPesan: "\u201DSelamat datang di Tana samawa, Nusa tenggara Barat (NTB)\u201D\r\n"
+  - apakahPlayerYangNgomong: 0
+    isiPesan: "Apa yang bisa Inaq bantu, Nak?\u201D"
+  - apakahPlayerYangNgomong: 1
+    isiPesan: "\u201DBoleh saya tau apa alat musik khas Sumbawa, Inaq? \u201D\r\n"
+  - apakahPlayerYangNgomong: 0
+    isiPesan: "\u201DSarone namanya, dia dimainkan dengan cara ditiup\u201D\r\n"
+  - apakahPlayerYangNgomong: 1
+    isiPesan: "\u201Dbagaimana membuat Sarone Inaq? \u201D\r\n"
+  - apakahPlayerYangNgomong: 0
+    isiPesan: "\u201DCari 2 bahan ini:\r\n  - Daun Lontar\r\n  - Bambu\r\nkemudian
+      temui Tokoh pengrajin:\u201D"
   panelCraftingAtauBadge: {fileID: 0}
   namaAlatMusikTerkait: Angklung
 --- !u!114 &1504373161
@@ -47257,7 +47333,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4109324281688951830, guid: c1b5fff40cd8a89478a9132df49cee6c, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 200
+      value: 201.51
       objectReference: {fileID: 0}
     - target: {fileID: 4109324281688951830, guid: c1b5fff40cd8a89478a9132df49cee6c, type: 3}
       propertyPath: m_SizeDelta.y
@@ -47265,15 +47341,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4109324281688951830, guid: c1b5fff40cd8a89478a9132df49cee6c, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.006545211
+      value: 0.0060361247
       objectReference: {fileID: 0}
     - target: {fileID: 4109324281688951830, guid: c1b5fff40cd8a89478a9132df49cee6c, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.006545211
+      value: 0.0060361247
       objectReference: {fileID: 0}
     - target: {fileID: 4109324281688951830, guid: c1b5fff40cd8a89478a9132df49cee6c, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.006545211
+      value: 0.0060361247
       objectReference: {fileID: 0}
     - target: {fileID: 4109324281688951830, guid: c1b5fff40cd8a89478a9132df49cee6c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -47309,7 +47385,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4109324281688951830, guid: c1b5fff40cd8a89478a9132df49cee6c, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.05
+      value: 0.049754
       objectReference: {fileID: 0}
     - target: {fileID: 4109324281688951830, guid: c1b5fff40cd8a89478a9132df49cee6c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -47966,7 +48042,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 50
+  m_SortingOrder: 100
   m_MaskInteraction: 0
   m_Sprite: {fileID: -3450777564710549897, guid: 33f0a2e44ba337041a509cf6aa236054, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -48084,7 +48160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21471dc71bca24049b08e1c43d4c34ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectClickSFX
-  namaSFX: 
+  namaSFX: collect
 --- !u!1001 &1555934435
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -55452,6 +55528,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TitikMiniMap (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 3437692468387789097, guid: 5c0b505a1a27884488e77d3c49e8e176, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6466910074373991708, guid: 5c0b505a1a27884488e77d3c49e8e176, type: 3}
       propertyPath: m_Color.g
       value: 0.5686275
@@ -56572,8 +56652,8 @@ Transform:
   m_GameObject: {fileID: 1920818754}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -14.45, y: -15.59, z: 0}
-  m_LocalScale: {x: 2.0145733, y: 2.0145733, z: 2.0145733}
+  m_LocalPosition: {x: -14.421, y: -16.25, z: 0}
+  m_LocalScale: {x: 1.914852, y: 1.914852, z: 1.914852}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1531881261}
@@ -59715,7 +59795,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21471dc71bca24049b08e1c43d4c34ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectClickSFX
-  namaSFX: collect
+  namaSFX: pahat
 --- !u!68 &2112943247
 EdgeCollider2D:
   m_ObjectHideFlags: 0
