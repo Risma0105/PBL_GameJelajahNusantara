@@ -28735,6 +28735,10 @@ MonoBehaviour:
   objekKabutDanMusuh: {fileID: 0}
   panelQuizUI: {fileID: 0}
   objekNPCKarnavalRamai: {fileID: 0}
+  namaSceneMuseum: 05_MuseumDalam
+  namaObjekQuest: Quest
+  namaPanelQuiz: PanelQuiz
+  namaNPCKarnaval: NPCKarnavalRamai
 --- !u!4 &2071547713
 Transform:
   m_ObjectHideFlags: 0
@@ -30070,6 +30074,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6274278068962258236, guid: bd4bc561d3201714bb126ee612ac0b3d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7978728378659827077}
+    - targetCorrespondingSourceObject: {fileID: 6274278068962258236, guid: bd4bc561d3201714bb126ee612ac0b3d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7978728378659827079}
   m_SourcePrefab: {fileID: 100100000, guid: bd4bc561d3201714bb126ee612ac0b3d, type: 3}
 --- !u!4 &7978728378659827075 stripped
 Transform:
@@ -30141,6 +30148,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PintuPindahScene
   namaSceneTujuan: 01_Angklung
   namaSFXPintu: portal
+--- !u!114 &7978728378659827079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7978728378659827076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 032358d7a6d39044685ce0740e53552f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BannerNamaMap
+  bannerMap: {fileID: 0}
+  imageBanner: {fileID: 0}
+  layarHitam: {fileID: 0}
 --- !u!1001 &8018308077227317822
 PrefabInstance:
   m_ObjectHideFlags: 0
