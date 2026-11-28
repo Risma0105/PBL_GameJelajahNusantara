@@ -2732,7 +2732,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3147245458688682410, guid: 2ec3f0ab71305e14f87c3f22bb0f80ca, type: 3}
       propertyPath: daftarPercakapanSetelah.Array.size
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3147245458688682410, guid: 2ec3f0ab71305e14f87c3f22bb0f80ca, type: 3}
       propertyPath: daftarPercakapanBahanKurang.Array.size
@@ -2740,15 +2740,52 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3147245458688682410, guid: 2ec3f0ab71305e14f87c3f22bb0f80ca, type: 3}
       propertyPath: daftarPercakapan.Array.data[0].isiPesan
-      value: Apa benar Bapak adalah pengrajin Angklung di desa ini?
+      value: "\u201DPagi, Ambe\u2019\u201D\r\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3147245458688682410, guid: 2ec3f0ab71305e14f87c3f22bb0f80ca, type: 3}
+      propertyPath: daftarPercakapan.Array.data[1].isiPesan
+      value: "\u201DPagi Nak. Saya pengrajin di Mamasa, ada yang bisa saya bantu?\u201D\r\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3147245458688682410, guid: 2ec3f0ab71305e14f87c3f22bb0f80ca, type: 3}
+      propertyPath: daftarPercakapan.Array.data[2].isiPesan
+      value: "\u201DSaya telah mengumpulkan bahan Gesok. Mohon bantu buatkan, Ambe\u2019\u201D\r\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3147245458688682410, guid: 2ec3f0ab71305e14f87c3f22bb0f80ca, type: 3}
+      propertyPath: daftarPercakapan.Array.data[3].isiPesan
+      value: "\u201DBaik, tunggu di sini ya\u201D\r\n"
       objectReference: {fileID: 0}
     - target: {fileID: 3147245458688682410, guid: 2ec3f0ab71305e14f87c3f22bb0f80ca, type: 3}
       propertyPath: daftarPercakapanSetelah.Array.data[0].isiPesan
-      value: ini gesok nya nak
+      value: "\u201DIni Gesok untukmu, Nak\u201D\r\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3147245458688682410, guid: 2ec3f0ab71305e14f87c3f22bb0f80ca, type: 3}
+      propertyPath: daftarPercakapanSetelah.Array.data[1].isiPesan
+      value: "\u201DBagaimana cara memainkan Gesok dan apa fungsinya dahulu, Ambe\u2019?\u201D\r\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3147245458688682410, guid: 2ec3f0ab71305e14f87c3f22bb0f80ca, type: 3}
+      propertyPath: daftarPercakapanSetelah.Array.data[2].isiPesan
+      value: "\u201DGesok dimainkan dengan cara digesek,\""
+      objectReference: {fileID: 0}
+    - target: {fileID: 3147245458688682410, guid: 2ec3f0ab71305e14f87c3f22bb0f80ca, type: 3}
+      propertyPath: daftarPercakapanSetelah.Array.data[3].isiPesan
+      value: "\"Orang tua dahulu, menggunakan gesok untuk menghibur anak-anak yang
+        sakit cacar\u201D\r\n"
+      objectReference: {fileID: 0}
+    - target: {fileID: 3147245458688682410, guid: 2ec3f0ab71305e14f87c3f22bb0f80ca, type: 3}
+      propertyPath: daftarPercakapanSetelah.Array.data[4].isiPesan
+      value: "\u201DWah! Terima kasih informasi dan bantuannya, Ambe\u2019\u201D\r\n"
       objectReference: {fileID: 0}
     - target: {fileID: 3147245458688682410, guid: 2ec3f0ab71305e14f87c3f22bb0f80ca, type: 3}
       propertyPath: daftarPercakapanBahanKurang.Array.data[0].isiPesan
       value: bahan mu belum lengkap
+      objectReference: {fileID: 0}
+    - target: {fileID: 3147245458688682410, guid: 2ec3f0ab71305e14f87c3f22bb0f80ca, type: 3}
+      propertyPath: daftarPercakapan.Array.data[0].apakahPlayerYangNgomong
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3147245458688682410, guid: 2ec3f0ab71305e14f87c3f22bb0f80ca, type: 3}
+      propertyPath: daftarPercakapanSetelah.Array.data[1].apakahPlayerYangNgomong
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3147245458688682410, guid: 2ec3f0ab71305e14f87c3f22bb0f80ca, type: 3}
       propertyPath: daftarPercakapanBahanKurang.Array.data[0].apakahPlayerYangNgomong
@@ -2897,7 +2934,9 @@ MonoBehaviour:
   kecepatanTumbuh: 20
   skalaAwal: 0.6
   waktuAntisipasi: 0.25
-  daftarPercakapan: []
+  daftarPercakapan:
+  - apakahPlayerYangNgomong: 0
+    isiPesan: 
   panelCraftingAtauBadge: {fileID: 0}
   namaAlatMusikTerkait: GesoGeso
 --- !u!114 &169673517
@@ -29437,7 +29476,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3.0000002
+      m_AnimationSpeed: 3
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 20, y: -5, z: 0}
@@ -29463,7 +29502,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 22, y: -5, z: 0}
@@ -29502,7 +29541,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 18, y: -4, z: 0}
@@ -29593,7 +29632,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 18, y: -3, z: 0}
@@ -29658,7 +29697,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 16, y: -2, z: 0}
@@ -29723,7 +29762,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3.0000002
+      m_AnimationSpeed: 3
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 21, y: -2, z: 0}
@@ -29801,7 +29840,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3.0000002
+      m_AnimationSpeed: 3
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 20, y: -1, z: 0}
@@ -29879,7 +29918,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3.0000002
+      m_AnimationSpeed: 3
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 19, y: 0, z: 0}
@@ -30035,7 +30074,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3.0000002
+      m_AnimationSpeed: 3
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 17, y: 2, z: 0}
@@ -30061,7 +30100,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 19, y: 2, z: 0}
@@ -30217,7 +30256,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3
+      m_AnimationSpeed: 3.0000002
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 17, y: 4, z: 0}
@@ -30243,7 +30282,7 @@ Tilemap:
       - {fileID: 700656231, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -1179581388, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
       - {fileID: -58631906, guid: d6ff51e9b03edfe4cbc434528df45690, type: 3}
-      m_AnimationSpeed: 3.0000002
+      m_AnimationSpeed: 3
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 19, y: 4, z: 0}
@@ -40025,10 +40064,19 @@ MonoBehaviour:
   skalaAwal: 0.6
   waktuAntisipasi: 0.25
   daftarPercakapan:
-  - apakahPlayerYangNgomong: 1
-    isiPesan: permisi adik
   - apakahPlayerYangNgomong: 0
-    isiPesan: ...
+    isiPesan: "\u201DSelamat datang di Tana Mamasa, Sulawesi Barat!\u201D\r\n"
+  - apakahPlayerYangNgomong: 0
+    isiPesan: "\u201DAda yang bisa adik bantu, Kak?\u201D"
+  - apakahPlayerYangNgomong: 1
+    isiPesan: "\u201DApa alat musik khas Mamasa, Dik?\u201D\r\n"
+  - apakahPlayerYangNgomong: 0
+    isiPesan: "\u201DGesok namanya, Kak! Itu adalah alat musik tradisional suku Mamasa\u201D\r\n"
+  - apakahPlayerYangNgomong: 1
+    isiPesan: "\u201DBoleh Aku tahu, bagaimana cara membuat Gesok?\u201D\r\n"
+  - apakahPlayerYangNgomong: 0
+    isiPesan: " \u201DKakak cari 4 bahan ini ya:\r\n* Kulit Kerbau\r\n* Serat\r\n*
+      Kayu\r\n* Tempurung Kelapa\r\nkalau sudah, temui Sang Ambe pengrajin di sana:\u201D\r\n"
   panelCraftingAtauBadge: {fileID: 0}
   namaAlatMusikTerkait: Angklung
 --- !u!114 &1991438729
